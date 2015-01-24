@@ -1,0 +1,25 @@
+# The "Clean And Simple Test" (CAST) software framework, tools, and
+# documentation are distributed under the terms of the MIT license a
+# copy of which is included with this package (see the file "LICENSE"
+# in the CAS poject tree's root directory).  CAS may be used for any
+# purpose, including commercial purposes, at absolutely no cost. No
+# paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+# Just download it and use it.
+# 
+# Copyright (c) 2015 Randall Lee White
+
+####################################################
+# This contains the rules to make a static library.
+#     $(SRCS) must contain all sources to be built.
+#     $(TGT) must specify the name of the target
+#         static library to be created.
+###################################################
+include $(CAST_DIR)/rules.make/makefile.common
+
+INSTALL_DIR := $(CAST_LIB)
+
+$(TGT): $(OBJS)
+	ar rcs $@ $(OBJS)
+
+
+

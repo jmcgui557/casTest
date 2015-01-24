@@ -1,0 +1,41 @@
+# The "Clean And Simple Test" (CAST) software framework, tools, and
+# documentation are distributed under the terms of the MIT license a
+# copy of which is included with this package (see the file "LICENSE"
+# in the CAS poject tree's root directory).  CAS may be used for any
+# purpose, including commercial purposes, at absolutely no cost. No
+# paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+# Just download it and use it.
+# 
+# Copyright (c) 2015 Randall Lee White
+
+###########################################################################
+# This make file is designed to be included by other make files for building
+# a single shared library target from C++ source files.  The following
+# variables should be defined (as necessary) by the make file including
+# this one:
+#
+#	TGT : the name of the single executable target
+#       SRCS : a list of all C++ source files (needed by makefile.common)
+#
+#	CFLAGS : Compile flags (needed by makefile.common)
+#       INCLUDES : Include paths to be considered
+#       LFLAGS : Link time flags
+#	TDEPS : $(TGT) dependencies (not including object files of $(SRCS))
+#       LIBS : Libraries to which $(TGT) is to be linked
+#	LPATHS : Linker library paths
+#
+# NOTE: After successfully building the shared library, it is
+#       copied into $(CAS_LIB) to allow executables to link against
+#	it as necessary.
+###########################################################################
+include $(CAST_DIR)/rules.make/makefile.common
+
+CFLAGS += -g -fpic -DCAS_TEST
+
+LFLAGS += -shared
+LPATHS += -L $(CAST_LIB)
+LIBS += -lcasTest
+
+$(TGT): $(OBJS) $(TDEPS)
+	$(CC) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)
+

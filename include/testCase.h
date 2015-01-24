@@ -1,0 +1,99 @@
+// The "Clean And Simple" (CAS) software framework, tools, and documentation
+// are distributed under the terms of the MIT license a copy of which is
+// included with this package (see the file "LICENSE" in the CAS poject tree's
+// root directory).  CAS may be used for any purpose, including commercial
+// purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like
+// "copyleft" restrictions, either.  Just download it and use it.
+// 
+// Copyright (c) 2013-2015 Randall Lee White
+
+#ifndef CAS_TESTCASE_H
+#define CAS_TESTCASE_H
+
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+namespace cas
+{
+    struct TestCase
+    {
+        struct Error : public std::runtime_error
+        {
+            Error(const std::string& errMsg);
+        };
+
+#define xTest(msg) cas::TestCase::Error(msg)
+
+        TestCase(const std::string& testName);
+        virtual ~TestCase();
+
+        virtual void setUp();
+        virtual void tearDown();
+        virtual bool run() = 0;
+
+        const std::string& getName() const
+        {
+            return name_;
+        }
+
+        static void Assert(bool isTrue,
+                           const std::string& errorMsg);
+        static void addTest(TestCase*);
+
+    private:
+	
+        std::string name_;
+    };
+
+
+#define BEGINTEST(name)                         \
+    struct name : cas::TestCase                 \
+    {                                           \
+        name()                                  \
+            : TestCase(#name)                   \
+        {}
+
+#define ENDTEST };
+
+#define DEFINE_TEST(name)                 \
+    struct name : cas::TestCase           \
+    {                                     \
+        name()                            \
+            : TestCase(#name)             \
+        {}                                \
+                                          \
+        name(const std::string& testName) \
+            : TestCase(testName)          \
+        {}
+
+#define DEFINE_BASE(name)                 \
+    struct name : cas::TestCase           \
+    {                                     \
+        name()                            \
+            : TestCase(#name)             \
+        {}                                \
+                                          \
+        name(const std::string& testName) \
+            : TestCase(testName)          \
+        {}
+
+#define DEFINE_TEST_FROM(derived, base) \
+    struct derived : base               \
+    {                                   \
+        derived()                       \
+            : base(#derived)            \
+        {}
+
+#define END_DEF };
+
+}
+
+extern "C"
+{
+    //loadable destructor function
+    void destroyTests(std::vector<cas::TestCase*>& tests);
+}
+
+
+#endif 

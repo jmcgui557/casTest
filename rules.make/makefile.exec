@@ -1,0 +1,32 @@
+# The "Clean And Simple Test" (CAST) software framework, tools, and
+# documentation are distributed under the terms of the MIT license a
+# copy of which is included with this package (see the file "LICENSE"
+# in the CAS poject tree's root directory).  CAS may be used for any
+# purpose, including commercial purposes, at absolutely no cost. No
+# paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+# Just download it and use it.
+# 
+# Copyright (c) 2015 Randall Lee White
+
+###########################################################################
+# This make file is designed to be included by other make files for building
+# a single executable target from C++ source files.  The following variables
+# should be defined (as necessary) by the make file including this one:
+#
+#	TGT : the name of the single executable target
+#       SRCS : a list of all C++ source files (needed by makefile.common)
+#
+#	CFLAGS : Compile flags (needed by makefile.common)
+#       INCLUDES : Include paths to be considered
+#       LFLAGS : Link time flags
+#	TDEPS : $(TGT) dependencies (not including object files of $(SRCS))
+#       LIBS : Libraries to whick $(TGT) is to be linked 
+#	LPATHS : Linker library paths
+###########################################################################
+include $(CAST_DIR)/rules.make/makefile.common
+
+INSTALL_DIR := $(CAST_BIN)
+
+$(TGT): $(OBJS) $(TDEPS)
+	$(CC) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)
+

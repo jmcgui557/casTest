@@ -1,0 +1,110 @@
+In file included from casTestSelf.cpp:11:0:
+/home/randy/Projects/cast/include/testCase.h:52:19: error: found ‘:’ in nested-name-specifier, expected ‘::’
+     struct ##name : cas::TestCase           \
+                   ^
+casTestSelf.cpp:20:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(SuccessTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:5: error: ‘structSuccessTestCase’ does not name a type
+     struct ##name : cas::TestCase           \
+     ^
+casTestSelf.cpp:20:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(SuccessTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:19: error: found ‘:’ in nested-name-specifier, expected ‘::’
+     struct ##name : cas::TestCase           \
+                   ^
+casTestSelf.cpp:27:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(FailureTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:5: error: ‘structFailureTestCase’ does not name a type
+     struct ##name : cas::TestCase           \
+     ^
+casTestSelf.cpp:27:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(FailureTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:19: error: found ‘:’ in nested-name-specifier, expected ‘::’
+     struct ##name : cas::TestCase           \
+                   ^
+casTestSelf.cpp:34:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(UnknownExceptionTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:5: error: ‘structUnknownExceptionTestCase’ does not name a type
+     struct ##name : cas::TestCase           \
+     ^
+casTestSelf.cpp:34:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(UnknownExceptionTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:19: error: found ‘:’ in nested-name-specifier, expected ‘::’
+     struct ##name : cas::TestCase           \
+                   ^
+casTestSelf.cpp:43:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(StdExceptionTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:5: error: ‘structStdExceptionTestCase’ does not name a type
+     struct ##name : cas::TestCase           \
+     ^
+casTestSelf.cpp:43:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(StdExceptionTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:19: error: found ‘:’ in nested-name-specifier, expected ‘::’
+     struct ##name : cas::TestCase           \
+                   ^
+casTestSelf.cpp:57:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(TestCaseErrorTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:5: error: ‘structTestCaseErrorTestCase’ does not name a type
+     struct ##name : cas::TestCase           \
+     ^
+casTestSelf.cpp:57:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(TestCaseErrorTestCase)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:19: error: found ‘:’ in nested-name-specifier, expected ‘::’
+     struct ##name : cas::TestCase           \
+                   ^
+casTestSelf.cpp:69:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(TestCaseTest)
+ ^
+/home/randy/Projects/cast/include/testCase.h:52:5: error: ‘structTestCaseTest’ does not name a type
+     struct ##name : cas::TestCase           \
+     ^
+casTestSelf.cpp:69:1: note: in expansion of macro ‘DEFINE_BASE’
+ DEFINE_BASE(TestCaseTest)
+ ^
+/home/randy/Projects/cast/include/testCase.h:74:5: error: expected class-name before ‘{’ token
+     {                                   \
+     ^
+casTestSelf.cpp:94:1: note: in expansion of macro ‘DEFINE_TEST_FROM’
+ DEFINE_TEST_FROM(SuccessTestCaseTest, TestCaseTest)
+ ^
+casTestSelf.cpp: In constructor ‘SuccessTestCaseTest::SuccessTestCaseTest()’:
+casTestSelf.cpp:94:39: error: class ‘SuccessTestCaseTest’ does not have any field named ‘TestCaseTest’
+ DEFINE_TEST_FROM(SuccessTestCaseTest, TestCaseTest)
+                                       ^
+/home/randy/Projects/cast/include/testCase.h:76:6: note: in definition of macro ‘DEFINE_TEST_FROM’
+    : baseCls(#derived) \
+      ^
+casTestSelf.cpp: In member function ‘void SuccessTestCaseTest::setUp()’:
+casTestSelf.cpp:97:17: error: expected type-specifier before ‘SuccessTestCase’
+     setTest(new SuccessTestCase());
+                 ^
+casTestSelf.cpp:97:34: error: ‘setTest’ was not declared in this scope
+     setTest(new SuccessTestCase());
+                                  ^
+casTestSelf.cpp: In member function ‘bool SuccessTestCaseTest::run()’:
+casTestSelf.cpp:102:12: error: ‘TestCaseTest’ has not been declared
+     return TestCaseTest::run();
+            ^
+casTestSelf.cpp: In function ‘void createTests(std::vector<cas::TestCase*>&)’:
+casTestSelf.cpp:115:48: error: no matching function for call to ‘std::vector<cas::TestCase*>::push_back(SuccessTestCaseTest*)’
+         tests.push_back(new SuccessTestCaseTest);
+                                                ^
+casTestSelf.cpp:115:48: note: candidate is:
+In file included from /usr/include/c++/4.8/vector:64:0,
+                 from /home/randy/Projects/cast/include/testCase.h:15,
+                 from casTestSelf.cpp:11:
+/usr/include/c++/4.8/bits/stl_vector.h:901:7: note: void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = cas::TestCase*; _Alloc = std::allocator<cas::TestCase*>; std::vector<_Tp, _Alloc>::value_type = cas::TestCase*]
+       push_back(const value_type& __x)
+       ^
+/usr/include/c++/4.8/bits/stl_vector.h:901:7: note:   no known conversion for argument 1 from ‘SuccessTestCaseTest*’ to ‘cas::TestCase* const&’
+make: *** [casTestSelf.o] Error 1

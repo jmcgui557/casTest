@@ -1,0 +1,93 @@
+# The "Clean And Simple Test" (CAST) software framework, tools, and
+# documentation are distributed under the terms of the MIT license a
+# copy of which is included with this package (see the file "LICENSE"
+# in the CAS poject tree's root directory).  CAS may be used for any
+# purpose, including commercial purposes, at absolutely no cost. No
+# paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+# Just download it and use it.
+# 
+# Copyright (c) 2015 Randall Lee White
+
+###########################################################################
+# This make file is designed to be included by other make files for building
+# a single target from C++ source files.  The following variables should
+# be defined (as necessary) by the project make files (including this one):
+#
+#	TGT : the name of the single target
+#       SRCS : a list of all C++ source files
+#
+#	CFLAGS : Compile flags
+#       INCLUDES : Include paths to be considered
+#       LFLAGS : Link time flags
+#	TDEPS : $(TGT) dependencies (not including object files of $(SRCS))
+#       LIBS : Libraries to which $(TGT) is to be linked 
+#	LPATHS : Library paths for linker
+###########################################################################
+	
+CC := /usr/bin/g++
+CFLAGS += -D_XOPEN_SOURCE=700
+
+INCLUDES += -I$(CAST_INC)
+
+#generated sources from .tpp files
+GSRC := $(TSTSRC:.tpp=$(TAG).cpp)
+
+SRCS += $(GSRC)
+
+OBJS := $(SRCS:.cpp=$(TAG).o)
+DEPS := $(SRCS:.cpp=$(TAG).d)
+GCNOTES := $(SRCS:.cpp=$(TAG).gcno)
+GCDATS := $(SRCS:.cpp=$(TAG).gcda)
+
+#If make is invoked with "TAG='-cov'", then CFLAGS and LIBS will be changed
+#to include the necessary flags to allow gcov to provide coverage info.
+#
+#EXAMPLE:
+#  make TAG='-cov'
+#
+#Also, all targets will then be tagged with "-cov".
+ifeq (-cov, $(TAG))
+    CFLAGS += -g -fno-inline-small-functions
+    CFLAGS += -fprofile-arcs -ftest-coverage
+    LIBS += -lgcov
+    TGT := $(TGT)$(TAG)
+endif
+
+all: $(TGT)
+
+build: clean all
+
+%$(TAG).d : %.cpp
+	@set -e; rm -f $@; \
+	$(CC) -M $(INCLUDES) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+%$(TAG).o : %.cpp
+	$(CC) -o $@ $(INCLUDES) $(CFLAGS) -c $<
+
+%$(TAG).cpp : %.tpp
+	$(CAST_DIR)/tools/tpp2cpp.bash $<
+
+-include $(SRCS:.cpp=$(TAG).d)
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS) $(DEPS) $(TGT) $(INSTALL_DIR)/$(TGT) \
+	   $(TGT).gcno $(GCNOTES) $(GCDATS) *.d.*
+
+.PHONY: veryclean
+veryclean: clean
+	rm -f *bak *~ #*
+
+.PHONY: install
+install: $(TGT)
+	$(CAST_DIR)/tools/installTgt.bash $(TGT) $(INSTALL_DIR)
+
+.PHONY: uninstall
+uninstall:
+	rm $(INSTALL_DIR)/$(TGT)
+
+.PHONY: test
+test: $(TGT)
+	$(CAST_BIN)/casTest $(TGT)
