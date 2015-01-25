@@ -42,6 +42,23 @@ collectTests()
     echo "$TESTS"
 }
 
+verifyTestCase_h()
+{
+    local SRC=$1
+    local DST=$2
+
+    echo "src: $SRC dst: $DST"
+
+    grep "\#include" $SRC | grep "testCase.h" > /dev/null
+    local err=$?
+ 
+    echo "err: $err"
+
+    if [ 0 != $err ]; then
+	echo "#include \"testCase.h\"" > $DST
+    fi
+}
+
 copySrcToTgt()
 {
     local SRC=$1
@@ -49,7 +66,10 @@ copySrcToTgt()
 
     if [ -f $SRC ]; then
 	rm -f $TGT
-	cat $SRC > $TGT
+
+	verifyTestCase_h $SRC $TGT
+
+	cat $SRC >> $TGT
     else
 	echo "Error: Source $SRC not found"
 	exit 1

@@ -107,7 +107,9 @@ createEnvironmentScript()
     echo "" >> $scriptName
     echo "" >> $scriptName
 
-    if [ 1 != isRoot ]; then
+    echo "isRoot: $isRoot"
+
+    if [ 1 != $isRoot ]; then
 	ln -sf $scriptName $HOME/castEnv.sourceMe.bash
     fi
 }

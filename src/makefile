@@ -11,7 +11,8 @@
 all:
 	$(MAKE) -f libcasTest.mak install
 	$(MAKE) -f casTest.mak install
-
+	$(MAKE) -C test $@
 %:
 	$(MAKE) -f libcasTest.mak $@
 	$(MAKE) -f casTest.mak $@
+	$(MAKE) -C test $@
