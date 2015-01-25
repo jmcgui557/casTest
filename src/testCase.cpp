@@ -47,13 +47,6 @@ namespace cas
     void TestCase::tearDown()
     {}
 
-    std::vector<TestCase*>& testContainer()
-    {
-        static std::vector<TestCase*> tests;
-
-        return tests;
-    }
-
     struct DeleteTest
     {
         void operator()(TestCase* test) const
