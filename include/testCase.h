@@ -47,15 +47,6 @@ namespace cas
     };
 
 
-#define BEGINTEST(name)                         \
-    struct name : cas::TestCase                 \
-    {                                           \
-        name()                                  \
-            : TestCase(#name)                   \
-        {}
-
-#define ENDTEST };
-
 #define DEFINE_TEST(name)                 \
     struct name : cas::TestCase           \
     {                                     \
