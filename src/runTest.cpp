@@ -1,9 +1,10 @@
-// The "Clean And Simple" (CAS) software framework, tools, and documentation
-// are distributed under the terms of the MIT license a copy of which is
-// included with this package (see the file "LICENSE" in the CAS poject tree's
-// root directory).  CAS may be used for any purpose, including commercial
-// purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like
-// "copyleft" restrictions, either.  Just download it and use it.
+// The "Clean And Simple Test" (CAST) software framework, tools, and
+// documentation are distributed under the terms of the MIT license a
+// copy of which is included with this package (see the file "LICENSE"
+// in the CAS poject tree's root directory).  CAS may be used for any
+// purpose, including commercial purposes, at absolutely no cost. No
+// paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+// Just download it and use it.
 // 
 // Copyright (c) 2015 Randall Lee White
 
@@ -18,10 +19,11 @@
 
 namespace cas
 {
-    bool runTest(cas::TestCase* test)
+    bool runTest(cas::TestCase* test, size_t testNumber)
     {
         bool success(false);
-	
+        std::string errMsg("UNKNOWN err");
+
         test->setUp();
 
         try
@@ -30,19 +32,30 @@ namespace cas
         }
         catch(const cas::TestCase::Error& x)
         {
-            cas_error("Caught cas::Test::Error: " << x.what());
+            errMsg = "Caught cas::Test::Error: ";
+            errMsg += x.what();
         }
         catch(const std::exception& x)
         {
-            cas_error("Caught std::exception: " << x.what());
+            errMsg = "Caught std::exception: ";
+            errMsg += x.what();
         }
         catch(...)
         {
-            cas_error("Caught UNKNOWN EXCEPTION.");
+            errMsg = "Caught UNKNOWN EXCEPTION.";
         }
-	
-        cas_print(test->getName() << (success ? ": passed" : ": FAILED"));
-	
+        
+
+        cas_print((success ? "ok " : "not ok ") << testNumber << 
+                  " - " << test->getName());
+
+        if(!success)
+        {
+            cas_print("\t---");
+            cas_print("\t" << errMsg);
+            cas_print("\t---");
+        }
+        
         test->tearDown();
 
         return success;
@@ -65,27 +78,26 @@ namespace cas
     int LoadLibraryAndRunTests::operator()(const std::string& libname)
     {
         void* libHandle(loadLibrary(libname));
-	
+        
         TestFactoryFunction createTests(mapFunction(libHandle,
                                                     FactoryFunctionName));
         TestFactoryFunction destroyTests(mapFunction(libHandle,
                                                      DestructorFunctionName));
 
         std::vector<TestCase*> tests;
-	
+        
         createTests(tests);
 
-        cas_print("\nRunning tests from: " << libname);
+        cas_print("\ncasTest: Running tests from: " << libname);
 
         if(0 == tests.size())
             throw std::runtime_error("No tests in library");
 
 
         runTests(tests);
-
         destroyTests(tests);
-
         dlclose(libHandle);
+
         return failCount_;
     }
 
@@ -94,19 +106,27 @@ namespace cas
         std::vector<TestCase*>::const_iterator
             tb(tests.begin()),
             te(tests.end());
-	
+        
+        size_t testCount(tests.size());
+
+        if(0 < testCount)
+            cas_print("1.." << testCount);
+
         while(tb != te)
         {
-            if(!runTest(*tb))
+            size_t testNumber(std::distance(tests.begin(), tb) + 1);
+            bool success(runTest(*tb, testNumber));
+          
+            if(!success)
                 ++failCount_;
-
+          
             ++tb;
         }
     }
 
     int LoadLibraryAndRunTests::getFailCount() const
     {
-        return failCount_;
+          return failCount_;
     }
 
     void* LoadLibraryAndRunTests::loadLibrary(const std::string& libname)
@@ -132,7 +152,11 @@ namespace cas
                 dlsym(libHandle, functionName.c_str())));
 
         if(!ff)
-            throw Error("FAILED to map factory function");
+        {
+            std::string msg("FAILED to map factory function: ");
+            msg += dlerror();
+            throw Error(msg);
+        }
 
         return ff;
     }

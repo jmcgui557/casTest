@@ -33,7 +33,7 @@ END_DEF
 DEFINE_BASE(UnknownExceptionTestCase)
 bool run()
 {
-   throw 0;
+    throw 0;
 	
     return false;
 }
@@ -201,5 +201,3 @@ extern "C"
         tests.push_back(new UnknownExceptionTestCaseTest);
     }
 }
-
-
