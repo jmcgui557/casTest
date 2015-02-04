@@ -59,7 +59,7 @@ void setUp()
     
 bool run()
 {
-    throw TestCase::Error("TestCase::Error");
+    throw xTest("TestCase::Error");
 	
     return false;
 }

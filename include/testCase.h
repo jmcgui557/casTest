@@ -20,10 +20,12 @@ namespace cas
     {
         struct Error : public std::runtime_error
         {
-            Error(const std::string& errMsg);
+	  Error(const std::string& errMsg,
+		const char* file,
+		size_t line);
         };
 
-#define xTest(msg) cas::TestCase::Error(msg)
+#define xTest(msg) cas::TestCase::Error(msg, __FILE__, __LINE__)
 
         TestCase(const std::string& testName);
         virtual ~TestCase();
