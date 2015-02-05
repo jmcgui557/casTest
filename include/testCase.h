@@ -32,7 +32,7 @@ namespace cas
 
         virtual void setUp();
         virtual void tearDown();
-        virtual bool run() = 0;
+        virtual void run() = 0;
 
         const std::string& getName() const
         {

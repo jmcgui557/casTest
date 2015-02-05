@@ -17,39 +17,34 @@
   representative test cases.
 */
 DEFINE_BASE(SuccessTestCase)
-bool run()
-{
-    return true;
-}
+void run()
+{}
 END_DEF
 
+/*
+  The Failure test case has become redundant in that it is
+  identical to the TestCaseErrorTestCase.  This was a result
+  of changing TestCase::run() from returning bool to returning
+  void.
+*/
 DEFINE_BASE(FailureTestCase)
-bool run()
+void run()
 {
-    return false;
+    throw xTest("Failure");
 }
 END_DEF
 
 DEFINE_BASE(UnknownExceptionTestCase)
-bool run()
+void run()
 {
-   throw 0;
-	
-    return false;
+    throw 0;
 }
 END_DEF
 
 DEFINE_BASE(StdExceptionTestCase)
-bool run()
+void run()
 {
-    bool success(false);
-	
-    if(!success)
-    {
-        throw std::range_error("Test exception");
-    }
-	
-    return false;
+    throw std::range_error("Test exception");
 }
 END_DEF
 
@@ -57,11 +52,9 @@ DEFINE_BASE(TestCaseErrorTestCase)
 void setUp()
 {}
     
-bool run()
+void run()
 {
-    throw TestCase::Error("TestCase::Error");
-	
-    return false;
+    throw xTest("TestCase::Error");
 }
 END_DEF
 
@@ -75,9 +68,9 @@ void setUp()
     test_ = 0;
 }
 
-bool run()
+void run()
 {
-    return test_->run();
+    test_->run();
 }
 
 protected:
@@ -96,9 +89,9 @@ void setUp()
     setTest(new SuccessTestCase());
 }
     
-bool run()
+void run()
 {
-    return TestCaseTest::run();
+    TestCaseTest::run();
 }
 END_DEF
 
@@ -108,9 +101,21 @@ void setUp()
     setTest(new FailureTestCase());
 }
 
-bool run()
+void run()
 {
-    return false == TestCaseTest::run();
+    bool success(false);
+
+    try
+    {
+        TestCaseTest::run();
+    }
+    catch(const TestCase::Error& x)
+    {
+        success = true;
+    }
+
+    if(!success)
+        throw xTest("FailureTestCaseTest failed");
 }
 END_DEF
     
@@ -120,10 +125,10 @@ void setUp()
     setTest(new TestCaseErrorTestCase);
 }
 
-bool run()
+void run()
 {
     bool success(false);
-	
+
     try
     {
         TestCaseTest::run();
@@ -133,7 +138,8 @@ bool run()
         success = true;
     }
 	
-    return success;
+    if(!success)
+        throw xTest("TestCaseErrorTestCaseTest failed");
 }
 END_DEF
 
@@ -143,7 +149,7 @@ void setUp()
     setTest(new StdExceptionTestCase);
 }
 
-bool run()
+void run()
 {
     bool success(false);
 	
@@ -156,7 +162,8 @@ bool run()
         success = true;
     }
 	
-    return success;
+    if(!success)
+      throw xTest("StdExceptionTestCaseTest falied");
 }
 END_DEF
 
@@ -166,7 +173,7 @@ void setUp()
     setTest(new UnknownExceptionTestCase);
 }
     
-bool run()
+void run()
 {
     bool success(false);
 	
@@ -183,7 +190,7 @@ bool run()
         success = true;
     }
 	
-    return success;
+    if(!success)
+      throw xTest("UnknowExceptionTestCaseTest failed");
 }
 END_DEF
-

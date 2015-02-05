@@ -21,27 +21,30 @@ namespace cas
 {
     bool runTest(cas::TestCase* test, size_t testNumber)
     {
-        bool success(false);
+        bool success(true);
         std::string errMsg("UNKNOWN err");
 
         test->setUp();
 
         try
         {
-            success = test->run();
+            test->run();
         }
         catch(const cas::TestCase::Error& x)
         {
+	    success = false;
             errMsg = "Caught cas::Test::Error: ";
             errMsg += x.what();
         }
         catch(const std::exception& x)
         {
+	    success = false;
             errMsg = "Caught std::exception: ";
             errMsg += x.what();
         }
         catch(...)
         {
+	    success = false;
             errMsg = "Caught UNKNOWN EXCEPTION.";
         }
         
