@@ -48,7 +48,6 @@ namespace cas
             errMsg = "Caught UNKNOWN EXCEPTION.";
         }
         
-
         cas_print((success ? "ok " : "not ok ") << testNumber << 
                   " - " << test->getName());
 
@@ -95,7 +94,6 @@ namespace cas
 
         if(0 == tests.size())
             throw std::runtime_error("No tests in library");
-
 
         runTests(tests);
         destroyTests(tests);
