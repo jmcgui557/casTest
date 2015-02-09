@@ -13,7 +13,8 @@ TGT := casTest
 SRCS := \
 	casTest.cpp \
 	cmdLine.cpp \
-	runTest.cpp 
+	runTests.cpp \
+	testLib.cpp
 
 LIBS := -ldl
 LFLAGS := -Wl,-R -Wl,.

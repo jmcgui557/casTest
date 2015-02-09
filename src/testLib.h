@@ -7,8 +7,8 @@
 // 
 // Copyright (c) 2015 Randall Lee White
 
-#ifndef RUNTEST_H
-#define RUNTEST_H
+#ifndef TESTLIB_H
+#define TESTLIB_H
 
 #include <stdexcept>
 #include <string>
@@ -23,7 +23,7 @@ namespace cas
         typedef void (*TestFactoryFunction)(std::vector<TestCase*>&);
     }
 
-    struct LoadLibraryAndRunTests
+    struct TestLib
     {
         static const std::string FactoryFunctionName;
         static const std::string DestructorFunctionName;
@@ -34,20 +34,20 @@ namespace cas
             
         };
 
-        LoadLibraryAndRunTests();
-        
-        //returns number of tests which failed
-        int operator()(const std::string& libname);
-        int getFailCount() const;
-        
+        TestLib(const std::string& libname);
+        ~TestLib();
+
+        void createTests(std::vector<TestCase*>& tests);
+        void destroyTests(std::vector<TestCase*>& tests);
+
     private:
-        void runTests(const std::vector<TestCase*>& tests);
-        
         void* loadLibrary(const std::string& libname);
         TestFactoryFunction mapFunction(void* libHandle,
                                         const std::string& functionName);
 
-        int failCount_;
+        void* libHandle_;
+        TestFactoryFunction createTests_;
+        TestFactoryFunction destroyTests_;
     };
 }
 

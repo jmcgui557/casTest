@@ -17,8 +17,7 @@
 #include "trace.h"
 
 #include "cmdLine.h"
-#include "runTest.h"
-
+#include "runTests.h"
 #include "testCase.h"
 
 using namespace cas;
@@ -44,9 +43,17 @@ int usage()
 
 int runTests(const CmdLine& cmdLine)
 {
-    int failCount(std::for_each(cmdLine.libraries.begin(),
-                                cmdLine.libraries.end(),
-                                LoadLibraryAndRunTests()).getFailCount());
+    std::vector<std::string>::const_iterator
+        beg(cmdLine.libraries.begin()),
+        end(cmdLine.libraries.end());
+
+    size_t failCount(0);
+
+    while(beg != end)
+    {
+        failCount += runTestsFromLibrary(*beg);
+	++beg;
+    }
 
     return reportResult(failCount);
 }
