@@ -36,26 +36,41 @@ copyrt=$"# The \"Clean And Simple Test\" (CAST) software framework, tools,
 testRootUser()
 {
     if [ "root" == "$USER" ]; then
-	isRoot=1
+        isRoot=1
     fi
 }
 
 getCastDir()
 {
     local userInput=""
+    local needInput=1
 
-    if [ 1 == $isRoot ]; then
-	castDir="/usr/local/cast"
-    fi
+    while [[ 1 == $needInput ]]; #"$userInput" == "" ];
+    do
+        needInput=0
 
-    echo "Where would you like to install casT?"
-    read -p "Default location: $castDir: " userInput
+        if [ 1 == $isRoot ]; then
+            castDir="/usr/local/cast"
+        fi
 
-    if [ "" != "$userInput" ]; then
-	castDir=$userInput
-    fi
+        echo "Where would you like to install casT?"
+        read -p "Default location: $castDir: " userInput
+        
+        if [ "" != "$userInput" ]; then
+            #replace ~ and $HOME if present
+            userInput="${userInput/#\~/$HOME}"
+            userInput="${userInput/#\$HOME/$HOME}"
+        fi
 
-    echo "castDir: $castDir"
+        if [[ $userInput =~ \$ ]]; then
+            echo
+            echo "ERROR: Can't interpret shell variables.  Please, try again."
+            echo
+            needInput=1
+        fi
+    done
+
+    castDir=$userInput
 }
 
 prepareInstallationDir()
@@ -65,19 +80,19 @@ prepareInstallationDir()
     local testFile="$installDir/testFile.cast"
 
     if [ -e $installDir ]; then
-	touch $testFile
+        touch $testFile
 
-	if [ 0 != $? ]; then
+        if [ 0 != $? ]; then
             err=1
-	else
-	    rm $testFile
-	fi
+        else
+            rm $testFile
+        fi
     else
         mkdir -p $installDir
-	
-	if [ 0 != $? ]; then
-	    err=2
-	fi
+        
+        if [ 0 != $? ]; then
+            err=2
+        fi
     fi
 
     return $err
@@ -120,7 +135,7 @@ createEnvironmentScript()
     echo "isRoot: $isRoot"
 
     if [ 1 != $isRoot ]; then
-	ln -sf $scriptName $HOME/castEnv.sourceMe.bash
+        ln -sf $scriptName $HOME/castEnv.sourceMe.bash
     fi
 }
 
@@ -137,17 +152,17 @@ makeCast()
 setLinksIfRoot()
 {
     if [ 1 == $isRoot ]; then
-	ln -sf $castDir/bin/casTest /usr/local/bin/casTest
+        ln -sf $castDir/bin/casTest /usr/local/bin/casTest
 
-	if [ 0 != $? ]; then
-	    echo "FAILED to create link: casTest"
-	fi
+        if [ 0 != $? ]; then
+            echo "FAILED to create link: casTest"
+        fi
 
-	ln -sf $castDir/lib/libcasTest.a /usr/local/lib/libcasTest.a
+        ln -sf $castDir/lib/libcasTest.a /usr/local/lib/libcasTest.a
 
-	if [ 0 != $? ]; then
-	    echo "FAILED to create link: libcasTest.a"
-	fi
+        if [ 0 != $? ]; then
+            echo "FAILED to create link: libcasTest.a"
+        fi
     fi
 }
 
@@ -156,23 +171,23 @@ main()
     testRootUser
 
     getCastDir
-
+    
     installDir=$castDir.`date +%Y%m%d.%H%M.%S`
 
     prepareInstallationDir $installDir
     err=$?
 
     if [ 0 != $err ]; then
-	echo "ERROR: casT installation failed."
-	exit 1;
+        echo "ERROR: casT installation failed."
+        exit 1;
     fi
 
     extractFiles
     err=$?
 
     if [ 0 != $err ]; then
-	echo "ERROR: error extracting files"
-	exit 1;
+        echo "ERROR: error extracting files"
+        exit 1;
     fi
     
     rm -rf $castDir
