@@ -1,3 +1,5 @@
+#ifndef CASTUTIL_H
+#define CASTUTIL_H
 // The "Clean And Simple Test" (CAST) software framework, tools, and
 // documentation are distributed under the terms of the MIT license a
 // copy of which is included with this package (see the file "LICENSE"
@@ -8,21 +10,11 @@
 // 
 // Copyright (c) 2015 Randall Lee White
 
-#include "cmdLine.h"
-
 namespace cas
 {
-    CmdLine::CmdLine(int argc, const char* argv[])
-    {
-        if(2 > argc)
-            return;
-        
-        int a(1);
-        
-        while(a < argc)
-        {
-	    args.push_back(argv[a]);
-            ++a;
-        }
-    }
+    std::string createErrMsg(const std::string& errMsg,
+                             const char* file,
+			     size_t line);
 }
+
+#endif //CASTUTIL_H

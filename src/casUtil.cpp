@@ -8,21 +8,23 @@
 // 
 // Copyright (c) 2015 Randall Lee White
 
-#include "cmdLine.h"
+#include <cstdio>
+#include <string>
 
 namespace cas
 {
-    CmdLine::CmdLine(int argc, const char* argv[])
+    std::string createErrMsg(const std::string& errMsg,
+                             const char* file,
+			     size_t line)
     {
-        if(2 > argc)
-            return;
-        
-        int a(1);
-        
-        while(a < argc)
-        {
-	    args.push_back(argv[a]);
-            ++a;
-        }
+        char buff[256];
+	snprintf(buff,
+		 256,
+		 "ERROR [%s(%lu)]: %s",
+		 file,
+		 line,
+		 errMsg.c_str());
+	
+	return std::string(buff);
     }
 }

@@ -8,8 +8,17 @@
 // Copyright (c) 2013-2015 Randall Lee White
 
 #include "testCase.h"
+#include "castCmd.h"
+#include "cmdLine.h"
 
+#include "trace.h"
+
+#include <cstdlib>
+#include <string>
 #include <vector>
+
+#include <sys/wait.h>
+#include <unistd.h>
 
 /*The following test cases (Derived from TestCase) used to represent all
   the possible test results when a test case is run.  TestCaseTest derived 
@@ -19,19 +28,6 @@
 DEFINE_BASE(SuccessTestCase)
 void run()
 {}
-END_DEF
-
-/*
-  The Failure test case has become redundant in that it is
-  identical to the TestCaseErrorTestCase.  This was a result
-  of changing TestCase::run() from returning bool to returning
-  void.
-*/
-DEFINE_BASE(FailureTestCase)
-void run()
-{
-    throw xTest("Failure");
-}
 END_DEF
 
 DEFINE_BASE(UnknownExceptionTestCase)
@@ -95,30 +91,6 @@ void run()
 }
 END_DEF
 
-DEFINE_TEST_FROM(FailureTestCaseTest, TestCaseTest)
-void setUp()
-{
-    setTest(new FailureTestCase());
-}
-
-void run()
-{
-    bool success(false);
-
-    try
-    {
-        TestCaseTest::run();
-    }
-    catch(const TestCase::Error& x)
-    {
-        success = true;
-    }
-
-    if(!success)
-        throw xTest("FailureTestCaseTest failed");
-}
-END_DEF
-    
 DEFINE_TEST_FROM(TestCaseErrorTestCaseTest, TestCaseTest)
 void setUp()
 {
@@ -192,5 +164,87 @@ void run()
 	
     if(!success)
       throw xTest("UnknowExceptionTestCaseTest failed");
+}
+END_DEF
+
+//-----------------------------------------------------------------
+bool fileExists(const std::string& filename)
+{
+  return -1 != access(filename.c_str(), F_OK);
+}
+
+bool verifyTarget(const std::string& makefileName,
+                  const std::string& targetString)
+{
+    std::string grepCmd("grep ");
+    grepCmd += '\"';
+    grepCmd += targetString;
+    grepCmd += '\"';
+    grepCmd += ' ';
+    grepCmd += makefileName;
+
+    cas_print("grepCmd: " << grepCmd);
+
+    int err(system(grepCmd.c_str()));
+    int stat(WEXITSTATUS(err));
+   
+    cas_print("grep stat: " << stat);
+
+    return 0 == stat;
+}
+
+//Command tests
+DEFINE_TEST(NoCommandInCmdLineTest)
+void run()
+{
+    cas::CmdLine cmdLine(0, 0);
+    
+    cmdLine.args.push_back("casTest");
+    cmdLine.args.push_back("myTestLib");
+
+    bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
+
+    Assert(false == cmdExecuted,
+           "Should not create cmd from arg without leading \'-\'");
+}
+END_DEF
+
+DEFINE_TEST(ExecuteCreateNewTestCmdCustomMakefileNameTest)
+void run()
+{
+
+}
+END_DEF
+
+DEFINE_TEST(ExecuteCreateNewTestCmdDefaultMakefileTest)
+void run()
+{
+    cas::CmdLine cmdLine(0, 0);
+
+    cmdLine.args.push_back("casTest");
+    cmdLine.args.push_back("-newTest");
+    cmdLine.args.push_back("myTest");
+
+    bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
+
+    Assert(cmdExecuted,
+           "Failed to execute command");
+
+    Assert(fileExists("Makefile"),
+           "Makefile not found.");
+
+    std::string target("TGT := ");
+    target += cmdLine.args.back();
+
+    Assert(verifyTarget("Makefile", target),
+           "Couldn't find target line");
+
+    std::string testSrc("TSTSRC := ");
+    testSrc += cmdLine.args.back();
+    testSrc += ".tpp";
+
+    Assert(verifyTarget("Makefile", testSrc),
+        "Couldn't find test source line");
+	   
 }
 END_DEF

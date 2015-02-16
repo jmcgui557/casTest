@@ -18,7 +18,7 @@ namespace cas
 {
     struct TestCase
     {
-        struct Error : public std::runtime_error
+        struct Error : std::runtime_error
         {
 	  Error(const std::string& errMsg,
 		const char* file,

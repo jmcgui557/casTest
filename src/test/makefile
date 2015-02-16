@@ -11,12 +11,14 @@
 #single target created by this makefile
 TGT := selftest.test
 
-INCLUDES :=
+INCLUDES := -I..
 
 #source for the target
 TSTSRC := casTestSelf.tpp
 
-#SRCS := casTestSelf.cpp
+SRCS := \
+	../castCmd.cpp \
+	../cmdLine.cpp
 
 #Compile flags.
 CFLAGS :=

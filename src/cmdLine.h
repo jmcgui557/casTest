@@ -21,7 +21,7 @@ namespace cas
     {
 	CmdLine(int argc, const char* argv[]);
 	
-	std::vector<std::string> libraries; //essentially testSuits
+	std::vector<std::string> args;
     };
 }
 

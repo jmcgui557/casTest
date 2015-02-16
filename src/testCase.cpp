@@ -10,26 +10,12 @@
 
 #include "testCase.h"
 
-#include <cstdio>
+#include "casUtil.h"
+
 #include <algorithm>
 
 namespace cas
 {
-    std::string createErrMsg(const std::string& errMsg,
-                             const char* file,
-			     size_t line)
-    {
-        char buff[256];
-	snprintf(buff,
-		 256,
-		 "ERROR [%s(%lu)]: %s",
-		 file,
-		 line,
-		 errMsg.c_str());
-	
-	return std::string(buff);
-    }
-
     TestCase::Error::Error(const std::string& errMsg,
 			   const char* file,
 			   size_t line)

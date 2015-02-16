@@ -16,11 +16,21 @@
 
 #include "trace.h"
 
+#include "castCmd.h"
 #include "cmdLine.h"
 #include "runTests.h"
 #include "testCase.h"
 
 using namespace cas;
+
+int usage()
+{
+    cas_print("USAGE:");
+    cas_print("\tcasTest -newTest <testSuiteName> [makefileName]");
+    cas_print("\tcasTest <testLib1> [<testLib2> <...testLibN>]");
+
+    return -1;
+}
 
 int reportResult(int failCount)
 {
@@ -33,19 +43,11 @@ int reportResult(int failCount)
     return failCount;
 }
 
-int usage()
-{
-    cas_print("USAGE:");
-    cas_print("\tcasTest <testLib1> [<testLib2> <...testLibN>]");
-
-    return -1;
-}
-
 int runTests(const CmdLine& cmdLine)
 {
     std::vector<std::string>::const_iterator
-        beg(cmdLine.libraries.begin()),
-        end(cmdLine.libraries.end());
+        beg(cmdLine.args.begin()),
+        end(cmdLine.args.end());
 
     size_t failCount(0);
 
@@ -69,7 +71,8 @@ int main(int argc, const char* argv[])
     {
         CmdLine cmdLine(argc, argv);
 
-        failCount = runTests(cmdLine);
+	if(!CastCmd::execCommand(cmdLine))
+	    failCount = runTests(cmdLine);
     }
     catch(const cas::TestCase::Error& x)
     {
