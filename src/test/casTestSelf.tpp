@@ -182,14 +182,11 @@ bool verifyTarget(const std::string& makefileName,
     grepCmd += '\"';
     grepCmd += ' ';
     grepCmd += makefileName;
-
-    cas_print("grepCmd: " << grepCmd);
+    grepCmd += " > /dev/null";
 
     int err(system(grepCmd.c_str()));
     int stat(WEXITSTATUS(err));
    
-    cas_print("grep stat: " << stat);
-
     return 0 == stat;
 }
 
@@ -209,19 +206,11 @@ void run()
 }
 END_DEF
 
-DEFINE_TEST(ExecuteCreateNewTestCmdCustomMakefileNameTest)
-void run()
-{
-
-}
-END_DEF
-
 DEFINE_TEST(ExecuteCreateNewTestCmdDefaultMakefileTest)
 void run()
 {
     cas::CmdLine cmdLine(0, 0);
 
-    cmdLine.args.push_back("casTest");
     cmdLine.args.push_back("-newTest");
     cmdLine.args.push_back("myTest");
 
@@ -248,3 +237,39 @@ void run()
 	   
 }
 END_DEF
+
+DEFINE_TEST(ExecuteCreateNewTestCmdCustomMakefileNameTest)
+void run()
+{
+    cas::CmdLine cmdLine(0, 0);
+
+    cmdLine.args.push_back("-newTest");
+    cmdLine.args.push_back("myTest");
+    cmdLine.args.push_back("myTest.mak");
+
+    bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
+
+    std::string& mkFile(cmdLine.args.back());
+
+    Assert(cmdExecuted,
+           "Failed to execute command");
+
+    Assert(fileExists(mkFile),
+           "Makefile not found.");
+
+    std::string target("TGT := ");
+    target += cmdLine.args[1];
+
+    Assert(verifyTarget(mkFile, target),
+           "Couldn't find target line");
+
+    std::string testSrc("TSTSRC := ");
+    testSrc += cmdLine.args[1];
+    testSrc += ".tpp";
+
+    Assert(verifyTarget(mkFile, testSrc),
+        "Couldn't find test source line");
+
+}
+END_DEF
+

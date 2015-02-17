@@ -10,16 +10,33 @@
 
 #include "testCase.h"
 
-#include "casUtil.h"
-
 #include <algorithm>
+#include <cstdio>
 
 namespace cas
 {
+    //OK, so this is a minor violation of the DRY principal,
+    //but, this is meant for libcasTest.a and we get duplicate
+    //symbol errors if we use createErrMsg() from casUtil.h
+    std::string createErrorMsg(const std::string& errMsg,
+			       const char* file,
+			       size_t line)
+    {
+        char buff[256];
+	snprintf(buff,
+		 256,
+		 "ERROR [%s(%lu)]: %s",
+		 file,
+		 line,
+		 errMsg.c_str());
+	
+	return std::string(buff);
+    }
+
     TestCase::Error::Error(const std::string& errMsg,
 			   const char* file,
 			   size_t line)
-        : std::runtime_error(createErrMsg(errMsg, file, line))
+        : std::runtime_error(createErrorMsg(errMsg, file, line))
     {}
 
     TestCase::TestCase(const std::string& testName)

@@ -12,6 +12,7 @@ TGT := casTest
 
 SRCS := \
 	casTest.cpp \
+	castCmd.cpp \
 	castUtil.cpp \
 	cmdLine.cpp \
 	runTests.cpp \

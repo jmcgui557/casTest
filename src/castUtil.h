@@ -15,6 +15,10 @@ namespace cas
     std::string createErrMsg(const std::string& errMsg,
                              const char* file,
 			     size_t line);
+
+    bool createMakefileFromTemplate(const std::string& mkTemplate,
+				    const std::string& destMakefile,
+				    const std::string& mkTargetName);
 }
 
 #endif //CASTUTIL_H

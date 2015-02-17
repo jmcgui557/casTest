@@ -32,7 +32,7 @@ TGT :=
 TSTSRC :=
 
 ##### TODO #####
-# List required sources here.
+# List other required sources here.
 ################
 SRCS := 
 

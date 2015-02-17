@@ -71,7 +71,7 @@ int main(int argc, const char* argv[])
     {
         CmdLine cmdLine(argc, argv);
 
-	if(!CastCmd::execCommand(cmdLine))
+	if(!CastCmd::executeCmd(cmdLine))
 	    failCount = runTests(cmdLine);
     }
     catch(const cas::TestCase::Error& x)

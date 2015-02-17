@@ -3,9 +3,8 @@
 #include "castUtil.h"
 #include "cmdLine.h"
 
-#include "trace.h"
-
 #include <cstdlib>
+#include <iostream>
 
 namespace cas
 {
@@ -40,61 +39,23 @@ namespace cas
 	    testName_(),
 	    makefileName_("Makefile")
         {
-	    if(3 > cmdLine.args.size())
+	    if(2 > cmdLine.args.size())
 	        throw xCastCmd("Too few args for CreateNewTestCmd");
 
-	    testName_ = cmdLine.args[2];
+	    testName_ = cmdLine.args[1];
 
-	    if(4 <= cmdLine.args.size())
-	      makefileName_ = cmdLine.args[3];
+	    if(3 <= cmdLine.args.size())
+	      makefileName_ = cmdLine.args[2];
 	}
 
-        bool doCmd(const std::string& cmd)
+        bool createMakeFile(const std::string& castDir)
         {
-	    int err(system(cmd.c_str()));
-	    int stat(WEXITSTATUS(err));
+	    std::string mkTemplate(castDir);
+	    mkTemplate += "/rules.make/testTemplate.mak";
 
-	    return 0 == stat;
-	}
-
-        bool copyMakeFile(const std::string& castDir)
-        {
-	    std::string copyMakeFile("cp ");
-	    copyMakeFile += castDir; 
-	    copyMakeFile += "/rules.make/testTemplate.mak ";
-	    copyMakeFile += makefileName_;
-	    cas_print("copyMakeFile: " << copyMakeFile);
-	    
-	    return doCmd(copyMakeFile);
-	}
-
-        bool insertTarget()
-        {
-	    std::string sedCmd("sed -i 's/^TGT[[:space:]]:=.*/TGT := ");
-	    sedCmd += testName_;
-	    sedCmd += "/g' ";
-	  
-	    sedCmd += makefileName_;
-	    
-	    cas_print("sedCmd: " << sedCmd);
-	    
-	    return doCmd(sedCmd);
-	}
-
-        bool insertTestSource()
-        {
-	    std::string sedCmd(
-                "sed -i 's/^TSTSRC[[:space:]]:=.*/TSTSRC := ");
-
-	    sedCmd += testName_;
-	    sedCmd += ".tpp";
-	    sedCmd += "/g' ";
-	  
-	    sedCmd += makefileName_;
-	    
-	    cas_print("sedCmd: " << sedCmd);
-
-	    return doCmd(sedCmd);
+	    return createMakefileFromTemplate(mkTemplate,
+					      makefileName_,
+					      testName_);
 	}
 
         void exec()
@@ -102,33 +63,42 @@ namespace cas
 	    const char* castDir(getenv("CAST_DIR"));
 
 	    if(!castDir)
-	        throw xCastCmd("Couldn't $CAST_DIR not defined");
+	        throw xCastCmd("$CAST_DIR not defined");
 
-	    if(!copyMakeFile(castDir))
+	    if(!createMakeFile(castDir))
 	        throw xCastCmd("Couldn't copy makefile template");
-
-	    if(!insertTarget())
-	        throw xCastCmd("Couldn't insert target");
-
-	    if(!insertTestSource())
-	        throw xCastCmd("Couldn't insert test source");
         }
 
       private:
           std::string testName_;
           std::string makefileName_;
+    };
+
+  struct AboutCmd : CastCmd
+  {
+    void exec()
+    {
+      std::cout
+	<< "\ncasTest is meant to be a clean and simple unit test framework."
+	<< "\n\n(C) 2015 Randall Lee White\n"
+	<< std::endl;
+    }
   };
       
     CastCmd* createCommand(const CmdLine& cmdLine)
     {
-        if('-' != cmdLine.args[1][0])
+        if('-' != cmdLine.args[0][0])
 	    return 0;
 
 	CastCmd* cmd(0);
 
-	if(0 == cmdLine.args[1].compare("-newTest"))
+	if(0 == cmdLine.args[0].compare("-newTest"))
 	{
 	    cmd = new CreateNewTestCmd(cmdLine);
+	}
+	else if(0 == cmdLine.args[0].compare("-about"))
+	{
+	    cmd = new AboutCmd();
 	}
 
 	return cmd;
