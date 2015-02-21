@@ -56,7 +56,9 @@ getCastDir()
         echo "Where would you like to install casT?"
         read -p "Default location: $castDir: " userInput
         
-        if [ "" != "$userInput" ]; then
+	if [ "" == "$userInput" ]; then
+            userInput=$castDir
+	else
             #replace ~ and $HOME if present
             userInput="${userInput/#\~/$HOME}"
             userInput="${userInput/#\$HOME/$HOME}"
@@ -139,6 +141,14 @@ createEnvironmentScript()
     fi
 }
 
+setFileAttributes()
+{
+    local tgtDir=$1
+
+    chmod -R go-w $tgtDir
+    chown -R $USER:$USER $tgtDir
+}
+
 makeCast()
 {
     local scriptName="$castDir/castEnv.sourceMe.bash"
@@ -171,7 +181,7 @@ main()
     testRootUser
 
     getCastDir
-    
+
     installDir=$castDir.`date +%Y%m%d.%H%M.%S`
 
     prepareInstallationDir $installDir
@@ -192,6 +202,7 @@ main()
     
     rm -rf $castDir
     mv $installDir $castDir
+    setFileAttributes $castDir
     createEnvironmentScript
     makeCast
 

@@ -16,7 +16,8 @@ SRCS := \
 	castUtil.cpp \
 	cmdLine.cpp \
 	runTests.cpp \
-	testLib.cpp
+	testLib.cpp \
+	usage.cpp
 
 LIBS := -ldl
 LFLAGS := -Wl,-R -Wl,.

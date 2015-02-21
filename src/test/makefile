@@ -19,7 +19,8 @@ TSTSRC := casTestSelf.tpp
 SRCS := \
 	../castCmd.cpp \
 	../castUtil.cpp \
-	../cmdLine.cpp
+	../cmdLine.cpp \
+	../usage.cpp
 
 #Compile flags.
 CFLAGS :=

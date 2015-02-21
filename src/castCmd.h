@@ -24,9 +24,17 @@ namespace cas
         //throw CastCmd::Error on failure.
         static bool executeCmd(const CmdLine& cmdLine);
 
+        CastCmd(const CmdLine& cmdLine);
         virtual ~CastCmd();
-        virtual void exec() = 0;
+ 
+        virtual bool exec();  //returns true if CmdLine is valid
+
+    protected:
+        const std::string& name() const;
+
+    private:
+        std::string name_;
     };
 }
-    
+
 #endif

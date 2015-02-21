@@ -8,6 +8,10 @@
 # 
 # Copyright (c) 2015 Randall Lee White
 
+build: clean
+	$(MAKE) -f libcasTest.mak install
+	$(MAKE) -f casTest.mak install
+
 all:
 	$(MAKE) -f libcasTest.mak install
 	$(MAKE) -f casTest.mak install

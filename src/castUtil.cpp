@@ -48,6 +48,7 @@ namespace cas
 	    {
 		buff += ' ';
 		buff += mkTargetName;
+		buff += ".test";
 	    }
 
 	    if(0 == buff.compare("TSTSRC :="))

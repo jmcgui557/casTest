@@ -206,12 +206,12 @@ void run()
 }
 END_DEF
 
-DEFINE_TEST(ExecuteCreateNewTestCmdDefaultMakefileTest)
+DEFINE_TEST(ExecuteCreateInitTestCmdDefaultMakefileTest)
 void run()
 {
     cas::CmdLine cmdLine(0, 0);
 
-    cmdLine.args.push_back("-newTest");
+    cmdLine.args.push_back("-initTest");
     cmdLine.args.push_back("myTest");
 
     bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
@@ -238,12 +238,12 @@ void run()
 }
 END_DEF
 
-DEFINE_TEST(ExecuteCreateNewTestCmdCustomMakefileNameTest)
+DEFINE_TEST(ExecuteCreateInitTestCmdCustomMakefileNameTest)
 void run()
 {
     cas::CmdLine cmdLine(0, 0);
 
-    cmdLine.args.push_back("-newTest");
+    cmdLine.args.push_back("-initTest");
     cmdLine.args.push_back("myTest");
     cmdLine.args.push_back("myTest.mak");
 

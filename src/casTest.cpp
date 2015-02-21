@@ -20,17 +20,9 @@
 #include "cmdLine.h"
 #include "runTests.h"
 #include "testCase.h"
+#include "usage.h"
 
 using namespace cas;
-
-int usage()
-{
-    cas_print("USAGE:");
-    cas_print("\tcasTest -newTest <testSuiteName> [makefileName]");
-    cas_print("\tcasTest <testLib1> [<testLib2> <...testLibN>]");
-
-    return -1;
-}
 
 int reportResult(int failCount)
 {
@@ -77,17 +69,17 @@ int main(int argc, const char* argv[])
     catch(const cas::TestCase::Error& x)
     {
         cas_error("CAUGHT cas::TestCase::Error: " << x.what());
-        failCount = -1;
+        ++failCount;
     }
     catch(const std::exception& x)
     {
         cas_error("CAUGHT std::exception: " << x.what());
-        failCount = -1;
+        ++failCount;
     }
     catch(...)
     {
         cas_error("CAUGHT UNKNOW execption");
-        failCount = -1;
+        ++failCount;
     }
 
     return failCount;
