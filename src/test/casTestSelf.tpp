@@ -14,6 +14,7 @@
 #include "trace.h"
 
 #include <cstdlib>
+#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -207,6 +208,12 @@ void run()
 END_DEF
 
 DEFINE_TEST(ExecuteCreateInitTestCmdDefaultMakefileTest)
+void tearDown()
+{
+    remove("Makefile");
+    remove("myTest.tpp");
+}
+
 void run()
 {
     cas::CmdLine cmdLine(0, 0);
@@ -239,6 +246,12 @@ void run()
 END_DEF
 
 DEFINE_TEST(ExecuteCreateInitTestCmdCustomMakefileNameTest)
+void tearDown()
+{
+    remove("myTest.mak");
+    remove("myTest.tpp");
+}
+
 void run()
 {
     cas::CmdLine cmdLine(0, 0);
