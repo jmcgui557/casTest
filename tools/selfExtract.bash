@@ -176,6 +176,13 @@ setLinksIfRoot()
     fi
 }
 
+printInfo()
+{
+    echo "$copyrt"
+    echo ""
+    echo "Please see the read me at $castDir/README."
+}
+
 main()
 {
     testRootUser
@@ -207,7 +214,7 @@ main()
     makeCast
 
     setLinksIfRoot
-    echo "$copyrt"
+    printInfo
 }
 
 main "$@"
