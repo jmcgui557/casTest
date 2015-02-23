@@ -80,8 +80,8 @@ environment variables.  (Sorry for any inconvenience.)
 - Run make specifying 'test' as the target.
   > make test
 
-  This step builds then runs the test.  The output will be similar to the
-  following:
+  This step processes myKata.tpp, creates myKata.cpp, and builds then runs the
+  test.  The output will be similar to the following:
 
   |  /<CAST_DIR>/tools/tpp2cpp.bash myKata.tpp
   |  tpp2cpp.bash: myKata.tpp -> myKata.cpp
@@ -128,4 +128,5 @@ environment variables.  (Sorry for any inconvenience.)
 - Other tests can be added to myKata.tpp to create an entire suite of tests.
   Typically, several related tests will be added to the same .tpp file.
   Hopefully, this short intro will get you started.  For more detailed
-  information about the working of casTest, see the manual.
+  information about the working of casTest, see the manual (currently under
+  construction).
