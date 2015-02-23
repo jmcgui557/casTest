@@ -10,39 +10,71 @@ obibuffett@icloud.com
 Introduction
 ------------
 casTest is system of software tools (make files, scripts, and the casTest
-executable) which designed to make test driven development in C++ a bit easier.
-Hopefully, quite a bit easier.  casTest is distributed with all source code.
-It is available in an easy to use self-extracting tarball or can be obtained
-cloned from GitHub:
-
-    https://github.com/obibuffett/casTest.git
-
-The instructions below assume you are installing casTest via the
-self-extracting tarball as a normal user.  If you are installing as root,
-everything is pretty much the same.  Of course you'll likely be installing
-to some system directory to allow a group of users to use casTest.  In this
-case, each user intending to use casTest should create a link in his/her
-home directory to /usr/local/cast/castEnv.sourceMe.bash. (Assuming you
-install to the default location.  If you chose a different install path,
-just subsitute the installtion path.)  Sourcing this file will create a few
-environment variables which point to various casTest directories, and add
-/usr/local/cast/bin to your PATH variable.  Hopefully, the Quick Start
-section below will walk you through setup and use.  casTest meant to be
-cleanly coded, and easy to use (and understand).  Comments, question, and/or
-suggestions are most welcome.  Feel free to contact me at GitHub (obibuffett),
-or send email to:
+executable and library files) which designed to make test driven development in
+C++ a bit easier.  Hopefully, quite a bit easier.  casTest is meant to be
+cleanly coded, and easy to use (and easy understand).  Comments, question,
+and/or suggestions are most welcome.  Feel free to contact me at GitHub
+(obibuffett), or send email to:
 
     obibuffett@cfl.rr.com
 
-Quick Start (normal user installation)
---------------------------------------
+casTest is distributed with all source code.  It is available in an easy to use
+self-extracting tarball (installCast.bin) or can be obtained by cloning the
+casTest repository from GitHub:
 
+    https://github.com/obibuffett/casTest.git
+
+Building casTest from git Repository
+----------------------------
+If you clone casTest from GitHub, you'll want to copy the file
+<casTestParentDir>/casTest/tools/castEnv.sourceMe.bash to your home directory
+and edit the line:
+
+    export CAST_DIR=
+
+to define CAST_DIR as the casTest project root.  It should look something like
+this when you are done:
+
+    export CAST_DIR=$HOME/casTest
+
+Source your edited version of castEnv.sourceMe.bash, cd to the casTest project
+root directory and execute make.:
+ 
+    > . ~/castEnv.sourceMe.bash
+    > cd $CAST_DIR
+    > make install
+
+You can now create, build and run tests as described in the Quick Start 
+section below.  
+
+
+Installing from installCast.bin
+-------------------------------
 These instructions assume the user is using the bash shell.  The environment
 script should be easy to adapt for other shells as it only sets a few 
 environment variables.  (Sorry for any inconvenience.) 
  
 - Run installCast.bin.
   > ./installCast.bin
+
+If you like, install as root so that all developers on the system can
+use casTest.
+
+  > sudo ./installCast.bin
+
+
+The only real difference between installing as a normal user vs root is the
+default casTest installation location.  Installed as a normal user, casTest will
+default to $HOME/cast.  Installed as root, the default installation location
+is /usr/local/cast.  Also, when installing as a normal user, the environment
+setup script is automatically generated and place in the user's home director.
+When installed as root, this file is placed in the casTest installation
+directory: by default /usr/local/cast.  For convenience, users should link this
+file to their home directories.  The user then sources this file before
+performing TDD using casTest.
+
+Quick Start (normal user installation)
+--------------------------------------
 
 - Source castEnv.sourceMe.bash.
   > . ~/castEnv.sourceMe.bash
@@ -130,3 +162,6 @@ environment variables.  (Sorry for any inconvenience.)
   Hopefully, this short intro will get you started.  For more detailed
   information about the working of casTest, see the manual (currently under
   construction).
+
+Happy Coding,
+Randy
