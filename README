@@ -1,7 +1,40 @@
-casTest is designed to make test driven development in C++ a bit easier.
-Hopefully, you will find this to be true.
+Clean and Simple Test
+=====================
 
-Quick start (normal user installation)
+Author
+------
+Randall White (aka obibuffett)
+obibuffett@cfl.rr.com
+obibuffett@icloud.com
+
+Introduction
+------------
+casTest is system of software tools (make files, scripts, and the casTest
+executable) which designed to make test driven development in C++ a bit easier.
+Hopefully, quite a bit easier.  casTest is distributed with all source code.
+It is available in an easy to use self-extracting tarball or can be obtained
+cloned from GitHub:
+
+    https://github.com/obibuffett/casTest.git
+
+The instructions below assume you are installing casTest via the
+self-extracting tarball as a normal user.  If you are installing as root,
+everything is pretty much the same.  Of course you'll likely be installing
+to some system directory to allow a group of users to use casTest.  In this
+case, each user intending to use casTest should create a link in his/her
+home directory to /usr/local/cast/castEnv.sourceMe.bash. (Assuming you
+install to the default location.  If you chose a different install path,
+just subsitute the installtion path.)  Sourcing this file will create a few
+environment variables which point to various casTest directories, and add
+/usr/local/cast/bin to your PATH variable.  Hopefully, the Quick Start
+section below will walk you through setup and use.  casTest meant to be
+cleanly coded, and easy to use (and understand).  Comments, question, and/or
+suggestions are most welcome.  Feel free to contact me at GitHub (obibuffett),
+or send email to:
+
+    obibuffett@cfl.rr.com
+
+Quick Start (normal user installation)
 --------------------------------------
 
 These instructions assume the user is using the bash shell.  The environment
@@ -53,8 +86,6 @@ environment variables.  (Sorry for any inconvenience.)
   |  /<CAST_DIR>/tools/tpp2cpp.bash myKata.tpp
   |  tpp2cpp.bash: myKata.tpp -> myKata.cpp
   |  src: myKata.tpp dst: myKata.cpp
-  |  err: 0
-  |  Done
   |  /usr/bin/g++ -o myKata.o  -I/<CAST_DIR>/include  -fpic\
   |     -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myKata.cpp
   |  /usr/bin/g++ -o myKata.test  -I/<CAST_DIR>/include  \
@@ -83,8 +114,6 @@ environment variables.  (Sorry for any inconvenience.)
   |  /<CAST_DIR>/tools/tpp2cpp.bash myKata.tpp
   |  tpp2cpp.bash: myKata.tpp -> myKata.cpp
   |  src: myKata.tpp dst: myKata.cpp
-  |  err: 0
-  |  Done
   |  /usr/bin/g++ -o myKata.o  -I/<CAST_DIR>/include  -fpic\
   |  -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myKata.cpp
   |  /usr/bin/g++ -o myKata.test  -I/<CAST_DIR>/include  -shared\

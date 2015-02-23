@@ -180,7 +180,7 @@ printInfo()
 {
     echo "$copyrt"
     echo ""
-    echo "Please see the read me at $castDir/README."
+    echo "*** Please see the read me at $castDir/README. ***"
 }
 
 main()

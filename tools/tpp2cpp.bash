@@ -52,8 +52,6 @@ verifyTestCase_h()
     grep "\#include" $SRC | grep "testCase.h" > /dev/null
     local err=$?
  
-    echo "err: $err"
-
     if [ 0 != $err ]; then
 	echo "#include \"testCase.h\"" > $DST
     fi
@@ -139,8 +137,6 @@ main()
     
     appendIncludes $TGT
     appendTests "$TESTS" $TGT
-    
-    echo "Done"
 }
 
 main $@
