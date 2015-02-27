@@ -9,41 +9,84 @@ obibuffett@icloud.com
 
 Introduction
 ------------
-casTest is system of software tools (make files, scripts, and the casTest
-executable) which designed to make test driven development in C++ a bit easier.
-Hopefully, quite a bit easier.  casTest is distributed with all source code.
-It is available in an easy to use self-extracting tarball or can be obtained
-cloned from GitHub:
+casTest is system of software tools (make files, scripts, library, and the
+casTest executable) which is designed to make test driven development in C++
+a bit easier.  Hopefully, quite a bit easier.  casTest is distributed with all
+source code.  It is available in an easy to use self-extracting tarball from
+one of my dropbox folders:
+
+    https://www.dropbox.com/sh/2wtklxt4tyqoant/AAA54F3BVCyvVCvJiYVz6WNPa?dl=0
+
+or can be cloned from GitHub:
 
     https://github.com/obibuffett/casTest.git
 
-The instructions below assume you are installing casTest via the
-self-extracting tarball as a normal user.  If you are installing as root,
-everything is pretty much the same.  Of course you'll likely be installing
-to some system directory to allow a group of users to use casTest.  In this
-case, each user intending to use casTest should create a link in his/her
-home directory to /usr/local/cast/castEnv.sourceMe.bash. (Assuming you
-install to the default location.  If you chose a different install path,
-just subsitute the installtion path.)  Sourcing this file will create a few
-environment variables which point to various casTest directories, and add
-/usr/local/cast/bin to your PATH variable.  Hopefully, the Quick Start
-section below will walk you through setup and use.  casTest meant to be
-cleanly coded, and easy to use (and understand).  Comments, question, and/or
-suggestions are most welcome.  Feel free to contact me at GitHub (obibuffett),
-or send email to:
+casTest started out as a personal project just to explore questions related
+to testing frameworks.  As someone once said, to figure out how something
+works, sometimes you have to implement it yourself.  (I seem to recall reading
+this in one of Scott Meyers' books, but I can't seem to find the quote.  If
+I have this wrong, my apologies to both Scott Meyers and the actual author.)
+The casTest framework is the result of this exploration and was built using
+Test Driven Development principles.  Although the tests found in 
+<CAST_DIR>/src/test are now loaded as any other test created with casTest
+make files, they started out as self-test routines within casTest.cpp and were
+refactored after casTest had matured sufficiently.  I believe that the code
+that is casTest provides a pretty wide range of interesting concepts for
+new to mid-level C++ developers and I hope to produce a companion document of
+some type in which to discuss these concepts.  To be sure they have been
+covered by others much smarter than I am, but I feel the need to add my own
+two cents worth to the discussion.  (I hope for better and not for worse.)
 
-    obibuffett@cfl.rr.com
+///////START HERE/////////
+Installing casTest
+------------------
+- Self-extracting tarball
+
+Installing casTest from the self-extracting tarball is probably the easiest
+method of installation.  This is especially true for installing to a system
+directory such as /usr/local or /opt as root.
+
+To install casTest in this method, just copy installCast.bin to a directory
+for which you have access and execute it.  If you'd like to install as root,
+just use sudo (or su or login as root).
+
+    > ./installCast.bin
+or
+    > sudo ./installCast.bin
+
+Whether you install as a normal user or as root, you will be prompted for
+a top-level installation location.  To accept the displayed default location,
+just hit [enter].  The default installation location for normal users is
+$HOME/cast.  For root it is /usr/local/cast.
+
+After entering (or accepting) the installation location, installCast.bin will
+do the following:
+
+    - extract itself to the selected location
+    - do a full build of all targets
+    - create a resource script (castEnv.sourceMe.bash)
+      in the installation directory
+
+If you are installing as a normal user, installCast.bin will create a link
+to castEnv.sourceMe.bash in the your home directory for convenience.  Before
+using casTest for your testing needs, you must source this file.  If you are
+installing as root, of course this link will not be created.  In this case,
+users wishing to, may create the link themselves:
+
+    #Creating a link to /usr/local/cast/castEnv.sourceMe.bash
+    > cd $HOME
+    > ln -s /usr/local/cast/castEnv.sourceMe.bash .
+
+Whether installed as a normal user or root, castEnv.sourceMe.bash can be
+sourced directly from the installation directory:
+
+    > . <castParentDir>/cast/castEnv.sourceMe.bash
 
 Quick Start (normal user installation)
 --------------------------------------
-
-These instructions assume the user is using the bash shell.  The environment
-script should be easy to adapt for other shells as it only sets a few 
-environment variables.  (Sorry for any inconvenience.) 
+After installing casTest, just source castEnv.sourceMe.bash and you'll be 
+ready to create your first test.  
  
-- Run installCast.bin.
-  > ./installCast.bin
-
 - Source castEnv.sourceMe.bash.
   > . ~/castEnv.sourceMe.bash
 
@@ -141,4 +184,12 @@ environment variables.  (Sorry for any inconvenience.)
   Hopefully, this short intro will get you started.  For more detailed
   information about the working of casTest, see the manual (currently under
   construction).
+
+
+Feedback is always welcome
+--------------------------
+Comments, question, and/or suggestions are most welcome.  Feel free to contact
+me at GitHub (obibuffett), or send email to:
+
+    obibuffett@cfl.rr.com
 

@@ -120,7 +120,7 @@ extractFiles()
     return 0
 }
 
-createEnvironmentScript()
+createBashScript()
 {
     local scriptName="$castDir/castEnv.sourceMe.bash"
 
@@ -139,6 +139,33 @@ createEnvironmentScript()
     if [ 1 != $isRoot ]; then
         ln -sf $scriptName $HOME/castEnv.sourceMe.bash
     fi
+}
+
+createCshScript()
+{
+    local scriptName="$castDir/castEnv.sourceMe.csh"
+
+    rm -f $scriptName
+
+    touch $scriptName
+
+    cat $castDir/COPYRIGHT >> $scriptName
+    echo "setenv CAST_DIR $castDir" >> $scriptName
+    echo ". \$CAST_DIR/cast_env.csh" >> $scriptName
+    echo "" >> $scriptName
+    echo "" >> $scriptName
+
+    echo "isRoot: $isRoot"
+
+    if [ 1 != $isRoot ]; then
+        ln -sf $scriptName $HOME/castEnv.sourceMe.csh
+    fi
+}
+
+createEnvironmentScripts()
+{
+    createBashScript
+    createCshScript
 }
 
 setFileAttributes()
@@ -210,7 +237,7 @@ main()
     rm -rf $castDir
     mv $installDir $castDir
     setFileAttributes $castDir
-    createEnvironmentScript
+    createEnvironmentScripts
     makeCast
 
     setLinksIfRoot

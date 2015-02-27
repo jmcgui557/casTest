@@ -8,33 +8,10 @@
 # 
 # Copyright (c) 2015 Randall Lee White
 
-#single target created by this makefile
-TGT := selftest.test
-
-INCLUDES := -I..
-
-#source for the target
-TSTSRC := casTestSelf.tpp
-
-SRCS := \
-	../castCmd.cpp \
-	../castUtil.cpp \
-	../cmdLine.cpp \
-	../usage.cpp
-
-#Compile flags.
-CFLAGS :=
-
-#Link flags.
-LFLAGS :=
-
-#Paths to libraries.
-LPATHS :=
-
-#Libraries target is to be linked to.
-LIBS :=
-
-#Addition target dependencies.
-TDEPS :=
-
-include $(CAST_DIR)/rules.make/makefile.test
+#Copy this file to your home directory and edit
+#the following line to define CAST_DIR as the
+#casTest project root.  Then, source this file 
+#before using casTest or doing any development
+#on the casTest project.
+setenv CAST_DIR=
+source $CAST_DIR/cast_env.bash

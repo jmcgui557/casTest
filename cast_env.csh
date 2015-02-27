@@ -9,9 +9,10 @@
 # 
 # Copyright (c) 2015 Randall Lee White
 
-export CAST_BIN=$CAST_DIR/bin
-export CAST_LIB=$CAST_DIR/lib
-export CAST_SRC=$CAST_DIR/src
-export CAST_INC=$CAST_DIR/include
-export CAST_TEST=$CAST_SRC/test
-export PATH=$CAST_BIN:$PATH
+setenv CAST_BIN $CAST_DIR/bin
+setenv CAST_LIB $CAST_DIR/lib
+setenv CAST_SRC $CAST_DIR/src
+setenv CAST_INC $CAST_DIR/include
+setenv CAST_TEST $CAST_SRC/test
+
+setenv PATH ${CAST_BIN}:$PATH
