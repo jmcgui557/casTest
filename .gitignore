@@ -3,3 +3,5 @@
 *.test
 *~
 #*#
+castEnv.sourceMe.bash
+castEnv.sourceMe.csh

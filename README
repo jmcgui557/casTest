@@ -3,9 +3,10 @@ Clean and Simple Test
 
 Author
 ------
-Randall White (aka obibuffett)
+Randall White (aka obibuffett) (C) 2015
 obibuffett@cfl.rr.com
 obibuffett@icloud.com
+rlwhite@cfl.rr.com
 
 Introduction
 ------------
@@ -30,14 +31,8 @@ The casTest framework is the result of this exploration and was built using
 Test Driven Development principles.  Although the tests found in 
 <CAST_DIR>/src/test are now loaded as any other test created with casTest
 make files, they started out as self-test routines within casTest.cpp and were
-refactored after casTest had matured sufficiently.  I believe that the code
-that is casTest provides a pretty wide range of interesting concepts for
-new to mid-level C++ developers and I hope to produce a companion document of
-some type in which to discuss these concepts.  To be sure they have been
-covered by others much smarter than I am, but I feel the need to add my own
-two cents worth to the discussion.  (I hope for better and not for worse.)
+refactored after casTest had matured sufficiently.
 
-///////START HERE/////////
 Installing casTest
 ------------------
 - Self-extracting tarball
@@ -48,7 +43,7 @@ directory such as /usr/local or /opt as root.
 
 To install casTest in this method, just copy installCast.bin to a directory
 for which you have access and execute it.  If you'd like to install as root,
-just use sudo (or su or login as root).
+just use sudo (or su or login as root) to run installCast.bin.
 
     > ./installCast.bin
 or
@@ -64,47 +59,66 @@ do the following:
 
     - extract itself to the selected location
     - do a full build of all targets
-    - create a resource script (castEnv.sourceMe.bash)
+    - create resource scripts (castEnv.sourceMe.bash and castEnv.sourceMe.csh)
       in the installation directory
 
 If you are installing as a normal user, installCast.bin will create a link
-to castEnv.sourceMe.bash in the your home directory for convenience.  Before
-using casTest for your testing needs, you must source this file.  If you are
-installing as root, of course this link will not be created.  In this case,
-users wishing to, may create the link themselves:
+to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
+You should source the file appropriate for your shell before beginning a test
+creation session.  Each file sets a few environment variables and adds the
+path to the casTest executable to your PATH variable.  If you don't use bash,
+csh, or tcsh you'll need to create your own script to set the casTest
+environment variables.  Sorry for any inconvenience.  If you are installing
+as root, these links will not be created.  In this case, users wishing to,
+may create the link themselves:
 
     #Creating a link to /usr/local/cast/castEnv.sourceMe.bash
     > cd $HOME
     > ln -s /usr/local/cast/castEnv.sourceMe.bash .
 
-Whether installed as a normal user or root, castEnv.sourceMe.bash can be
-sourced directly from the installation directory:
+    or for tcsh or csh
+
+    #Creating a link to /usr/local/cast/castEnv.sourceMe.bash
+    > cd $HOME
+    > ln -s /usr/local/cast/castEnv.sourceMe.csh .
+
+Whether installed as a normal user or root, castEnv.sourceMe.[bash|csh] can
+be sourced directly from the installation directory:
 
     > . <castParentDir>/cast/castEnv.sourceMe.bash
 
+or, of course,
+
+    > source <castParentDir>/cast/castEnv.sourceMe.csh
+
 Quick Start (normal user installation)
 --------------------------------------
-After installing casTest, just source castEnv.sourceMe.bash and you'll be 
-ready to create your first test.  
+After installing casTest, just source castEnv.sourceMe.bash (or
+castEnv.sourceMe.csh for csh or tcsh) and you'll be ready to create your
+first test.  
  
 - Source castEnv.sourceMe.bash.
   > . ~/castEnv.sourceMe.bash
+  
+  or
+  
+  > source ~/castEnv.sourceMe.csh
 
 - Create a test dir and cd to it.
-  > mkdir -p ~/myKata
-  > cd ~/myKata
+  > mkdir ~/myTestDir
+  > cd ~/myTestDir
 
 - Initialize a new test suite.
-  > casTest -initTest myKata
+  > casTest -initTest myTest
 
   This step produces two files within the new directory:
-    -- Makefile (makefile for myKata.test)
-    -- myKata.tpp (source file for myKata.test)
+    -- Makefile (makefile for myTest.test)
+    -- myTest.tpp (source file for myTest.test)
 
-  Despite the .tpp extension, myKata.tpp is a C++ source file.  It
+  Despite the .tpp extension, myTest.tpp is a C++ source file.  It
   illustrates the use of the macros (defined in testCase.h) DEFINE_TEST
   and END_DEF.  These macros are provided to allow tests to be defined
-  quickly and painlessly.  If you open myKata.tpp, you will see the
+  quickly and painlessly.  If you open myTest.tpp, you will see the
   test, SanityTest, defined as follows:
 
   DEFINE_TEST(SanityTest)
@@ -123,19 +137,19 @@ ready to create your first test.
 - Run make specifying 'test' as the target.
   > make test
 
-  This step processes myKata.tpp, creates myKata.cpp, and builds then runs the
-  test.  The output will be similar to the following:
+  This step processes myTest.tpp, creates myTest.cpp, and builds, then runs
+  the test.  The output will be similar to the following:
 
-  |  /<CAST_DIR>/tools/tpp2cpp.bash myKata.tpp
-  |  tpp2cpp.bash: myKata.tpp -> myKata.cpp
-  |  src: myKata.tpp dst: myKata.cpp
-  |  /usr/bin/g++ -o myKata.o  -I/<CAST_DIR>/include  -fpic\
-  |     -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myKata.cpp
-  |  /usr/bin/g++ -o myKata.test  -I/<CAST_DIR>/include  \
-  |     -shared  -L /<CAST_DIR>/lib myKata.o  -lcasTest
-  |  /<CAST_DIR>/bin/casTest myKata.test
+  |  /<CAST_DIR>/tools/tpp2cpp.bash myTest.tpp
+  |  tpp2cpp.bash: myTest.tpp -> myTest.cpp
+  |  src: myTest.tpp dst: myTest.cpp
+  |  /usr/bin/g++ -o myTest.o  -I/<CAST_DIR>/include  -fpic\
+  |     -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myTest.cpp
+  |  /usr/bin/g++ -o myTest.test  -I/<CAST_DIR>/include  \
+  |     -shared  -L /<CAST_DIR>/lib myTest.o  -lcasTest
+  |  /<CAST_DIR>/bin/casTest myTest.test
   |  
-  |  casTest: Running tests from: myKata.test
+  |  casTest: Running tests from: myTest.test
   |  1..1
   |  not ok 1 - SanityTest
   |  	---
@@ -147,17 +161,17 @@ ready to create your first test.
   |  make: *** [test] Error 1
 
   NOTE:  Of course if you prefer, instead of running "make test", you could 
-         run make, then execute casTest passing in myKata.test in a second
+         run make, then execute casTest passing in myTest.test in a second
          step.
 
          > make
-         > casTest myKata.test
+         > casTest myTest.test
 
         You can also run multiple test suites from a single invocation.
 
-        > casTest myKata.test myOtherKata.test ../anotherKata/anotherKata.test
+        > casTest myTest.test myOtherTest.test ../anotherTest/anotherTest.test
 
-- Next, edit myKata.tpp changing the line "bool val(false);" to read
+- Next, edit myTest.tpp changing the line "bool val(false);" to read
   "bool val(true);"
 
 - Rerun the test.
@@ -165,26 +179,25 @@ ready to create your first test.
 
   The output will now indicate success:
 
-  |  /<CAST_DIR>/tools/tpp2cpp.bash myKata.tpp
-  |  tpp2cpp.bash: myKata.tpp -> myKata.cpp
-  |  src: myKata.tpp dst: myKata.cpp
-  |  /usr/bin/g++ -o myKata.o  -I/<CAST_DIR>/include  -fpic\
-  |  -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myKata.cpp
-  |  /usr/bin/g++ -o myKata.test  -I/<CAST_DIR>/include  -shared\
-  |   -L /<CAST_DIR>/lib myKata.o  -lcasTest
-  |  /<CAST_DIR>/bin/casTest myKata.test
+  |  /<CAST_DIR>/tools/tpp2cpp.bash myTest.tpp
+  |  tpp2cpp.bash: myTest.tpp -> myTest.cpp
+  |  src: myTest.tpp dst: myTest.cpp
+  |  /usr/bin/g++ -o myTest.o  -I/<CAST_DIR>/include  -fpic\
+  |  -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myTest.cpp
+  |  /usr/bin/g++ -o myTest.test  -I/<CAST_DIR>/include  -shared\
+  |   -L /<CAST_DIR>/lib myTest.o  -lcasTest
+  |  /<CAST_DIR>/bin/casTest myTest.test
   |
-  |  casTest: Running tests from: myKata.test
+  |  casTest: Running tests from: myTest.test
   |  1..1
   |  ok 1 - SanityTest
   |  casTest: All tests PASSED.
 
-- Other tests can be added to myKata.tpp to create an entire suite of tests.
+- Other tests can be added to myTest.tpp to create an entire suite of tests.
   Typically, several related tests will be added to the same .tpp file.
   Hopefully, this short intro will get you started.  For more detailed
   information about the working of casTest, see the manual (currently under
   construction).
-
 
 Feedback is always welcome
 --------------------------
@@ -192,4 +205,9 @@ Comments, question, and/or suggestions are most welcome.  Feel free to contact
 me at GitHub (obibuffett), or send email to:
 
     obibuffett@cfl.rr.com
+    rlwhite@cfl.rr.com
 
+Thanks very much for trying casTest.  I hope you find it useful.
+
+
+Randy

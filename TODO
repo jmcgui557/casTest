@@ -1,8 +1,12 @@
 
+- Fix make so that it is not necessary to source any files
+- Add make target so that $(CAST_DIR)/bin is added to the path
+
+- Do we need to use ldconfig??
 
 - Add plugin capability (in addition to the tests) (Open/closed principle)
   -- Create a make file in $CAST_DIR/src to make a plugin for
-     commands.  This will be a defualt plugin distributed with
+     commands.  This will be a default plugin distributed with
      the casTest package.
   -- Move the creation of commands -initTest and -about to the new plugin.
   -- Rename -initTest to -addTest

@@ -17,17 +17,4 @@ if [ "" != "$DST" ]; then
     cp $TGT $DST
 fi
 
-ENV_BASH="$CAST_DIR/tools/castEnv.sourceMe.bash"
-ENV_CSH="$CAST_DIR/tools/castEnv.sourceMe.csh"
-
-#if a link to castEnv.sourceMe.bash doesn't exist in $HOME, create it
-if [ ! -e "$ENV_BASH" ]; then
-    ln -s $ENV_BASH $HOME
-fi
-
-#if a link to castEnv.sourceMe.csh doesn't exist in $HOME, create it
-if [ ! -e "$ENV_CSH" ]; then
-    ln -s $ENV_CSH $HOME
-fi
-
     

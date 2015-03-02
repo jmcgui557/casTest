@@ -8,13 +8,18 @@
 # 
 # Copyright (c) 2015 Randall Lee White
 
-all: testEnv
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+mkdir := $(dir $(mkfile_path))
+envScript := $(mkdir)castEnv.sourceMe.bash
+envScriptLink := $(HOME)/castEnv.sourceMe.bash
+
+all: autoSourceBuild
 	$(MAKE) -C src $@
 
-install: testEnv
+install: autoSourceBuild
 	$(MAKE) -C src $@
 
-distclean: testEnv
+distclean: autoSourceBuild
 	$(MAKE) -C src veryclean
 	rm -f `find . -name "*~"`
 	rm -f distro/*
@@ -22,11 +27,26 @@ distclean: testEnv
 distro: distclean
 	tools/makeDistro.bash
 
-%: testEnv
+%: autoSourceBuild
 	$(MAKE) -C src $@
 
-.PHONY: testEnv
-testEnv:
+.PHONY: autoSourceBuild
+autoSourceBuild:
 ifeq ('$(CAST_DIR)','')
-	echo "CAST_DIR not defined"
+	echo "Auto sourcing: $(envScript)"
+	$(mkdir)/tools/genShellScripts.bash $(mkdir); \
+	. $(envScript); cd $(mkdir); \
+	$(MAKE) $(MAKECMDGOALS)
+	@echo ""
+	@echo "WARNING: For more efficient builds/makes, please source:"
+	@echo "             '$(envScript)'"
+	@echo "                  or"
+	@echo "             '$(envScriptLink)'"
+	@echo "         (or their t/csh equivalents) before making any "
+	@echo "         casTest target."
+	@echo ""
+	@echo "         Please disregard the 'StOp' and 'autoSourceBuild'"
+	@echo "         errors following this warning.  We're just forcing"
+	@echo "         an error to exit make."
+	@StOp
 endif

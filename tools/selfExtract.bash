@@ -207,6 +207,7 @@ printInfo()
 {
     echo "$copyrt"
     echo ""
+    echo "*** Installation complete.                     ***"
     echo "*** Please see the read me at $castDir/README. ***"
 }
 
