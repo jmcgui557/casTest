@@ -29,4 +29,5 @@ LIBS :=
 #Addition target dependencies.
 TDEPS :=
 
+##include $(CAST_DIR)/rules.make/makefile.staticLib##
 include $(CAST_DIR)/rules.make/makefile.staticLib

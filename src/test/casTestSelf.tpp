@@ -15,6 +15,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -207,82 +208,118 @@ void run()
 }
 END_DEF
 
-DEFINE_TEST(ExecuteCreateInitTestCmdDefaultMakefileTest)
+DEFINE_TEST(ExecuteCreateAddTestCmdTest)
 void tearDown()
 {
-    remove("Makefile");
-    remove("myTest.tpp");
+  remove("myTest.mak");
+  remove("myTest.tpp");
+  remove("Makefile");
 }
 
-void run()
+void testCmdExecutes(const cas::CmdLine& cmdLine)
 {
-    cas::CmdLine cmdLine(0, 0);
-
-    cmdLine.args.push_back("-initTest");
-    cmdLine.args.push_back("myTest");
-
     bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
 
     Assert(cmdExecuted,
            "Failed to execute command");
-
-    Assert(fileExists("Makefile"),
-           "Makefile not found.");
-
-    std::string target("TGT := ");
-    target += cmdLine.args.back();
-
-    Assert(verifyTarget("Makefile", target),
-           "Couldn't find target line");
-
-    std::string testSrc("TSTSRC := ");
-    testSrc += cmdLine.args.back();
-    testSrc += ".tpp";
-
-    Assert(verifyTarget("Makefile", testSrc),
-        "Couldn't find test source line");
-	   
-}
-END_DEF
-
-DEFINE_TEST(ExecuteCreateInitTestCmdCustomMakefileNameTest)
-void tearDown()
-{
-    remove("myTest.mak");
-    remove("myTest.tpp");
 }
 
-void run()
+void verifyTargetMakefileExists(const cas::CmdLine& cmdLine)
 {
-    cas::CmdLine cmdLine(0, 0);
-
-    cmdLine.args.push_back("-initTest");
-    cmdLine.args.push_back("myTest");
-    cmdLine.args.push_back("myTest.mak");
-
-    bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
-
-    std::string& mkFile(cmdLine.args.back());
-
-    Assert(cmdExecuted,
-           "Failed to execute command");
+    std::string mkFile(cmdLine.args.back());
+    mkFile += ".mak";
 
     Assert(fileExists(mkFile),
-           "Makefile not found.");
+           "mkFile not found.");
+}
 
+void verifyTargetInMakefile(const cas::CmdLine& cmdLine)
+{
+    std::string mkFile(cmdLine.args.back());
+    mkFile += ".mak";
     std::string target("TGT := ");
-    target += cmdLine.args[1];
+    target += cmdLine.args.back();
+    target += ".test";
 
     Assert(verifyTarget(mkFile, target),
            "Couldn't find target line");
+}
 
-    std::string testSrc("TSTSRC := ");
-    testSrc += cmdLine.args[1];
-    testSrc += ".tpp";
+void verifyMainMakefileExists()
+{
+    Assert(fileExists("Makefile"),
+           "Makefile not found");
+}
 
-    Assert(verifyTarget(mkFile, testSrc),
-        "Couldn't find test source line");
+void verifyMainMakefileInternals(const cas::CmdLine& cmdLine)
+{
+    std::string mkFileName(cmdLine.args.back());
+    mkFileName += ".mak";
 
+    bool foundMkLine(false);
+    bool foundGlobalTarget(false);
+    bool foundAllTarget(false);
+
+    std::string expectedMakeLine("$(MAKE) -f ");
+    expectedMakeLine += mkFileName;
+    expectedMakeLine += " $@";
+
+    std::ifstream mkFile("Makefile");
+    std::string buffer;
+    
+    while(std::getline(mkFile, buffer))
+    {
+        if(std::string::npos != buffer.find(expectedMakeLine))
+	    foundMkLine = true;
+
+        if(std::string::npos != buffer.find("%:"))
+            foundGlobalTarget = true;
+
+        if(std::string::npos != buffer.find("all:"))
+            foundAllTarget = true;
+    }
+
+    Assert(foundMkLine, "Failed to find make line in Makefile");
+    Assert(foundGlobalTarget, "Failed to find \"%:\" in Makefile");
+    //Assert(foundAllTarget, "Failed to find all target");
+}
+
+void verifyNoDuplicateMakeLines(const cas::CmdLine& cmdLine)
+{
+    std::string mkFileLine("\t$(MAKE) -f ");
+    mkFileLine += cmdLine.args.back();
+    mkFileLine += ".mak";
+    mkFileLine += " $@";
+    
+    testCmdExecutes(cmdLine);
+    testCmdExecutes(cmdLine);
+
+    size_t count(0);
+    std::ifstream mkfile("Makefile");
+    std::string buffer;
+
+    while(std::getline(mkfile, buffer))
+    {
+        if(std::string::npos != buffer.find(mkFileLine))
+	    ++count;
+    }
+    
+    Assert(1 == count,
+           "Wrong number of mkFileLine");
+}
+
+void run()
+{
+    cas::CmdLine cmdLine(0, 0);
+
+    cmdLine.args.push_back("-addTestSuite");
+    cmdLine.args.push_back("myTest");
+
+    testCmdExecutes(cmdLine);
+    verifyTargetMakefileExists(cmdLine);
+    verifyTargetInMakefile(cmdLine);
+    verifyMainMakefileExists();
+    verifyMainMakefileInternals(cmdLine);
+    verifyNoDuplicateMakeLines(cmdLine);
 }
 END_DEF
-

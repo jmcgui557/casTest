@@ -54,10 +54,6 @@ namespace cas
     {                                     \
         name()                            \
             : TestCase(#name)             \
-        {}                                \
-                                          \
-        name(const std::string& testName) \
-            : TestCase(testName)          \
         {}
 
 #define DEFINE_BASE(name)                 \

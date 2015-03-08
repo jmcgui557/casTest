@@ -25,4 +25,6 @@ LFLAGS := -Wl,-R -Wl,.
 CFLAGS := -g -Wall
 PFLAGS := -ftest-coverage -fprofile-arcs
 
+##include $(CAST_DIR)/rules.make/makefile.exec##
 include $(CAST_DIR)/rules.make/makefile.exec
+

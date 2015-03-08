@@ -9,6 +9,8 @@
 #include <fstream>
 #include <memory>
 
+#include <unistd.h>
+
 extern int usage();
 
 namespace cas
@@ -48,30 +50,71 @@ namespace cas
 	return true;
     }
 
-    struct InitTestCmd : CastCmd
+    struct AddTestSuiteCmd : CastCmd
     {
-        InitTestCmd(const CmdLine& cmdLine)
+        AddTestSuiteCmd(const CmdLine& cmdLine)
 	  : CastCmd(cmdLine),
 	    testName_(),
-	    makefileName_("Makefile")
+	    makefileName_()
         {
 	    if(2 > cmdLine.args.size())
-	        throw xCastCmd("Too few args for -initTest command");
+	        throw xCastCmd("Too few args for -addTestSuite command");
 
 	    testName_ = cmdLine.args[1];
+	    makefileName_ = testName_;
+	    makefileName_ += ".mak";
+	}
 
-	    if(3 <= cmdLine.args.size())
-	        makefileName_ = cmdLine.args[2];
+        void createMainMakefileIfNecessary()
+        {
+	  if(0 == access("Makefile", F_OK))
+	    return;
+
+	  std::ofstream mkfile("Makefile");
+	  mkfile << "%:" << std::endl;
+	}
+
+        bool populateMainMakefile(const std::string& makefileName_)
+        {
+	    createMainMakefileIfNecessary();
+
+	    bool lineFound(false);
+	    std::string mkfileLine("\t$(MAKE) -f ");
+	    mkfileLine += makefileName_;
+	    mkfileLine += " $@";
+	    
+	    std::ofstream tmp("Makefile.tmp");
+	    std::ifstream ori("Makefile");
+	    std::string buffer;
+	    
+	    while(std::getline(ori, buffer))
+	    {
+		if(0 == buffer.compare(mkfileLine))
+		    lineFound = true;
+
+		tmp << buffer << '\n';
+	    }
+
+	    if(!lineFound)
+	        tmp << mkfileLine << std::endl;
+
+	    remove("Makefile");
+	    rename("Makefile.tmp", "Makefile");
+	  
+	    return true;
 	}
 
         bool createMakeFile(const std::string& castDir)
-        {
+        { 
 	    std::string mkTemplate(castDir);
 	    mkTemplate += "/rules.make/testTemplate.mak";
+	  
+	    if(!createMakefileFromTemplate(mkTemplate,
+					   makefileName_,
+					   testName_))
+	        return false;
 
-	    return createMakefileFromTemplate(mkTemplate,
-					      makefileName_,
-					      testName_);
+	    return populateMainMakefile(makefileName_);
 	}
 
         bool createSource()
@@ -142,9 +185,9 @@ namespace cas
 
 	CastCmd* cmd(0);
 
-	if(0 == cmdLine.args[0].compare("-initTest"))
+	if(0 == cmdLine.args[0].compare("-addTestSuite"))
 	{
-	    cmd = new InitTestCmd(cmdLine);
+	    cmd = new AddTestSuiteCmd(cmdLine);
 	}
 	else if(0 == cmdLine.args[0].compare("-about"))
 	{

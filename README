@@ -33,10 +33,8 @@ Test Driven Development principles.  Although the tests found in
 make files, they started out as self-test routines within casTest.cpp and were
 refactored after casTest had matured sufficiently.
 
-Installing casTest
-------------------
-- Self-extracting tarball
-
+Installing Via Self-extracting tarball
+--------------------------------------
 Installing casTest from the self-extracting tarball is probably the easiest
 method of installation.  This is especially true for installing to a system
 directory such as /usr/local or /opt as root.
@@ -91,6 +89,29 @@ or, of course,
 
     > source <castParentDir>/cast/castEnv.sourceMe.csh
 
+Installing Git Repository Clone
+-------------------------------
+If you obtained casTest by cloning a Git repository, just cd to the top level
+project directory and make the project:
+
+    > cd <casTestProjectDir>
+    > make install
+
+The top-level make file is written to automatically generate the require
+environment scripts (for bash and csh), source the appropriate one (assuming 
+you are using bash or csh), and proceed to execute all make scripts
+in the project tree.  When executing "make install" the make targets are
+installed as follows:
+	  
+	  - casTest (executable): <casTestProjectDir>/bin
+	  - libcasTest.a: <casTestProjectDir>/lib
+	  - casTest.sourceMe.bash: <casTestProjectTree>
+	  - casTest.sourceMe.csh: <casTestProjectTree>
+	  - casTest.sourceMe.bash: linked to $HOME
+	  - casTest.sourceMe.csh: linked to $HOME
+
+Source the appropriate file before using casTest.
+
 Quick Start (normal user installation)
 --------------------------------------
 After installing casTest, just source castEnv.sourceMe.bash (or
@@ -109,10 +130,11 @@ first test.
   > cd ~/myTestDir
 
 - Initialize a new test suite.
-  > casTest -initTest myTest
+  > casTest -addTestSuite myTest
 
-  This step produces two files within the new directory:
-    -- Makefile (makefile for myTest.test)
+  This step produces three files within the new directory:
+    -- Makefile (which calls other make files within the directory)
+    -- myTest.mak (make file for myTest.test)
     -- myTest.tpp (source file for myTest.test)
 
   Despite the .tpp extension, myTest.tpp is a C++ source file.  It
@@ -198,6 +220,95 @@ first test.
   Hopefully, this short intro will get you started.  For more detailed
   information about the working of casTest, see the manual (currently under
   construction).
+
+Convenience Macros
+------------------
+As mentioned in the Quick Start section above, a test can be created with
+the macro, DEFINE_TEST(<testName>).  This macro takes a single argument
+which is the name of the test class you wish to define.
+
+For example:
+
+      //myTest.tpp
+      DEFINE_TEST(MyTest)
+      void run()
+      {
+          bool val(false);
+
+	  Assert(false, "Please change val to true.");
+      }
+      END_DEF
+
+expands to:
+
+      struct MyTest : cas::TestCase
+      {
+          MyTest()
+              cas::TestCase("MyTest")
+          {}
+
+	  void run()
+      	  {
+              bool val(false);
+
+	      Assert(false, "Please change val to true.");
+          }
+      };
+
+cas::TestCase is an abstract class with run() being pure virtual.
+cas::TestCase also defines the virtual methods setUp() and tearDown().  setUp()
+is automatically called before run(); tearDown() folowing the return from
+run().  setUp(), as the name implies, is used to set up test prerequisites.
+tearDown() is used to clean up resources that may have been allocated during
+setUp(), or, in rare cases, during the running of the test.  Of course,
+you are free to use the functions as you see fit.
+
+Two other macros are provided.  DEFINE_BASE(<testName>) is used to define a
+test case class that is intended to be used as a base class for other classes
+rather than executed as a test in and of itself.  
+DEFINE_TEST_FROM(<baseTestName>, <derivedTestName>) is used to derive a test
+from another test.  There are examples of the use of these macros in
+casTestSelf.tpp in the test directory (<casTestProjectDir>/src/test).
+
+As you can see, the macros are simply convenient tools to define a class and
+provide a constructor that calls the base class, "cas::TestCase", passing the
+name of the test as a string.  Any C++ code that is appropriate within a class
+definition can be added between the DEFINE_<type>() macro and the END_DEF
+macro.  For instance.  prehaps you need to allocate an object dynamically for
+your test.  One way to do this might look something like:
+
+    //myTest.tpp
+    #include "myGame.h"
+
+    DEFINE_TEST(myGameSetPlayerNameTest)
+        void setUp()
+        {
+            newPlayer_ = new MyGame::Player;
+        }
+ 
+        void tearDown()
+        {
+            delete new_Player_;
+        }
+    
+        void run()
+        {
+            std::string name("Uncle Bob");
+
+            newPlayer_.setName(name);
+
+	    Assert(name == newPlayer.name(),
+                   "Got wrong name");
+        }
+
+    private:
+        MyGame::Player* newPlayer_;
+    END_DEF
+
+In the above, a MyGame::Player object is created dynamically in setUp().
+The setName() function is tested in run().  Then, the object created for the
+test is detroyed in tearDown().  A member variable, newPlayer_* is also 
+added to the class definition with private access.
 
 Feedback is always welcome
 --------------------------

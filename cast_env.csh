@@ -14,5 +14,5 @@ setenv CAST_LIB $CAST_DIR/lib
 setenv CAST_SRC $CAST_DIR/src
 setenv CAST_INC $CAST_DIR/include
 setenv CAST_TEST $CAST_SRC/test
-
+setenv CAST_PLUGIN $CAST_BIN/plugin
 setenv PATH ${CAST_BIN}:$PATH

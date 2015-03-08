@@ -14,4 +14,5 @@ export CAST_LIB=$CAST_DIR/lib
 export CAST_SRC=$CAST_DIR/src
 export CAST_INC=$CAST_DIR/include
 export CAST_TEST=$CAST_SRC/test
+export CAT_PLUGIN=$CAST_BIN/plugin
 export PATH=$CAST_BIN:$PATH
