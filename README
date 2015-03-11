@@ -230,9 +230,10 @@ first test.
 
 - Other tests can be added to myTest.tpp to create an entire suite of tests.
   Typically, several related tests will be added to the same .tpp file.
-  Hopefully, this short intro will get you started.  For more detailed
-  information about the working of casTest, see the manual (currently under
-  construction).
+
+Hopefully, this short intro will get you started.  For more detailed
+information about the working of casTest, see the manual (well, once its
+complete...it's still under construction).
 
 Convenience Macros
 ------------------
@@ -277,8 +278,8 @@ setUp(), or, in rare cases, during the running of the test.  Of course,
 you are free to use the functions as you see fit.
 
 Two other macros are provided.  DEFINE_BASE(<testName>) is used to define a
-test case class that is intended to be used as a base class for other classes
-rather than executed as a test in and of itself.  
+test case class that is intended to be used as a base class for other test
+classes rather than executed as a test in and of itself.  
 DEFINE_TEST_FROM(<baseTestName>, <derivedTestName>) is used to derive a test
 from another test.  There are examples of the use of these macros in
 casTestSelf.tpp in the test directory (<casParentDir>/cast/src/test).
