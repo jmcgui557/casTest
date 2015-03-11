@@ -11,11 +11,12 @@
 build: clean
 	$(MAKE) -f libcasTest.mak install
 	$(MAKE) -f casTest.mak install
+	$(MAKE) -C test test
 
 all:
 	$(MAKE) -f libcasTest.mak install
 	$(MAKE) -f casTest.mak install
-	$(MAKE) -C test $@
+	$(MAKE) -C test test
 %:
 	$(MAKE) -f libcasTest.mak $@
 	$(MAKE) -f casTest.mak $@

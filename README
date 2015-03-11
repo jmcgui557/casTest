@@ -3,7 +3,7 @@ Clean and Simple Test
 
 Author
 ------
-Randall White (aka obibuffett) (C) 2015
+Randall White (C) 2015
 obibuffett@cfl.rr.com
 obibuffett@icloud.com
 rlwhite@cfl.rr.com
@@ -28,12 +28,13 @@ works, sometimes you have to implement it yourself.  (I seem to recall reading
 this in one of Scott Meyers' books, but I can't seem to find the quote.  If
 I have this wrong, my apologies to both Scott Meyers and the actual author.)
 The casTest framework is the result of this exploration and was built using
-Test Driven Development principles.  Although the tests found in 
-<CAST_DIR>/src/test are now loaded as any other test created with casTest
-make files, they started out as self-test routines within casTest.cpp and were
-refactored after casTest had matured sufficiently.
+Test Driven Development principles.  Although the suite of tests found in 
+<CAST_DIR>/src/test/selftest.test is now loaded as any other suite of tests
+built to be executed with casTest, they started out as self-test routines
+within casTest.cpp.  They were refactored after casTest had matured
+sufficiently.
 
-Installing Via Self-extracting tarball
+Installing from the Self-extracting tarball
 --------------------------------------
 Installing casTest from the self-extracting tarball is probably the easiest
 method of installation.  This is especially true for installing to a system
@@ -56,7 +57,7 @@ After entering (or accepting) the installation location, installCast.bin will
 do the following:
 
     - extract itself to the selected location
-    - do a full build of all targets
+    - do a full build of all targets (libcasTest.a, casTest, and selftest.test)
     - create resource scripts (castEnv.sourceMe.bash and castEnv.sourceMe.csh)
       in the installation directory
 
@@ -66,7 +67,8 @@ You should source the file appropriate for your shell before beginning a test
 creation session.  Each file sets a few environment variables and adds the
 path to the casTest executable to your PATH variable.  If you don't use bash,
 csh, or tcsh you'll need to create your own script to set the casTest
-environment variables.  Sorry for any inconvenience.  If you are installing
+environment variables.  Sorry for any inconvenience, one of these days I hope
+to remove the need to source one of these files.  If you are installing
 as root, these links will not be created.  In this case, users wishing to,
 may create the link themselves:
 
@@ -94,7 +96,7 @@ Installing Git Repository Clone
 If you obtained casTest by cloning a Git repository, just cd to the top level
 project directory and make the project:
 
-    > cd <casTestProjectDir>
+    > cd <casTestParentDir>/cast
     > make install
 
 The top-level make file is written to automatically generate the require
@@ -102,17 +104,18 @@ environment scripts (for bash and csh), source the appropriate one (assuming
 you are using bash or csh), and proceed to execute all make scripts
 in the project tree.  When executing "make install" the make targets are
 installed as follows:
-	  
-	  - casTest (executable): <casTestProjectDir>/bin
-	  - libcasTest.a: <casTestProjectDir>/lib
-	  - casTest.sourceMe.bash: <casTestProjectTree>
-	  - casTest.sourceMe.csh: <casTestProjectTree>
-	  - casTest.sourceMe.bash: linked to $HOME
-	  - casTest.sourceMe.csh: linked to $HOME
+          
+          - casTest (executable): <casParentDir>/cast/bin
+          - libcasTest.a: <castParentDir>/cast/lib
+          - selftest.test: <castParentDir/cast/test
+          - casTest.sourceMe.bash: <castParentDir>/cast
+          - casTest.sourceMe.csh: <castParentDir>/cast
+          - casTest.sourceMe.bash: linked to $HOME
+          - casTest.sourceMe.csh: linked to $HOME
 
 Source the appropriate file before using casTest.
 
-Quick Start (normal user installation)
+Quick Start
 --------------------------------------
 After installing casTest, just source castEnv.sourceMe.bash (or
 castEnv.sourceMe.csh for csh or tcsh) and you'll be ready to create your
@@ -133,7 +136,8 @@ first test.
   > casTest -addTestSuite myTest
 
   This step produces three files within the new directory:
-    -- Makefile (which calls other make files within the directory)
+    -- Makefile (which calls other casTest generated make files within the
+                 directory)
     -- myTest.mak (make file for myTest.test)
     -- myTest.tpp (source file for myTest.test)
 
@@ -141,7 +145,7 @@ first test.
   illustrates the use of the macros (defined in testCase.h) DEFINE_TEST
   and END_DEF.  These macros are provided to allow tests to be defined
   quickly and painlessly.  If you open myTest.tpp, you will see the
-  test, SanityTest, defined as follows:
+  test, "SanityTest", defined as follows:
 
   DEFINE_TEST(SanityTest)
   void run()
@@ -149,7 +153,7 @@ first test.
       bool val(false);
 
       Assert(val,
-             "Please change val to true");
+             "Please change val to true, and try again.");
   }
   END_DEF
 
@@ -160,7 +164,7 @@ first test.
   > make test
 
   This step processes myTest.tpp, creates myTest.cpp, and builds, then runs
-  the test.  The output will be similar to the following:
+  the test (myTest.test).  The output will be similar to the following:
 
   |  /<CAST_DIR>/tools/tpp2cpp.bash myTest.tpp
   |  tpp2cpp.bash: myTest.tpp -> myTest.cpp
@@ -174,24 +178,33 @@ first test.
   |  casTest: Running tests from: myTest.test
   |  1..1
   |  not ok 1 - SanityTest
-  |  	---
-  |  	Caught cas::Test::Error: ERROR [testCase.cpp(58)]: Assertion FAILED: \
+  |     ---
+  |     Caught cas::Test::Error: ERROR [testCase.cpp(58)]: Assertion FAILED: \
   |  Please change val to true,  and try again.
-  |  	---
+  |     ---
   |  casTest: 1 tests FAILED.
   |  
   |  make: *** [test] Error 1
 
-  NOTE:  Of course if you prefer, instead of running "make test", you could 
-         run make, then execute casTest passing in myTest.test in a second
-         step.
+  NOTE1:  Of course if you prefer, instead of running "make test", you could 
+          run make, then execute casTest passing in myTest.test in a second
+          step.
 
-         > make
-         > casTest myTest.test
+          > make
+          > casTest myTest.test
 
-        You can also run multiple test suites from a single invocation.
+          You can also run multiple test suites from a single invocation.
 
-        > casTest myTest.test myOtherTest.test ../anotherTest/anotherTest.test
+          > casTest myTest.test myOtherTest.test ../yaTest/yaTest.test
+
+  NOTE2:  The .test suffix is used to identify a shared library containing 
+          a collection of one or more tests (ie a suite of tests).  The
+          casTest executable loads each .test file specified on the command
+          line, maps appropriate symbols, then creates and executes the
+          tests within the shared library.  The .test suffix is only a
+          convention.  If you write your own make files, rather than using
+          the -addTestSuite command option to casTest, you can name them
+          anything you like.
 
 - Next, edit myTest.tpp changing the line "bool val(false);" to read
   "bool val(true);"
@@ -235,7 +248,7 @@ For example:
       {
           bool val(false);
 
-	  Assert(false, "Please change val to true.");
+          Assert(false, "Please change val to true.");
       }
       END_DEF
 
@@ -247,18 +260,18 @@ expands to:
               cas::TestCase("MyTest")
           {}
 
-	  void run()
-      	  {
+          void run()
+          {
               bool val(false);
 
-	      Assert(false, "Please change val to true.");
+              Assert(false, "Please change val to true.");
           }
       };
 
 cas::TestCase is an abstract class with run() being pure virtual.
 cas::TestCase also defines the virtual methods setUp() and tearDown().  setUp()
-is automatically called before run(); tearDown() folowing the return from
-run().  setUp(), as the name implies, is used to set up test prerequisites.
+is automatically called before run(); tearDown() after run() returns.
+setUp(), as the name implies, is used to set up test prerequisites.
 tearDown() is used to clean up resources that may have been allocated during
 setUp(), or, in rare cases, during the running of the test.  Of course,
 you are free to use the functions as you see fit.
@@ -268,7 +281,7 @@ test case class that is intended to be used as a base class for other classes
 rather than executed as a test in and of itself.  
 DEFINE_TEST_FROM(<baseTestName>, <derivedTestName>) is used to derive a test
 from another test.  There are examples of the use of these macros in
-casTestSelf.tpp in the test directory (<casTestProjectDir>/src/test).
+casTestSelf.tpp in the test directory (<casParentDir>/cast/src/test).
 
 As you can see, the macros are simply convenient tools to define a class and
 provide a constructor that calls the base class, "cas::TestCase", passing the
@@ -297,7 +310,7 @@ your test.  One way to do this might look something like:
 
             newPlayer_.setName(name);
 
-	    Assert(name == newPlayer.name(),
+            Assert(name == newPlayer.name(),
                    "Got wrong name");
         }
 
@@ -307,7 +320,7 @@ your test.  One way to do this might look something like:
 
 In the above, a MyGame::Player object is created dynamically in setUp().
 The setName() function is tested in run().  Then, the object created for the
-test is detroyed in tearDown().  A member variable, newPlayer_* is also 
+test is destroyed in tearDown().  A member variable, newPlayer_* is also 
 added to the class definition with private access.
 
 Feedback is always welcome
