@@ -3,9 +3,12 @@ Clean and Simple Test
 
 Author
 ------
-Randall White (C) 2015
+Randall White
+Copyright (C) 2015
+Released under the MIT license.
+(Please see LICENSE file in top-level directory.)
+
 obibuffett@cfl.rr.com
-obibuffett@icloud.com
 rlwhite@cfl.rr.com
 
 Introduction
@@ -57,9 +60,10 @@ After entering (or accepting) the installation location, installCast.bin will
 do the following:
 
     - extract itself to the selected location
-    - do a full build of all targets (libcasTest.a, casTest, and selftest.test)
     - create resource scripts (castEnv.sourceMe.bash and castEnv.sourceMe.csh)
       in the installation directory
+    - do a full build of all targets (libcasTest.a, casTest, and selftest.test)
+    - run the self tests located in <castParentDir>/cast/src/tests
 
 If you are installing as a normal user, installCast.bin will create a link
 to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
@@ -280,7 +284,7 @@ you are free to use the functions as you see fit.
 Two other macros are provided.  DEFINE_BASE(<testName>) is used to define a
 test case class that is intended to be used as a base class for other test
 classes rather than executed as a test in and of itself.  
-DEFINE_TEST_FROM(<baseTestName>, <derivedTestName>) is used to derive a test
+DEFINE_TEST_FROM(<derivedTestName>, <baseTestName>) is used to derive a test
 from another test.  There are examples of the use of these macros in
 casTestSelf.tpp in the test directory (<casParentDir>/cast/src/test).
 
@@ -288,7 +292,7 @@ As you can see, the macros are simply convenient tools to define a class and
 provide a constructor that calls the base class, "cas::TestCase", passing the
 name of the test as a string.  Any C++ code that is appropriate within a class
 definition can be added between the DEFINE_<type>() macro and the END_DEF
-macro.  For instance.  prehaps you need to allocate an object dynamically for
+macro.  For instance, perhaps you need to allocate an object dynamically for
 your test.  One way to do this might look something like:
 
     //myTest.tpp
