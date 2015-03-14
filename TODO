@@ -8,17 +8,11 @@
   -- Create a make file in $CAST_DIR/src to make a plugin for
      commands.  This will be a default plugin distributed with
      the casTest package.
-  -- Move the creation of commands -initTest and -about to the new plugin.
-  -- Rename -initTest to -addTest
-  -- Change the behavior of -addTest to do the following:
-     - Create the user supplied target source with SanityTest(no change)
-     - Create a makefile named <userTarget>.mak
-     - If one doesn't exist, create make file called Makefile
-     - Include a line in Makefile for the new target:
-            make -f <userTarget>.mak
+  -- Move the creation of commands -addTestSuite and -about to the new plugin.
   -- Change executeCmd() to load all names of commands from all plugins, then
      load the indicated plugin (based on the command to execute).  This allows
      users to extend casTest without changing the code to the base executable.
+     - also add usage() capability to plugins
 
 - Write the manual
 

@@ -15,7 +15,7 @@
 int usage()
 {
     cas_print("USAGE:");
-    cas_print("\tcasTest -initTest <testSuiteName> [makefileName]");
+    cas_print("\tcasTest -addTestSuite <testSuiteName>");
     cas_print("\tcasTest <testLib1> [<testLib2> <...testLibN>]");
 
     return -1;
