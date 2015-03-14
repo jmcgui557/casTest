@@ -19,6 +19,7 @@
 #include <string>
 #include <vector>
 
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -209,11 +210,22 @@ void run()
 END_DEF
 
 DEFINE_TEST(ExecuteCreateAddTestCmdTest)
+void setUp()
+{
+  mkdir("testTmp", 0775);
+  chdir("testTmp");
+}
+
 void tearDown()
 {
   remove("myTest.mak");
   remove("myTest.tpp");
   remove("Makefile");
+
+  chdir("..");
+  
+  if(0 != rmdir("testTmp"))
+    cas_print("Can't rmdir(): " << strerror(errno));
 }
 
 void testCmdExecutes(const cas::CmdLine& cmdLine)

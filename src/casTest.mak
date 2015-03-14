@@ -19,8 +19,14 @@ SRCS := \
 	testLib.cpp \
 	usage.cpp
 
+UNAME_S := $(shell uname -s)
+
 LIBS := -ldl
 LFLAGS := -Wl,-R -Wl,.
+
+ifeq ($(UNAME_S),Darwin)
+    LFLAGS := -Wl,-L -Wl,.
+endif
 
 CFLAGS := -g -Wall
 PFLAGS := -ftest-coverage -fprofile-arcs
