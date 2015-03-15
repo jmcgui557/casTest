@@ -13,8 +13,10 @@
 
 #include "trace.h"
 
+#include <cerrno>
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 #include <fstream>
 #include <string>
 #include <vector>
