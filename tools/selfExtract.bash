@@ -12,14 +12,14 @@
 
 # This text file is used to generate a self-extracting gzipped tar file
 # which extracts itself and accomplishes basic administrative tasks
-# for installing CAS on a host.  The user may be prompted for a password 
+# for installing CAST on a host.  The user may be prompted for a password 
 # for certain tasks which require super user permissions.
 #
 # This file has been adapted from a self-extracting
 # tar example by Stuart Wells.  
 # See "http://stuartwells.net/slides/selfextract.htm".
 
-castDir="$HOME/cast"
+castDir="$HOME/casTest"
 installDir=""
 isRoot=0
 
@@ -50,10 +50,10 @@ getCastDir()
         needInput=0
 
         if [ 1 == $isRoot ]; then
-            castDir="/usr/local/cast"
+            castDir="/usr/local/casTest"
         fi
 
-        echo "Where would you like to install casT?"
+        echo "Where would you like to install casTest?"
         read -p "Default location: $castDir: " userInput
         
 	if [ "" == "$userInput" ]; then
@@ -183,7 +183,7 @@ makeCast()
     . $scriptName
 
     cd $CAST_DIR
-    make
+    make build
 }
 
 setLinksIfRoot()
@@ -223,7 +223,7 @@ main()
     err=$?
 
     if [ 0 != $err ]; then
-        echo "ERROR: casT installation failed."
+        echo "ERROR: casTest installation failed."
         exit 1;
     fi
 
