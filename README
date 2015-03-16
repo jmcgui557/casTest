@@ -17,13 +17,17 @@ casTest is system of software tools (make files, scripts, library, and the
 casTest executable) which is designed to make test driven development in C++
 a bit easier.  Hopefully, quite a bit easier.  casTest is distributed with all
 source code.  It is available in an easy to use self-extracting tarball from
-one of my dropbox folders:
+one of my dropbox folders.  Just point your browser to:
 
     https://www.dropbox.com/sh/2wtklxt4tyqoant/AAA54F3BVCyvVCvJiYVz6WNPa?dl=0
 
-or can be cloned from GitHub:
+or use wget:
+    
+    wget https://www.dropbox.com/s/pv2xcu72m3z8nd0/installCast.bin
+ 
+If you like, you can clone the project from GitHub:
 
-    https://github.com/obibuffett/casTest.git
+    git clone https://github.com/obibuffett/casTest.git
 
 casTest started out as a personal project just to explore questions related
 to testing frameworks.  As someone once said, to figure out how something
@@ -95,7 +99,7 @@ or, of course,
 
     > source <castParentDir>/cast/castEnv.sourceMe.csh
 
-Installing Git Repository Clone
+Installing from Git Repository Clone
 -------------------------------
 If you obtained casTest by cloning a Git repository, just cd to the top level
 project directory and make the project:
@@ -145,7 +149,7 @@ first test.
     -- myTest.mak (make file for myTest.test)
     -- myTest.tpp (source file for myTest.test)
 
-  Despite the .tpp extension, myTest.tpp is a C++ source file.  It
+  Despite the .tpp suffix, myTest.tpp is a C++ source file.  It
   illustrates the use of the macros (defined in testCase.h) DEFINE_TEST
   and END_DEF.  These macros are provided to allow tests to be defined
   quickly and painlessly.  If you open myTest.tpp, you will see the
