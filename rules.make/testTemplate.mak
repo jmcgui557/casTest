@@ -27,7 +27,8 @@ TGT :=
 # EX:  
 #    TSTSRC := mytest.tpp
 #
-# NOTE: Currently, only one test source is allowed.
+# NOTE: Due to the way test sources are processed,
+#       only one test source may be listed.
 ################
 TSTSRC :=
 
@@ -39,25 +40,58 @@ SRCS :=
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,
 # and TDEPS will probably suffice for most tests.  However, if your
-# test requires special include pathss, compile/link flags, library
+# test requires special include paths, compile/link flags, library
 # paths, and/or libs, just include them below.
 ################
 
+##### TODO #####
+# If your target requires additional
+# include paths, list them here.
+#
+# EX:
+#    -I<projectIncludePath>
+################
 INCLUDES :=
 
-#Compile flags.
+##### TODO #####
+# If your target requires special
+# compile flags, list them here.
+#
+# EX:
+#    -fno-default-inline
+################
 CFLAGS :=
 
-#Link flags.
+##### TODO #####
+# If your target requires special
+# link flags, list them here.
+#
+# EX:
+#    -Wl,--no-as-needed
+################
 LFLAGS :=
 
-#Paths to libraries.
+##### TODO #####
+# Paths to libraries.
+#
+# EX:
+#     -L<pathToProjectLib>
+################
 LPATHS :=
 
-#Libraries target is to be linked to.
+##### TODO #####
+# If your target must be linked to
+# additional libraries, list them here.
+#
+# EX:
+#     -lrt
+################
 LIBS :=
 
-#Addition target dependencies.
+##### TODO #####
+# If your target has addition target
+# dependencies, list them here.
+################
 TDEPS :=
 
 include $(CAST_DIR)/rules.make/makefile.test

@@ -332,6 +332,43 @@ The setName() function is tested in run().  Then, the object created for the
 test is destroyed in tearDown().  A member variable, newPlayer_* is also 
 added to the class definition with private access.
 
+Generated make files
+--------------------
+As mentioned above, the first time you create a new test suite, three files are
+generated.  Of course, the test source file (.tpp file) and two make files.
+The first, Makefile, is a top-level make file and just calls the other make
+file (a single target make file with a .mak suffix) that was created.
+Subsequent uses of -addTestSuite within the same directory, will generate
+another test source and another single target make file, and will modify the
+top-level make file (Makefile) to add the new single target make file to the
+list of those called. 
+
+NOTE:  This method of make file management was chosen simply because it is
+       similar to other projects on which I have worked.  By collecting common
+       rules in project make files and including them, we are (in theory)
+       avoiding a lot of duplication in the make file heirarchy.  Of course,
+       I readily admit that I'm no make expert, but this seems to work pretty
+       well.  If you have a better idea, I'm all ears.
+
+The single target make files (.mak suffix) are meant to be edited.  Each
+includes comments indicating where it may be appropriate to customize.  For
+instance, if you are creating a test to test a class that depends on librt.so,
+just add "-lrt" to the LIBS macro:
+
+##### TODO #####
+# If your target must be linked to
+# additional libraries, list them here.
+#
+# EX:
+#     -lrt
+################
+LIBS := -lrt
+
+If you need additional sources, add them to the SRCS macro.  (Don't add any
+sources to the TSRCS macro as only one test source can be used.)  Instruction
+for most edits you may need to make to your .mak files are included as comments
+in the generated .mak file.
+
 Feedback is always welcome
 --------------------------
 Comments, question, and/or suggestions are most welcome.  Feel free to contact
