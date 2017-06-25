@@ -29,10 +29,10 @@ namespace cas
     const std::string
     TestLib::DestructorFunctionName("destroyTests");
 
-  TestLib::TestLib(const std::string& libname)
-      : libHandle_(0),
-        createTests_(0),
-	destroyTests_(0)
+    TestLib::TestLib(const std::string& libname)
+	: libHandle_(0),
+	  createTests_(0),
+	  destroyTests_(0)
     {
         libHandle_ = loadLibrary(libname);
         createTests_ = mapFunction(libHandle_, FactoryFunctionName);
