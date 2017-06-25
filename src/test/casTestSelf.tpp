@@ -206,8 +206,7 @@ void run()
 
     bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
 
-    Assert(false == cmdExecuted,
-           "Should not create cmd from arg without leading \'-\'");
+    CK(false == cmdExecuted);
 }
 END_DEF
 
@@ -234,8 +233,7 @@ void testCmdExecutes(const cas::CmdLine& cmdLine)
 {
     bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
 
-    Assert(cmdExecuted,
-           "Failed to execute command");
+    CK(cmdExecuted);
 }
 
 void verifyTargetMakefileExists(const cas::CmdLine& cmdLine)
@@ -243,8 +241,7 @@ void verifyTargetMakefileExists(const cas::CmdLine& cmdLine)
     std::string mkFile(cmdLine.args.back());
     mkFile += ".mak";
 
-    Assert(fileExists(mkFile),
-           "mkFile not found.");
+    CK(fileExists(mkFile));
 }
 
 void verifyTargetInMakefile(const cas::CmdLine& cmdLine)
@@ -255,14 +252,12 @@ void verifyTargetInMakefile(const cas::CmdLine& cmdLine)
     target += cmdLine.args.back();
     target += ".test";
 
-    Assert(verifyTarget(mkFile, target),
-           "Couldn't find target line");
+    CK(verifyTarget(mkFile, target));
 }
 
 void verifyMainMakefileExists()
 {
-    Assert(fileExists("Makefile"),
-           "Makefile not found");
+    CK(fileExists("Makefile"));
 }
 
 void verifyMainMakefileInternals(const cas::CmdLine& cmdLine)
@@ -288,14 +283,10 @@ void verifyMainMakefileInternals(const cas::CmdLine& cmdLine)
 
         if(std::string::npos != buffer.find("%:"))
             foundGlobalTarget = true;
-
-        if(std::string::npos != buffer.find("all:"))
-            foundAllTarget = true;
     }
 
-    Assert(foundMkLine, "Failed to find make line in Makefile");
-    Assert(foundGlobalTarget, "Failed to find \"%:\" in Makefile");
-    //Assert(foundAllTarget, "Failed to find all target");
+    CK(foundMkLine);
+    CK(foundGlobalTarget);
 }
 
 void verifyNoDuplicateMakeLines(const cas::CmdLine& cmdLine)
@@ -318,8 +309,7 @@ void verifyNoDuplicateMakeLines(const cas::CmdLine& cmdLine)
 	    ++count;
     }
     
-    Assert(1 == count,
-           "Wrong number of mkFileLine");
+    CK(1 == count);
 }
 
 void run()

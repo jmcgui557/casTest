@@ -4,7 +4,7 @@ Clean and Simple Test
 Author
 ------
 Randall White
-Copyright (C) 2015
+Copyright (C) 2015, 2017
 Released under the MIT license.
 (Please see LICENSE file in top-level directory.)
 
@@ -68,6 +68,9 @@ do the following:
     - do a full build of all targets (libcasTest.a, casTest, and selftest.test)
     - run the self tests located in <castParentDir>/cast/src/tests
 
+      NOTE: You can re-run the self tests by executing:
+      	    $> casTest <castParentDir>/test/selftest.test
+	    
 If you are installing as a normal user, installCast.bin will create a link
 to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
 You should source the file appropriate for your shell before beginning a test
@@ -106,7 +109,7 @@ project directory and make the project:
     > cd <casTestParentDir>/cast
     > make install
 
-The top-level make file is written to automatically generate the require
+The top-level make file is written to automatically generate the required
 environment scripts (for bash and csh), source the appropriate one (assuming 
 you are using bash or csh), and proceed to execute all make scripts
 in the project tree.  When executing "make install" the make targets are
@@ -159,13 +162,17 @@ first test.
   {
       bool val(false);
 
-      Assert(val,
-             "Please change val to true, and try again.");
+      CK(true == val);
   }
   END_DEF
 
-  As you can see, Assert() should fail when the line is executed as val is 
-  initially defined as false.  You can build and run the test using make.
+  casTest uses a single evaluation function, CK().  Well, actually it is
+  a macro that calls TestCase::Assert(), passing the condition, an error
+  string created from the condition source, and the file/line number.
+  As you can see, CK() should fail when the line is executed as val is 
+  initially defined as false.  When writing your tests, just pass an
+  expression that should evaluate to true.  You can build and run the
+  test using make.
 
 - Run make specifying 'test' as the target.
   > make test
@@ -186,8 +193,7 @@ first test.
   |  1..1
   |  not ok 1 - SanityTest
   |     ---
-  |     Caught cas::Test::Error: ERROR [testCase.cpp(58)]: Assertion FAILED: \
-  |  Please change val to true,  and try again.
+  |     Caught cas::Test::Error: Assertion(true == val) FAILED: statTest.cpp:8
   |     ---
   |  casTest: 1 tests FAILED.
   |  
@@ -349,6 +355,10 @@ NOTE:  This method of make file management was chosen simply because it is
        I readily admit that I'm no make expert, but this seems to work pretty
        well.  If you have a better idea, I'm all ears.
 
+NOTE2: We use the term test suite in a general sense.  There is no TestSuite
+       class defined by the project.  In typical use, a single test file
+       (test suite) will house several related tests.
+
 The single target make files (.mak suffix) are meant to be edited.  Each
 includes comments indicating where it may be appropriate to customize.  For
 instance, if you are creating a test to test a class that depends on librt.so,
@@ -364,7 +374,7 @@ just add "-lrt" to the LIBS macro:
 LIBS := -lrt
 
 If you need additional sources, add them to the SRCS macro.  (Don't add any
-sources to the TSRCS macro as only one test source can be used.)  Instruction
+sources to the TSRCS macro as only one test source can be used.)  Instructions
 for most edits you may need to make to your .mak files are included as comments
 in the generated .mak file.
 

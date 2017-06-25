@@ -39,12 +39,15 @@ namespace cas
             return name_;
         }
 
+	//deprecated.  better to use CK
         static void Assert(bool isTrue,
                            const std::string& errorMsg);
+
 	static void Assert(bool isTrue,
 			   const std::string& errorMsg,
 			   const char* file,
 			   size_t line);
+
         static void addTest(TestCase*);
 
     private:

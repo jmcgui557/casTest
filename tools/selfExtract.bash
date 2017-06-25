@@ -8,7 +8,7 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 #
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 # This text file is used to generate a self-extracting gzipped tar file
 # which extracts itself and accomplishes basic administrative tasks
@@ -31,7 +31,7 @@ copyrt=$"# The \"Clean And Simple Test\" (CAST) software framework, tools,
 # paperwork, no royalties, no GNU-like \"copyleft\" restrictions, either.
 # Just download it and use it.
 #
-# Copyright (c) 2015 Randall Lee White"
+# Copyright (c) 2015, 2017 Randall Lee White"
 
 testRootUser()
 {

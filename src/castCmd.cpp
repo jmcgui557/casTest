@@ -129,9 +129,7 @@ namespace cas
 		<< "void run()\n"
 		<< "{\n"
 		<< "    bool val(false);\n\n"
-		<< "    Assert(val,\n"
-		<< "           \"Please change val to true, "
-		<< " and try again.\");\n"
+		<< "    CK(true == val);\n"
 		<< "}\n"
 		<< "END_DEF\n\n"
 		<< std::endl;
@@ -171,7 +169,7 @@ namespace cas
 	        << "\nThank you for trying casTest.  casTest is meant to be "
 		<< "a clean and simple unit test framework.  "
 		<< "I hope you find it so....Randy"
-		<< "\n\n(C) 2015 Randall Lee White\n"
+		<< "\n\n(C) 2015, 2017 Randall Lee White\n"
 		<< std::endl;
 
 	    return true;

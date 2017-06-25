@@ -50,8 +50,10 @@ namespace cas
 
         std::string em("Assertion FAILED: ");
         em += errorMsg;
+	em += "\nWARNING: This version of Assert() has been deprecated \n"
+	      "           please use the CK() macro.\n";
 
-        throw xTest(em);
+	throw xTest(em);
     }
 
     void TestCase::Assert(bool isTrue,
@@ -62,7 +64,7 @@ namespace cas
         if(isTrue)
             return;
 
-        std::string em("Assertion (");
+        std::string em("Assertion(");
 	em += errorMsg;
 	em += ") FAILED: ";
 	em += file;
