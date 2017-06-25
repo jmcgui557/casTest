@@ -5,7 +5,7 @@
 // purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like
 // "copyleft" restrictions, either.  Just download it and use it.
 // 
-// Copyright (c) 2013-2015 Randall Lee White
+// Copyright (c) 2013-2015, 2017 Randall Lee White
 
 #ifndef CAS_TESTCASE_H
 #define CAS_TESTCASE_H
@@ -41,6 +41,10 @@ namespace cas
 
         static void Assert(bool isTrue,
                            const std::string& errorMsg);
+	static void Assert(bool isTrue,
+			   const std::string& errorMsg,
+			   const char* file,
+			   size_t line);
         static void addTest(TestCase*);
 
     private:
@@ -48,6 +52,7 @@ namespace cas
         std::string name_;
     };
 
+#define CK(cond) Assert(cond, #cond, __FILE__, __LINE__)
 
 #define DEFINE_TEST(name)                 \
     struct name : cas::TestCase           \

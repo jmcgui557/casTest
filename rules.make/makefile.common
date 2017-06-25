@@ -6,7 +6,7 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 # 
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 ###########################################################################
 # This make file is designed to be included by other make files for building
@@ -30,7 +30,7 @@ CFLAGS += -fpic -D_XOPEN_SOURCE=700
 INCLUDES += -I$(CAST_INC)
 
 #generated sources from .tpp files
-GSRC := $(TSTSRC:.tpp=$(TAG).cpp)
+GSRC := $(TSTSRC:.tpp=.cpp)
 
 SRCS += $(GSRC)
 
@@ -38,6 +38,7 @@ OBJS := $(SRCS:.cpp=$(TAG).o)
 DEPS := $(SRCS:.cpp=$(TAG).d)
 GCNOTES := $(SRCS:.cpp=$(TAG).gcno)
 GCDATS := $(SRCS:.cpp=$(TAG).gcda)
+GCOVS := $(SRCS:.cpp=.cpp.gcov)
 
 #If make is invoked with "TAG='-cov'", then CFLAGS and LIBS will be changed
 #to include the necessary flags to allow gcov to provide coverage info.
@@ -66,7 +67,7 @@ build: clean all
 %$(TAG).o : %.cpp
 	$(CC) -o $@ $(INCLUDES) $(CFLAGS) -c $<
 
-%$(TAG).cpp : %.tpp
+%.cpp : %.tpp
 	$(CAST_DIR)/tools/tpp2cpp.bash $<
 
 -include $(SRCS:.cpp=$(TAG).d)
@@ -74,7 +75,8 @@ build: clean all
 .PHONY: clean
 clean:
 	rm -f $(OBJS) $(DEPS) $(TGT) $(INSTALL_DIR)/$(TGT) \
-	   $(TGT).gcno $(GCNOTES) $(GCDATS) *.d.*
+	   $(TGT).gcno $(GCNOTES) $(GCDATS) *.d.* $(GENFILES) \
+	   $(GCOVS)
 
 .PHONY: veryclean
 veryclean: clean

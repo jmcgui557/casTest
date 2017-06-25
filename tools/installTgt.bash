@@ -8,12 +8,14 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 #
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 TGT=$1
 DST=$2
 
 if [ "" != "$DST" ]; then
+    mkdir -p $DST
+    echo "Installing $TGT to $DST"
     cp $TGT $DST
 fi
 

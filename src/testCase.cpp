@@ -6,7 +6,7 @@
 // paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 // Just download it and use it.
 // 
-// Copyright (c) 2015 Randall Lee White
+// Copyright (c) 2015, 2017 Randall Lee White
 
 #include "testCase.h"
 
@@ -18,16 +18,12 @@ namespace cas
     //OK, so this is a minor violation of the DRY principal,
     //but, this is meant for libcasTest.a and we get duplicate
     //symbol errors if we use createErrMsg() from casUtil.h
-    std::string createErrorMsg(const std::string& errMsg,
-			       const char* file,
-			       size_t line)
+    std::string createErrorMsg(const std::string& errMsg)
     {
         char buff[256];
 	snprintf(buff,
 		 256,
-		 "ERROR [%s(%lu)]: %s",
-		 file,
-		 line,
+		 "%s",
 		 errMsg.c_str());
 	
 	return std::string(buff);
@@ -36,7 +32,7 @@ namespace cas
     TestCase::Error::Error(const std::string& errMsg,
 			   const char* file,
 			   size_t line)
-        : std::runtime_error(createErrorMsg(errMsg, file, line))
+        : std::runtime_error(createErrorMsg(errMsg))
     {}
 
     TestCase::TestCase(const std::string& testName)
@@ -54,6 +50,28 @@ namespace cas
 
         std::string em("Assertion FAILED: ");
         em += errorMsg;
+
+        throw xTest(em);
+    }
+
+    void TestCase::Assert(bool isTrue,
+			  const std::string& errorMsg,
+			  const char* file,
+			  size_t line)
+    {
+        if(isTrue)
+            return;
+
+        std::string em("Assertion (");
+	em += errorMsg;
+	em += ") FAILED: ";
+	em += file;
+	em += ":";
+
+	char ln[64];
+	snprintf(ln, 64, "%d", line);
+
+	em += ln;
 
         throw xTest(em);
     }

@@ -6,15 +6,17 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 # 
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 #single target created by this makefile
 TGT := selftest.test
 
+INSTALL_DIR := $(CAST_DIR)/test
 INCLUDES := -I..
 
 #source for the target
 TSTSRC := casTestSelf.tpp
+GENFILES := $(TSTSRC:.tpp=.cpp) *.gcov
 
 SRCS := \
 	../castCmd.cpp \

@@ -19,6 +19,8 @@ SRCS := \
 	testLib.cpp \
 	usage.cpp
 
+GENFILES := *.gcov
+
 UNAME_S := $(shell uname -s)
 
 LIBS := -ldl
