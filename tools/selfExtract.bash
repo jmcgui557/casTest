@@ -62,9 +62,10 @@ getCastDir()
             #replace ~ and $HOME if present
             userInput="${userInput/#\~/$HOME}"
             userInput="${userInput/#\$HOME/$HOME}"
+	    userInput="$userInput/casTest"
         fi
 
-        if [[ $userInput =~ \$ ]]; then
+        if [ "${userInput:0:1}" == "\$" ]; then
             echo
             echo "ERROR: Can't interpret shell variables.  Please, try again."
             echo
