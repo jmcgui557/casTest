@@ -6,19 +6,20 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 # 
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2017 Randall Lee White
 
-all: install
-	$(MAKE) -f libcasTest.mak $@
-	$(MAKE) -f casTest.mak $@
-	$(MAKE) -C test $@
+TGT := tpp2cpp
+INSTALL_DIR := $(CAST_DIR)/tools
 
-build: clean
-	$(MAKE) -f libcasTest.mak install
-	$(MAKE) -f casTest.mak install
-	$(MAKE) -C test test
+SRCS := \
+     tpp2cpp.cpp
 
-%:
-	$(MAKE) -f libcasTest.mak $@
-	$(MAKE) -f casTest.mak $@
-	$(MAKE) -C test $@
+GENFILES := *.gcov
+
+UNAME_S := $(shell uname -s)
+
+CFLAGS := -g -Wall
+PFLAGS := -ftest-coverage -fprofile-arcs
+
+include $(CAST_DIR)/rules.make/makefile.exec
+

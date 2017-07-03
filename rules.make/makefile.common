@@ -68,7 +68,7 @@ build: clean all
 	$(CC) -o $@ $(INCLUDES) $(CFLAGS) -c $<
 
 %.cpp : %.tpp
-	$(CAST_DIR)/tools/tpp2cpp.bash $<
+	$(CAST_DIR)/bin/tpp2cpp $<
 
 -include $(SRCS:.cpp=$(TAG).d)
 

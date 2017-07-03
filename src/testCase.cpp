@@ -71,7 +71,7 @@ namespace cas
 	em += ":";
 
 	char ln[64];
-	snprintf(ln, 64, "%d", line);
+	snprintf(ln, 64, "%lu", line);
 
 	em += ln;
 

@@ -14,12 +14,15 @@ envScript := $(mkdir)castEnv.sourceMe.bash
 envScriptLink := $(HOME)/castEnv.sourceMe.bash
 
 all: autoSourceBuild
+	$(MAKE) -C tools/src $@
 	$(MAKE) -C src $@
 
 install: autoSourceBuild
+	$(MAKE) -C tools/src $@
 	$(MAKE) -C src $@
 
 distclean: autoSourceBuild
+	$(MAKE) -C tools/src veryclean
 	$(MAKE) -C src veryclean
 	rm -f `find . -name "*~"`
 	rm -f distro/*
@@ -28,6 +31,7 @@ distro: distclean
 	tools/makeDistro.bash
 
 %: autoSourceBuild
+	$(MAKE) -C tools/src $@
 	$(MAKE) -C src $@
 
 .PHONY: autoSourceBuild

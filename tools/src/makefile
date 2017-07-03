@@ -6,19 +6,13 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 # 
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2017 Randall Lee White
 
 all: install
-	$(MAKE) -f libcasTest.mak $@
-	$(MAKE) -f casTest.mak $@
-	$(MAKE) -C test $@
+	$(MAKE) -f tpp2cpp.mak $@
 
 build: clean
-	$(MAKE) -f libcasTest.mak install
-	$(MAKE) -f casTest.mak install
-	$(MAKE) -C test test
+	$(MAKE) -f tpp2cpp.mak install
 
 %:
-	$(MAKE) -f libcasTest.mak $@
-	$(MAKE) -f casTest.mak $@
-	$(MAKE) -C test $@
+	$(MAKE) -f tpp2cpp.Mak $@
