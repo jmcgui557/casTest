@@ -69,7 +69,7 @@ do the following:
     - run the self tests located in <castParentDir>/casTest/src/tests
 
       NOTE: You can re-run the self tests by executing:
-                 $> casTest <castParentDir>/test/selftest.test
+            $> casTest <castParentDir>/test/selftest.test
             
 If you are installing as a normal user, installCast.bin will create a link
 to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
@@ -201,24 +201,24 @@ first test.
   |  make: *** [test] Error 1
 
   NOTE1:  Of course if you prefer, instead of running "make test", you could 
-                run make, then execute casTest passing in myTest.test in a second
-                step.
+          run make, then execute casTest passing in myTest.test in a second
+          step.
 
-                $> make
-                $> casTest myTest.test
+          $> make
+          $> casTest myTest.test
 
-                You can also run multiple test suites from a single invocation.
+          You can also run multiple test suites from a single invocation.
 
-                $> casTest myTest.test myOtherTest.test ../yaTest/yaTest.test
+          $> casTest myTest.test myOtherTest.test ../yaTest/yaTest.test
 
   NOTE2:  The .test suffix is used to identify a shared library containing 
-                a collection of one or more tests (ie a suite of tests).  The
-                casTest executable loads each .test file specified on the command
-                line, maps appropriate symbols, then creates and executes the
-                tests within the shared library.  The .test suffix is only a
-                convention.  If you write your own make files, rather than using
-                the -addTestSuite command option to casTest, you can name them
-                anything you like.
+          a collection of one or more tests (ie a suite of tests).  The
+          casTest executable loads each .test file specified on the command
+          line, maps appropriate symbols, then creates and executes the
+          tests within the shared library.  The .test suffix is only a
+          convention.  If you write your own make files, rather than using
+          the -addTestSuite command option to casTest, you can name them
+          anything you like.
 
 - Next, edit myTest.tpp changing the line "bool val(false);" to read
   "bool val(true);"
@@ -370,9 +370,9 @@ all lines from @SKIP through END_DEF being commented out in the generated
       //}
       //END_DEF
 
-NOTE:  As a new capability, this feature is not quite completed.  While any test
-            marked with @SKIP will be skipped, it will not be counted or reported in
-            the output of casTest.
+ NOTE:  As a new capability, this feature is not quite completed.  While any test
+        marked with @SKIP will be skipped, it will not be counted or reported in
+        the output of casTest.
 
 Generated make files
 --------------------
@@ -385,16 +385,16 @@ another test source and another single target make file, and will modify the
 top-level make file (Makefile) to add the new single target make file to the
 list of those called. 
 
-NOTE:  This method of make file management was chosen simply because it is
-            similar to other projects on which I have worked.  By collecting common
-            rules in project make files and including them, we are (in theory)
-            avoiding a lot of duplication in the make file heirarchy.  Of course,
-            I readily admit that I'm no make expert, but this seems to work pretty
-            well.  If you have a better idea, I'm all ears.
+ NOTE:  This method of make file management was chosen simply because it is
+        similar to other projects on which I have worked.  By collecting common
+        rules in project make files and including them, we are (in theory)
+        avoiding a lot of duplication in the make file heirarchy.  Of course,
+        I readily admit that I'm no make expert, but this seems to work pretty
+        well.  If you have a better idea, I'm all ears.
 
-NOTE2: We use the term test suite in a general sense.  There is no TestSuite
-             class defined by the project.  In typical use, a single test file
-             (test suite) will house several related tests.
+ NOTE2: We use the term test suite in a general sense.  There is no TestSuite
+        class defined by the project.  In typical use, a single test file
+        (test suite) will house several related tests.
 
 The single target make files (.mak suffix) are meant to be edited.  Each
 includes comments indicating where it may be appropriate to customize.  For
