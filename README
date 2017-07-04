@@ -57,7 +57,7 @@ or
 Whether you install as a normal user or as root, you will be prompted for
 a top-level installation location.  To accept the displayed default location,
 just hit [enter].  The default installation location for normal users is
-$HOME/cast.  For root it is /usr/local/cast.
+$HOME/casTest.  For root it is /usr/local/casTest.
 
 After entering (or accepting) the installation location, installCast.bin will
 do the following:
@@ -66,11 +66,11 @@ do the following:
     - create resource scripts (castEnv.sourceMe.bash and castEnv.sourceMe.csh)
       in the installation directory
     - do a full build of all targets (libcasTest.a, casTest, and selftest.test)
-    - run the self tests located in <castParentDir>/cast/src/tests
+    - run the self tests located in <castParentDir>/casTest/src/tests
 
       NOTE: You can re-run the self tests by executing:
-      	    $> casTest <castParentDir>/test/selftest.test
-	    
+                 $> casTest <castParentDir>/test/selftest.test
+            
 If you are installing as a normal user, installCast.bin will create a link
 to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
 You should source the file appropriate for your shell before beginning a test
@@ -82,32 +82,32 @@ to remove the need to source one of these files.  If you are installing
 as root, these links will not be created.  In this case, users wishing to,
 may create the link themselves:
 
-    #Creating a link to /usr/local/cast/castEnv.sourceMe.bash
-    > cd $HOME
-    > ln -s /usr/local/cast/castEnv.sourceMe.bash .
+    #Creating a link to /usr/local/casTest/castEnv.sourceMe.bash
+    $> cd $HOME
+    $> ln -s /usr/local/casTest/castEnv.sourceMe.bash .
 
     or for tcsh or csh
 
-    #Creating a link to /usr/local/cast/castEnv.sourceMe.bash
-    > cd $HOME
-    > ln -s /usr/local/cast/castEnv.sourceMe.csh .
+    #Creating a link to /usr/local/casTest/castEnv.sourceMe.csh
+    $> cd $HOME
+    $> ln -s /usr/local/casTest/castEnv.sourceMe.csh .
 
 Whether installed as a normal user or root, castEnv.sourceMe.[bash|csh] can
 be sourced directly from the installation directory:
 
-    > . <castParentDir>/cast/castEnv.sourceMe.bash
+    $> . <castParentDir>/casTest/castEnv.sourceMe.bash
 
 or, of course,
 
-    > source <castParentDir>/cast/castEnv.sourceMe.csh
+    $> source <castParentDir>/casTest/castEnv.sourceMe.csh
 
 Installing from Git Repository Clone
 -------------------------------
 If you obtained casTest by cloning a Git repository, just cd to the top level
 project directory and make the project:
 
-    > cd <casTestParentDir>/cast
-    > make install
+    $> cd <casTestParentDir>/casTest
+    $> make install
 
 The top-level make file is written to automatically generate the required
 environment scripts (for bash and csh), source the appropriate one (assuming 
@@ -115,11 +115,12 @@ you are using bash or csh), and proceed to execute all make scripts
 in the project tree.  When executing "make install" the make targets are
 installed as follows:
           
-          - casTest (executable): <casParentDir>/cast/bin
-          - libcasTest.a: <castParentDir>/cast/lib
-          - selftest.test: <castParentDir/cast/test
-          - casTest.sourceMe.bash: <castParentDir>/cast
-          - casTest.sourceMe.csh: <castParentDir>/cast
+          - casTest (executable): <casParentDir>/casTest/bin
+          - tpp2cpp (executable): <casParentDir>/casTest/bin
+          - libcasTest.a: <castParentDir>/casTest/lib
+          - selftest.test: <castParentDir/casTest/test
+          - casTest.sourceMe.bash: <castParentDir>/casTest
+          - casTest.sourceMe.csh: <castParentDir>/casTest
           - casTest.sourceMe.bash: linked to $HOME
           - casTest.sourceMe.csh: linked to $HOME
 
@@ -132,18 +133,18 @@ castEnv.sourceMe.csh for csh or tcsh) and you'll be ready to create your
 first test.  
  
 - Source castEnv.sourceMe.bash.
-  > . ~/castEnv.sourceMe.bash
+  $> . ~/castEnv.sourceMe.bash
   
   or
   
-  > source ~/castEnv.sourceMe.csh
+  $> source ~/castEnv.sourceMe.csh
 
 - Create a test dir and cd to it.
-  > mkdir ~/myTestDir
-  > cd ~/myTestDir
+  $> mkdir ~/myTestDir
+  $> cd ~/myTestDir
 
 - Initialize a new test suite.
-  > casTest -addTestSuite myTest
+  $> casTest -addTestSuite myTest
 
   This step produces three files within the new directory:
     -- Makefile (which calls other casTest generated make files within the
@@ -175,13 +176,13 @@ first test.
   test using make.
 
 - Run make specifying 'test' as the target.
-  > make test
+  $> make test
 
   This step processes myTest.tpp, creates myTest.cpp, and builds, then runs
   the test (myTest.test).  The output will be similar to the following:
 
-  |  /<CAST_DIR>/tools/tpp2cpp.bash myTest.tpp
-  |  tpp2cpp.bash: myTest.tpp -> myTest.cpp
+  |  /<CAST_DIR>/tools/tpp2cpp myTest.tpp
+  |  tpp2cpp: myTest.tpp -> myTest.cpp
   |  src: myTest.tpp dst: myTest.cpp
   |  /usr/bin/g++ -o myTest.o  -I/<CAST_DIR>/include  -fpic\
   |     -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myTest.cpp
@@ -200,35 +201,35 @@ first test.
   |  make: *** [test] Error 1
 
   NOTE1:  Of course if you prefer, instead of running "make test", you could 
-          run make, then execute casTest passing in myTest.test in a second
-          step.
+                run make, then execute casTest passing in myTest.test in a second
+                step.
 
-          > make
-          > casTest myTest.test
+                $> make
+                $> casTest myTest.test
 
-          You can also run multiple test suites from a single invocation.
+                You can also run multiple test suites from a single invocation.
 
-          > casTest myTest.test myOtherTest.test ../yaTest/yaTest.test
+                $> casTest myTest.test myOtherTest.test ../yaTest/yaTest.test
 
   NOTE2:  The .test suffix is used to identify a shared library containing 
-          a collection of one or more tests (ie a suite of tests).  The
-          casTest executable loads each .test file specified on the command
-          line, maps appropriate symbols, then creates and executes the
-          tests within the shared library.  The .test suffix is only a
-          convention.  If you write your own make files, rather than using
-          the -addTestSuite command option to casTest, you can name them
-          anything you like.
+                a collection of one or more tests (ie a suite of tests).  The
+                casTest executable loads each .test file specified on the command
+                line, maps appropriate symbols, then creates and executes the
+                tests within the shared library.  The .test suffix is only a
+                convention.  If you write your own make files, rather than using
+                the -addTestSuite command option to casTest, you can name them
+                anything you like.
 
 - Next, edit myTest.tpp changing the line "bool val(false);" to read
   "bool val(true);"
 
 - Rerun the test.
-  > make test
+  $> make test
 
   The output will now indicate success:
 
-  |  /<CAST_DIR>/tools/tpp2cpp.bash myTest.tpp
-  |  tpp2cpp.bash: myTest.tpp -> myTest.cpp
+  |  /<CAST_DIR>/tools/tpp2cpp myTest.tpp
+  |  tpp2cpp: myTest.tpp -> myTest.cpp
   |  src: myTest.tpp dst: myTest.cpp
   |  /usr/bin/g++ -o myTest.o  -I/<CAST_DIR>/include  -fpic\
   |  -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myTest.cpp
@@ -295,7 +296,7 @@ test case class that is intended to be used as a base class for other test
 classes rather than executed as a test in and of itself.  
 DEFINE_TEST_FROM(<derivedTestName>, <baseTestName>) is used to derive a test
 from another test.  There are examples of the use of these macros in
-casTestSelf.tpp in the test directory (<casParentDir>/cast/src/test).
+casTestSelf.tpp in the test directory (<casParentDir>/casTest/src/test).
 
 As you can see, the macros are simply convenient tools to define a class and
 provide a constructor that calls the base class, "cas::TestCase", passing the
@@ -337,6 +338,42 @@ The setName() function is tested in run().  Then, the object created for the
 test is destroyed in tearDown().  A member variable, newPlayer_* is also 
 added to the class definition with private access.
 
+Skipping Tests
+---------------------
+A test can be skipped by adding the string "@SKIP" just above the line that
+defines a test.  For instance the following test will be skipped.
+
+       //myTest.tpp
+      @SKIP
+      DEFINE_TEST(MyTest)
+      void run()
+      {
+          bool val(false);
+
+          Assert(false, "Please change val to true.");
+      }
+      END_DEF
+
+The string "@SKIP" must appear on the line before either the DEFINE_TEST or
+the DEFINE_TEST_FROM macros.  Using the "@SKIP" string will be result in 
+all lines from @SKIP through END_DEF being commented out in the generated
+.cpp file.
+
+      //myTest.cpp
+      //@SKIP
+      //DEFINE_TEST(MyTest)
+      //void run()
+      //{
+      //    bool val(false);
+      //
+      //    Assert(false, "Please change val to true.");
+      //}
+      //END_DEF
+
+NOTE:  As a new capability, this feature is not quite completed.  While any test
+            marked with @SKIP will be skipped, it will not be counted or reported in
+            the output of casTest.
+
 Generated make files
 --------------------
 As mentioned above, the first time you create a new test suite, three files are
@@ -349,15 +386,15 @@ top-level make file (Makefile) to add the new single target make file to the
 list of those called. 
 
 NOTE:  This method of make file management was chosen simply because it is
-       similar to other projects on which I have worked.  By collecting common
-       rules in project make files and including them, we are (in theory)
-       avoiding a lot of duplication in the make file heirarchy.  Of course,
-       I readily admit that I'm no make expert, but this seems to work pretty
-       well.  If you have a better idea, I'm all ears.
+            similar to other projects on which I have worked.  By collecting common
+            rules in project make files and including them, we are (in theory)
+            avoiding a lot of duplication in the make file heirarchy.  Of course,
+            I readily admit that I'm no make expert, but this seems to work pretty
+            well.  If you have a better idea, I'm all ears.
 
 NOTE2: We use the term test suite in a general sense.  There is no TestSuite
-       class defined by the project.  In typical use, a single test file
-       (test suite) will house several related tests.
+             class defined by the project.  In typical use, a single test file
+             (test suite) will house several related tests.
 
 The single target make files (.mak suffix) are meant to be edited.  Each
 includes comments indicating where it may be appropriate to customize.  For
