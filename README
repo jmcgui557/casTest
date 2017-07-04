@@ -12,7 +12,7 @@ ranwhite@gmail.com
 
 Introduction
 ------------
-casTest is system of software tools (make files, scripts, library, and the
+casTest is a system of software tools (make files, scripts, library, and the
 casTest executable) which is designed to make test driven development in C++
 a bit easier.  Hopefully, quite a bit easier.  casTest is distributed with all
 source code.  It is available in an easy to use self-extracting tarball from
@@ -33,12 +33,16 @@ to testing frameworks.  As someone once said, to figure out how something
 works, sometimes you have to implement it yourself.  (I seem to recall reading
 this in one of Scott Meyers' books, but I can't seem to find the quote.  If
 I have this wrong, my apologies to both Scott Meyers and the actual author.)
-The casTest framework is the result of this exploration and was built using
+The casTest framework is the result of this exploration and was developed using
 Test Driven Development principles.  Although the suite of tests found in 
 <CAST_DIR>/src/test/selftest.test is now loaded as any other suite of tests
 built to be executed with casTest, they started out as self-test routines
 within casTest.cpp.  They were refactored after casTest had matured
 sufficiently.
+
+As the name suggests, a major goal for the project the application of 
+[Robert C. Martin's SOLID principles](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
+
 
 Installing from the Self-extracting tarball
 --------------------------------------
