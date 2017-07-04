@@ -40,8 +40,8 @@ built to be executed with casTest, they started out as self-test routines
 within casTest.cpp.  They were refactored after casTest had matured
 sufficiently.
 
-As the name suggests, a major goal for the project the application of 
-Robert C. Martin's SOLID principles (https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
+A major goal for the project is the application of Robert C. Martin's SOLID principles
+(https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)) of software development.
 
 
 Installing from the Self-extracting tarball
