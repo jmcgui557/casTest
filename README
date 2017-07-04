@@ -40,8 +40,9 @@ built to be executed with casTest, they started out as self-test routines
 within casTest.cpp.  They were refactored after casTest had matured
 sufficiently.
 
-A major goal for the project is the application of Robert C. Martin's SOLID principles
-(https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)) of software development.
+A primary goal of the project is to keep the code clean and simple by applying the
+SOLID principles of software design as described by Robert C. Martin
+(https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
 
 
 Installing from the Self-extracting tarball
@@ -105,6 +106,7 @@ or, of course,
 
     $> source <castParentDir>/casTest/castEnv.sourceMe.csh
 
+
 Installing from Git Repository Clone
 -------------------------------
 If you obtained casTest by cloning a Git repository, just cd to the top level
@@ -129,6 +131,7 @@ installed as follows:
           - casTest.sourceMe.csh: linked to $HOME
 
 Source the appropriate file before using casTest.
+
 
 Quick Start
 --------------------------------------
@@ -253,6 +256,7 @@ Hopefully, this short intro will get you started.  For more detailed
 information about the working of casTest, see the manual (well, once its
 complete...it's still under construction).
 
+
 Convenience Macros
 ------------------
 As mentioned in the Quick Start section above, a test can be created with
@@ -342,6 +346,7 @@ The setName() function is tested in run().  Then, the object created for the
 test is destroyed in tearDown().  A member variable, newPlayer_* is also 
 added to the class definition with private access.
 
+
 Skipping Tests
 ---------------------
 A test can be skipped by adding the string "@SKIP" just above the line that
@@ -377,6 +382,7 @@ all lines from @SKIP through END_DEF being commented out in the generated
  NOTE:  As a new capability, this feature is not quite completed.  While any test
         marked with @SKIP will be skipped, it will not be counted or reported in
         the output of casTest.
+
 
 Generated make files
 --------------------
@@ -418,6 +424,7 @@ If you need additional sources, add them to the SRCS macro.  (Don't add any
 sources to the TSRCS macro as only one test source can be used.)  Instructions
 for most edits you may need to make to your .mak files are included as comments
 in the generated .mak file.
+
 
 Feedback is always welcome
 --------------------------
