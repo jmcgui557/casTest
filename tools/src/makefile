@@ -15,4 +15,4 @@ build: clean
 	$(MAKE) -f tpp2cpp.mak install
 
 %:
-	$(MAKE) -f tpp2cpp.Mak $@
+	$(MAKE) -f tpp2cpp.mak $@

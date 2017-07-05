@@ -7,6 +7,7 @@
 // Just download it and use it.
 //
 // Copyright (c) 2017 Randall Lee White
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>

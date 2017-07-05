@@ -6,7 +6,7 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 # 
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 all: install
 	$(MAKE) -f libcasTest.mak $@
