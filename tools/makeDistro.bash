@@ -8,7 +8,7 @@
 # paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 # Just download it and use it.
 #
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 tarBall=cast.tgz
 
@@ -19,9 +19,17 @@ tarFiles()
     tar -czf distro/$tarBall $files
 }
 
+createDistroDir()
+{
+    if [ ! -d distro ]; then
+	mkdir distro
+    fi
+}
+
 buildInstallScript()
 {
     rm -rf distro/*
+    createDistroDir
     cp tools/selfExtract.bash distro
     tarFiles
 
