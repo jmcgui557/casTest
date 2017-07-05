@@ -18,21 +18,27 @@ namespace cas
     //OK, so this is a minor violation of the DRY principal,
     //but, this is meant for libcasTest.a and we get duplicate
     //symbol errors if we use createErrMsg() from casUtil.h
-    std::string createErrorMsg(const std::string& errMsg)
+    std::string createErrorMsg(const std::string& errMsg,
+                               const char* file,
+                               size_t line)
     {
         char buff[256];
-	snprintf(buff,
-		 256,
-		 "%s",
-		 errMsg.c_str());
-	
-	return std::string(buff);
+        snprintf(buff,
+                 256,
+                 "%s: %s:%lu",
+                 errMsg.c_str(),
+                 file,
+                 line);
+        
+        return std::string(buff);
     }
 
     TestCase::Error::Error(const std::string& errMsg,
-			   const char* file,
-			   size_t line)
-        : std::runtime_error(createErrorMsg(errMsg))
+                           const char* file,
+                           size_t line)
+        : std::runtime_error(createErrorMsg(errMsg,
+                                            file,
+                                            line))
     {}
 
     TestCase::TestCase(const std::string& testName)
@@ -50,32 +56,25 @@ namespace cas
 
         std::string em("Assertion FAILED: ");
         em += errorMsg;
-	em += "\nWARNING: This version of Assert() has been deprecated \n"
-	      "           please use the CK() macro.\n";
+        em += "\nWARNING: This version of Assert() has been deprecated \n"
+            "           please use the CK() macro.\n";
 
-	throw xTest(em);
+        throw Error(em, __FILE__, __LINE__);
     }
 
     void TestCase::Assert(bool isTrue,
-			  const std::string& errorMsg,
-			  const char* file,
-			  size_t line)
+                          const std::string& expectedConditionString,
+                          const char* file,
+                          size_t line)
     {
         if(isTrue)
             return;
 
         std::string em("Assertion(");
-	em += errorMsg;
-	em += ") FAILED: ";
-	em += file;
-	em += ":";
+        em += expectedConditionString;
+        em += ") FAILED";
 
-	char ln[64];
-	snprintf(ln, 64, "%lu", line);
-
-	em += ln;
-
-        throw xTest(em);
+        throw Error(em, file, line);
     }
 
     void TestCase::setUp()

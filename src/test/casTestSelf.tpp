@@ -55,7 +55,7 @@ void setUp()
     
 void run()
 {
-    throw xTest("TestCase::Error");
+    CK(false);
 }
 END_DEF
 
@@ -114,9 +114,8 @@ void run()
     {
         success = true;
     }
-	
-    if(!success)
-        throw xTest("TestCaseErrorTestCaseTest failed");
+
+    CK(success);
 }
 END_DEF
 
@@ -139,8 +138,7 @@ void run()
         success = true;
     }
 	
-    if(!success)
-      throw xTest("StdExceptionTestCaseTest falied");
+    CK(success);
 }
 END_DEF
 
@@ -167,8 +165,7 @@ void run()
         success = true;
     }
 	
-    if(!success)
-      throw xTest("UnknowExceptionTestCaseTest failed");
+    CK(success);
 }
 END_DEF
 

@@ -25,8 +25,6 @@ namespace cas
 		size_t line);
         };
 
-#define xTest(msg) cas::TestCase::Error(msg, __FILE__, __LINE__)
-
         TestCase(const std::string& testName);
         virtual ~TestCase();
 
