@@ -10,6 +10,7 @@ Released under the MIT license.
 
 ranwhite@gmail.com
 
+===============================================================================
 Introduction
 ------------
 casTest is a system of software tools (make files, scripts, library, and the
@@ -23,7 +24,8 @@ one of my dropbox folders.  Just point your browser to:
 or use wget:
     
     wget https://www.dropbox.com/s/pv2xcu72m3z8nd0/installCast.bin
- 
+    wget https://www.dropbox.com/s/t2330ar0qupxz9n/installCast.bin.sha1
+
 If you like, you can clone the project from GitHub:
 
     git clone https://github.com/obibuffett/casTest.git
@@ -44,6 +46,8 @@ A primary goal of the project is to keep the code clean and simple by applying t
 SOLID principles of software design as described by Robert C. Martin
 (https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
 
+
+===============================================================================
 
 Installing from the Self-extracting tarball
 --------------------------------------
@@ -132,6 +136,8 @@ installed as follows:
 
 Source the appropriate file before using casTest.
 
+
+===============================================================================
 
 Quick Start
 --------------------------------------
@@ -424,6 +430,8 @@ sources to the TSRCS macro as only one test source can be used.)  Instructions
 for most edits you may need to make to your .mak files are included as comments
 in the generated .mak file.
 
+
+===============================================================================
 
 Feedback is always welcome
 --------------------------
