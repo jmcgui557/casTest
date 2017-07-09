@@ -78,7 +78,7 @@ do the following:
     - run the self tests located in <castParentDir>/casTest/src/tests
 
       NOTE: You can re-run the self tests by executing:
-            $> casTest <castParentDir>/test/selftest.test
+            $> casTest <castParentDir>/casTest/test/selftest.test
             
 If you are installing as a normal user, installCast.bin will create a link
 to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
