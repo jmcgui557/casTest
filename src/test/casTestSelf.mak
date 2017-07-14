@@ -22,6 +22,7 @@ SRCS := \
 	../castCmd.cpp \
 	../castUtil.cpp \
 	../cmdLine.cpp \
+	../tsMakefile.cpp \
 	../usage.cpp
 
 #Compile flags.

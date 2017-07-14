@@ -12,6 +12,8 @@
 
 #include "castUtil.h"
 #include "cmdLine.h"
+#include "tsMakefile.h"
+
 #include "trace.h"
 
 #include <cstdlib>
@@ -65,7 +67,8 @@ namespace cas
         AddTestSuiteCmd(const CmdLine& cmdLine)
 	  : CastCmd(cmdLine),
 	    testName_(),
-	    makefileName_()
+	    makefileName_(),
+	    makefile_()
         {
 	    if(2 > cmdLine.args.size())
 	        throw xCastCmd("Too few args for -addTestSuite command");
@@ -73,43 +76,24 @@ namespace cas
 	    testName_ = cmdLine.args[1];
 	    makefileName_ = testName_;
 	    makefileName_ += ".mak";
+
 	}
 
-        void createMainMakefileIfNecessary()
+        bool updateMainMakefile()
         {
-	  if(0 == access("Makefile", F_OK))
-	    return;
-
-	  std::ofstream mkfile("Makefile");
-	  mkfile << "%:" << std::endl;
-	}
-
-        bool populateMainMakefile(const std::string& makefileName_)
-        {
-	    createMainMakefileIfNecessary();
-
-	    bool lineFound(false);
-	    std::string mkfileLine("\t$(MAKE) -f ");
-	    mkfileLine += makefileName_;
-	    mkfileLine += " $@";
-	    
-	    std::ofstream tmp("Makefile.tmp");
-	    std::ifstream ori("Makefile");
-	    std::string buffer;
-	    
-	    while(std::getline(ori, buffer))
 	    {
-		if(0 == buffer.compare(mkfileLine))
-		    lineFound = true;
-
-		tmp << buffer << '\n';
+		std::ifstream mkfile("Makefile");
+		
+		makefile_.read(mkfile);
 	    }
+	    
+	    makefile_.addRecipe(testName_);
 
-	    if(!lineFound)
-	        tmp << mkfileLine << std::endl;
+	    {
+		std::ofstream mkfile("Makefile");
 
-	    remove("Makefile");
-	    rename("Makefile.tmp", "Makefile");
+		makefile_.write(mkfile);
+	    }
 	  
 	    return true;
 	}
@@ -124,7 +108,7 @@ namespace cas
 					   testName_))
 	        return false;
 
-	    return populateMainMakefile(makefileName_);
+	    return updateMainMakefile();
 	}
 
         bool createSource()
@@ -162,9 +146,10 @@ namespace cas
 	    return true;
         }
 
-      private:
-          std::string testName_;
-          std::string makefileName_;
+    private:
+	std::string testName_;
+	std::string makefileName_;
+	TestSuiteMakefile makefile_;
     };
 
     struct AboutCmd : CastCmd

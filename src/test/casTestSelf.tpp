@@ -306,7 +306,7 @@ void verifyNoDuplicateMakeLines(const cas::CmdLine& cmdLine)
 	    ++count;
     }
     
-    CK(1 == count);
+    CK(2 == count);
 }
 
 void run()
