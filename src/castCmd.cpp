@@ -79,25 +79,22 @@ namespace cas
 
 	}
 
-        bool updateMainMakefile()
+        bool exec()
         {
-	    {
-		std::ifstream mkfile("Makefile");
-		
-		makefile_.read(mkfile);
-	    }
-	    
-	    makefile_.addRecipe(testName_);
+	    const char* castDir(getenv("CAST_DIR"));
 
-	    {
-		std::ofstream mkfile("Makefile");
+	    if(!castDir)
+	        throw xCastCmd("$CAST_DIR not defined");
 
-		makefile_.write(mkfile);
-	    }
-	  
+	    if(!createMakeFile(castDir))
+	        throw xCastCmd("Couldn't copy makefile template");
+
+	    createSource();
+
 	    return true;
-	}
+        }
 
+    private:
         bool createMakeFile(const std::string& castDir)
         { 
 	    std::string mkTemplate(castDir);
@@ -131,22 +128,29 @@ namespace cas
 	    return true;
 	}
 
-        bool exec()
+	void readMakefile()
+	{
+	    std::ifstream mkfile("Makefile");
+	    
+	    makefile_.read(mkfile);
+	}
+
+        bool updateMainMakefile()
         {
-	    const char* castDir(getenv("CAST_DIR"));
-
-	    if(!castDir)
-	        throw xCastCmd("$CAST_DIR not defined");
-
-	    if(!createMakeFile(castDir))
-	        throw xCastCmd("Couldn't copy makefile template");
-
-	    createSource();
-
+	    readMakefile();
+	    makefile_.addRecipe(testName_);
+	    writeMakefile();
+	  
 	    return true;
-        }
+	}
 
-    private:
+	void writeMakefile()
+	{
+	    std::ofstream mkfile("Makefile");
+	    
+	    makefile_.write(mkfile);
+	}
+	    
 	std::string testName_;
 	std::string makefileName_;
 	TestSuiteMakefile makefile_;
