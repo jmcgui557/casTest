@@ -35,6 +35,7 @@ buildInstallScript()
 
     cd distro
     cat selfExtract.bash $tarBall > installCast.bin
+    sha1sum installCast.bin > installCast.bin.sha1
 
     chmod 775 installCast.bin
     rm -f selfExtract.bash $tarBall
