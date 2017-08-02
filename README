@@ -209,7 +209,11 @@ first test.
   |     ---
   |     Caught cas::Test::Error: Assertion(true == val) FAILED: statTest.cpp:8
   |     ---
-  |  casTest: 1 tests FAILED.
+  |  Test Summary:
+  |      Tests ran: 1
+  |         Passed: 0
+  |    	   Skipped: 0
+  |         Failed: 1
   |  
   |  make: *** [test] Error 1
 
@@ -253,7 +257,11 @@ first test.
   |  casTest: Running tests from: myTest.test
   |  1..1
   |  ok 1 - SanityTest
-  |  casTest: All tests PASSED.
+  |  Test Summary:
+  |      Tests ran: 1
+  |         Passed: 1
+  |    	   Skipped: 0
+  |         Failed: 0
 
 - Other tests can be added to myTest.tpp to create an entire suite of tests.
   Typically, several related tests will be added to the same .tpp file.
@@ -383,10 +391,6 @@ all lines from @SKIP through END_DEF being commented out in the generated
       //    CK(true == false);
       //}
       //END_DEF
-
- NOTE:  As a new capability, this feature is not quite completed.  While any test
-        marked with @SKIP will be skipped, it will not be counted or reported in
-        the output of casTest.
 
 
 Generated make files
