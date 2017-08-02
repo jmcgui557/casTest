@@ -20,12 +20,21 @@ namespace cas
     {
         struct Error : std::runtime_error
         {
-	  Error(const std::string& errMsg,
-		const char* file,
-		size_t line);
+          Error(const std::string& errMsg,
+                const char* file,
+                size_t line);
         };
 
-        TestCase(const std::string& testName);
+        struct TestSkipped : std::runtime_error
+        {
+            TestSkipped(const char* file,
+                        size_t line)
+                : std::runtime_error("Test Skipped")
+            {}
+        };
+        
+        TestCase(const std::string& testName,
+                 bool skip = false);
         virtual ~TestCase();
 
         virtual void setUp();
@@ -37,19 +46,29 @@ namespace cas
             return name_;
         }
 
-	//deprecated.  better to use CK
+        void run_()
+        {
+            if(skip_)
+                throw TestSkipped(__FILE__,
+                                  __LINE__);
+
+            run();
+        }
+
+        //deprecated.  better to use CK
         static void Assert(bool isTrue,
                            const std::string& errorMsg);
 
-	static void Assert(bool isTrue,
-			   const std::string& errorMsg,
-			   const char* file,
-			   size_t line);
+        static void Assert(bool isTrue,
+                           const std::string& errorMsg,
+                           const char* file,
+                           size_t line);
 
         static void addTest(TestCase*);
 
     private:
-	
+        
+        bool skip_;
         std::string name_;
     };
 
@@ -66,11 +85,12 @@ namespace cas
     struct name : cas::TestCase           \
     {                                     \
         name()                            \
-            : TestCase(#name)             \
+        : TestCase(#name)                 \
         {}                                \
                                           \
-        name(const std::string& testName) \
-            : TestCase(testName)          \
+    name(const std::string& testName,     \
+         bool skip = false)               \
+         : TestCase(testName, skip)       \
         {}
 
 #define DEFINE_TEST_FROM(derived, base) \
@@ -82,7 +102,25 @@ namespace cas
 
 #define END_DEF };
 
-}
+#define SKIP_TEST(name)                   \
+    struct name : cas::TestCase           \
+    {                                     \
+        name()                            \
+        : TestCase(#name, true)           \
+        {}                                \
+                                          \
+        name(const std::string& testName) \
+        : TestCase(testName, true)        \
+        {}
+
+#define SKIP_TEST_FROM(derived, base)   \
+    struct derived : base               \
+    {                                   \
+        derived()                       \
+        : base(#derived, true)          \
+        {}
+
+} //namespace cas
 
 extern "C"
 {

@@ -20,6 +20,7 @@ all: autoSourceBuild
 install: autoSourceBuild
 	$(MAKE) -C tools/src $@
 	$(MAKE) -C src $@
+	$(MAKE) -C tools/src/test $@
 
 distclean: autoSourceBuild
 	$(MAKE) -C tools/src veryclean

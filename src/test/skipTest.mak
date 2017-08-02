@@ -13,7 +13,7 @@
 # EX:
 #    TGT := mytest.test
 ################
-TGT := testSuiteMakefile.test
+TGT := skipTest.test
 
 INSTALL_DIR := $(CAST_DIR)/test
 
@@ -32,12 +32,12 @@ INSTALL_DIR := $(CAST_DIR)/test
 # NOTE: Due to the way test sources are processed,
 #       only one test source may be listed.
 ################
-TSTSRC := testSuiteMakefile.tpp
+TSTSRC := skipTest.tpp
 
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../tsMakefile.cpp
+SRCS := 
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,
@@ -53,7 +53,7 @@ SRCS := ../tsMakefile.cpp
 # EX:
 #    -I<projectIncludePath>
 ################
-INCLUDES := -I..
+INCLUDES :=
 
 ##### TODO #####
 # If your target requires special

@@ -12,10 +12,13 @@
 
 #include <string>
 
+struct TestSummary;
+
 namespace cas
 {
     //returns number of failed tests
-    size_t runTestsFromLibrary(const std::string& libname);
+    void runTestsFromLibrary(const std::string& libname,
+                             TestSummary& sum);
 }
 
 #endif //RUNTEST_H

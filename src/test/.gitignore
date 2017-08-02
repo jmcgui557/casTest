@@ -1,2 +1,4 @@
 casTestSelf.cpp
 testSuiteMakefile.cpp
+skipTest.cpp
+testSummaryTest.cpp

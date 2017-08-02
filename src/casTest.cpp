@@ -20,19 +20,16 @@
 #include "cmdLine.h"
 #include "runTests.h"
 #include "testCase.h"
+#include "testSummary.h"
 #include "usage.h"
 
 using namespace cas;
 
-int reportResult(int failCount)
+int reportResult(const TestSummary& sum)
 {
-    if(0 == failCount)
-        cas_print("casTest: All tests PASSED.");
-    else
-        cas_print("casTest: " << failCount << " tests FAILED.");
+    sum.write(std::cout);
 
-    cas_print("");
-    return failCount;
+    return sum.failed();
 }
 
 int runTests(const CmdLine& cmdLine)
@@ -41,15 +38,15 @@ int runTests(const CmdLine& cmdLine)
         beg(cmdLine.args.begin()),
         end(cmdLine.args.end());
 
-    size_t failCount(0);
+    TestSummary sum;
 
     while(beg != end)
     {
-        failCount += runTestsFromLibrary(*beg);
-	++beg;
+        runTestsFromLibrary(*beg, sum);
+        ++beg;
     }
 
-    return reportResult(failCount);
+    return reportResult(sum);
 }
 
 int main(int argc, const char* argv[])
@@ -63,8 +60,8 @@ int main(int argc, const char* argv[])
     {
         CmdLine cmdLine(argc, argv);
 
-	if(!CastCmd::executeCmd(cmdLine))
-	    failCount = runTests(cmdLine);
+        if(!CastCmd::executeCmd(cmdLine))
+            failCount = runTests(cmdLine);
     }
     catch(const cas::TestCase::Error& x)
     {

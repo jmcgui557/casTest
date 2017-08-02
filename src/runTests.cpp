@@ -6,51 +6,64 @@
 // paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 // Just download it and use it.
 // 
-// Copyright (c) 2015 Randall Lee White
+// Copyright (c) 2015, 2017 Randall Lee White
 
 #include "runTests.h"
 
 #include "testCase.h"
 #include "testLib.h"
+#include "testSummary.h"
 #include "trace.h"
 
 #include <stdexcept>
 
 namespace cas
 {
-    bool runTest(cas::TestCase* test, size_t testNumber)
+    std::string resultStr[] = {"ok ",
+                               "skipped ",
+                               "not ok "};
+    
+    void runTest(cas::TestCase* test,
+                 size_t testNumber,
+                 TestSummary& sum)
     {
-        bool success(true);
+        TestSummary::Result result(TestSummary::PASS);
         std::string errMsg("UNKNOWN err");
 
         test->setUp();
 
         try
         {
-            test->run();
+            test->run_();
         }
         catch(const cas::TestCase::Error& x)
         {
-	    success = false;
+            result = TestSummary::FAIL;
             errMsg = "Caught cas::Test::Error: ";
             errMsg += x.what();
         }
+        catch(const cas::TestCase::TestSkipped& x)
+        {
+            result = TestSummary::SKIP;
+        }
         catch(const std::exception& x)
         {
-	    success = false;
+            result = TestSummary::FAIL;
             errMsg = "Caught std::exception: ";
             errMsg += x.what();
         }
         catch(...)
         {
-	    success = false;
+            result = TestSummary::FAIL;
             errMsg = "Caught UNKNOWN EXCEPTION.";
         }
+
+        sum.addResult(result);
         
-        cas_print((success ? "ok " : "not ok ") << testNumber << 
+        cas_print(resultStr[result] << testNumber <<
                   " - " << test->getName());
 
-        if(!success)
+        if(TestSummary::FAIL == result)
         {
             cas_print("\t---");
             cas_print("\t" << errMsg);
@@ -58,11 +71,10 @@ namespace cas
         }
         
         test->tearDown();
-
-        return success;
     }
 
-    size_t runTests(const std::vector<TestCase*>& tests)
+    void runTests(const std::vector<TestCase*>& tests,
+                  TestSummary& sum)
     {
         std::vector<TestCase*>::const_iterator
             tb(tests.begin()),
@@ -73,38 +85,30 @@ namespace cas
         if(0 < testCount)
             cas_print("1.." << testCount);
 
-	size_t failCount(0);
-
-	while(tb != te)
+        while(tb != te)
         {
             size_t testNumber(std::distance(tests.begin(), tb) + 1);
-            bool success(runTest(*tb, testNumber));
-          
-            if(!success)
-                ++failCount;
-          
+
+            runTest(*tb, testNumber, sum);
             ++tb;
         }
-	
-	return failCount;
     }
 
-  size_t runTestsFromLibrary(const std::string& libname)
-  {
-    std::vector<TestCase*> tests;
-    TestLib testLib(libname);
+    void runTestsFromLibrary(const std::string& libname,
+                             TestSummary& sum)
+    {
+        std::vector<TestCase*> tests;
+        TestLib testLib(libname);
 
-    cas_print("\ncasTest: Running tests from: " << libname);
+        cas_print("\ncasTest: Running tests from: " << libname);
 
-    testLib.createTests(tests);
+        testLib.createTests(tests);
 
-    if(0 == tests.size())
-      throw std::runtime_error("No tests in library");
+        if(0 == tests.size())
+            throw std::runtime_error("No tests in library");
 
-    size_t failCount(runTests(tests));
+        runTests(tests, sum);
 
-    testLib.destroyTests(tests);
-
-    return failCount;
-  }
+        testLib.destroyTests(tests);
+    }
 }

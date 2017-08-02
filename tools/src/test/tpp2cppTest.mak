@@ -13,7 +13,7 @@
 # EX:
 #    TGT := mytest.test
 ################
-TGT := testSuiteMakefile.test
+TGT := tpp2cppTest.test
 
 INSTALL_DIR := $(CAST_DIR)/test
 
@@ -32,12 +32,12 @@ INSTALL_DIR := $(CAST_DIR)/test
 # NOTE: Due to the way test sources are processed,
 #       only one test source may be listed.
 ################
-TSTSRC := testSuiteMakefile.tpp
+TSTSRC := tpp2cppTest.tpp
 
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../tsMakefile.cpp
+SRCS := ../tpp2cpp.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

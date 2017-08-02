@@ -7,278 +7,211 @@
 // Just download it and use it.
 //
 // Copyright (c) 2017 Randall Lee White
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
 
-#define print(msg) std::cout << msg << std::endl
-
-struct WriteLines
-{
-    WriteLines(std::ofstream& file)
-        : file_(file)
-    {}
-
-    void operator()(const std::string& line)
-    {
-        file_ << line << std::endl;
-    }
-
-private:
-    std::ofstream& file_;
-};
-
-struct Tpp2Cpp
-{
-    Tpp2Cpp(std::vector<std::string>& cppLines,
-            std::vector<std::string>& tests)
-        : skipping_(false),
-          comment_(false),
-          cppLines_(cppLines),
-          tests_(tests)
-    {}
-
-    void operator()(const std::string& line)
-    {
-        cppLines_.push_back(tppLine2CppLine(line));
-    }
-
-private:
-    std::string tppLine2CppLine(const std::string& line)
-    {
-        
-        if(std::string::npos != line.find("@SKIP"))
-            return skipNextTest(line);
-
-        if(skipping_)
-            return disabledLine(line);
-            
-        checkCStyleComment(line);
-        extractTest(line);
-        
-        return line;
-    }
-
-    void checkCStyleComment(const std::string& line)
-    {
-        std::string::size_type p(line.find("/*"));
-
-        if(std::string::npos != p)
-            comment_ = true;
-
-        if(std::string::npos != line.find("*/", p + 1))
-            comment_ = false;
-    }
-    
-    std::string disabledLine(const std::string& line)
-    {
-        std::string dl("//");
-        dl += line;
-
-        if(std::string::npos != line.find("END_DEF"))
-            skipping_ = false;
-
-        return dl;
-    }
-    
-    std::string skipNextTest(const std::string& line)
-    {
-        skipping_ = true;
-
-        std::string l("//");
-        l += line;
-
-        return l;
-    }
-
-    bool isTestEnabled(const std::string& line,
-                       std::string::size_type end)
-    {
-        std::string segment(line.begin(),
-                            line.begin() + end);
-
-        if(std::string::npos != segment.find("//"))
-        return false;
-
-        std::string::size_type p(segment.find("/*"));
-
-        if(std::string::npos == p)
-            return true;
-
-        return std::string::npos != segment.find("*/");
-    }
-        
-    void extractTest(const std::string& line)
-    {
-        if(comment_)
-            return;
-        
-        std::string::size_type p(line.find("DEFINE_TEST"));
-
-        if(std::string::npos == p)
-            return;
-        
-        if(!isTestEnabled(line, p))
-            return;
-
-        std::string::size_type b(line.find("("));
-        std::string::size_type e(line.find_first_of(",)", b));
-
-        std::string test(line.begin() + b + 1,
-                         line.begin() + e);
-
-        tests_.push_back(test);
-    }
-
-    bool skipping_;
-    bool comment_;
-    
-    std::vector<std::string>& cppLines_;
-    std::vector<std::string>& tests_;
-};
-
-int usage()
-{
-    print("USAGE:");
-    print("\ttpp2cpp <tppFilename>");
-
-    return -1;
-}
-
-bool fileExists(const std::string& fname)
-{
-    std::ifstream f(fname.c_str());
-
-    return f.good();
-}
-
-bool isInputValid(int argc, char* argv[])
-{
-    if(2 < argc)
-        return false;
-
-    std::string fname(argv[1]);
-    std::string::size_type p(fname.rfind(".tpp"));
-    
-    return 4 == fname.size() - p;
-}
-
-std::string getTargetFilename(const std::string& tppFilename)
-{
-    std::string::size_type p(tppFilename.rfind(".tpp"));
-    std::string cppFilename(    tppFilename.begin(),
-                                tppFilename.begin() + p);
-
-    cppFilename += ".cpp";
-
-    return cppFilename;
-}
-
-void collectTppLines(const std::string& tppFilename,
-                     std::vector<std::string>& tppLines)
-{
-    std::ifstream tppFile(tppFilename.c_str());
-    
-    std::string line;
-    while(std::getline(tppFile, line))
-        tppLines.push_back(line);
-}
+#include "tpp2Cpp.h"
 
 struct AppendTest
 {
-    AppendTest(std::vector<std::string>& lines)
-        : lines_(lines)
+    AppendTest(std::ostream& out)
+        : out_(out)
     {}
 
     void operator()(const std::string& test)
     {
-        std::string tline("        tests.push_back(new ");
-        tline += test;
-        tline += ");";
-        
-        lines_.push_back(tline);
+        out_ << "        tests.push_back(new "
+             << test << ");\n";
     }
-
+    
 private:
-    std::vector<std::string>& lines_;
+    std::ostream& out_;
 };
 
-void appendTests(std::vector<std::string>& testLines,
-                 const std::vector<std::string>& tests)
+std::string& Tpp2Cpp::skipTag()
 {
-    testLines.push_back("");
-    testLines.push_back("//------------------------------------------");
-    testLines.push_back("#include <vector>");
+    static std::string tag("@SKIP");
 
-    testLines.push_back("");
-    testLines.push_back("extern \"C\"");
-    testLines.push_back("{");
-    testLines.push_back("    void createTests(std::vector<cas::TestCase*>& tests)");
-    testLines.push_back("    {");
-
-    std::for_each(tests.begin(),
-                  tests.end(),
-                  AppendTest(testLines));
-
-    testLines.push_back("    }");
-    testLines.push_back("}");
-    testLines.push_back("");
+    return tag;
 }
 
-void transformTppLines2CppLines(const std::vector<std::string>& tppLines,
-                                std::vector<std::string>& cppLines)
+std::string& Tpp2Cpp::testTag()
 {
-    std::vector<std::string> tmp;
-    std::vector<std::string> tests;
-    
-    std::for_each(tppLines.begin(),
-                  tppLines.end(),
-                  Tpp2Cpp(tmp, tests));
+    static std::string tag("DEFINE_TEST");
 
-    appendTests(tmp,
-                tests);
-    
-    tmp.swap(cppLines);
+    return tag;
 }
 
-int tpp2cpp(const std::string& tppFilename)
+void Tpp2Cpp::setSkipTag(const std::string& tag)
 {
-    std::string cppFilename(getTargetFilename(tppFilename));
-
-    print("tpp2cpp: " << tppFilename << " -> " << cppFilename);
-    
-    std::vector<std::string> tppLines;
-
-    collectTppLines(tppFilename, tppLines);
-
-    std::vector<std::string> cppLines;
-
-    transformTppLines2CppLines(tppLines,
-                               cppLines);
-
-    std::ofstream cppFile(cppFilename.c_str());
-    
-    std::for_each(cppLines.begin(),
-                  cppLines.end(),
-                  WriteLines(cppFile));
-
-    return 0;
+    skipTag() = tag;
 }
 
-int main(int argc, char* argv[])
+void Tpp2Cpp::setTestTag(const std::string& tag)
 {
-    if(!isInputValid(argc, argv))
-        return usage();
+    testTag() = tag;
+}
 
-    std::string fname(argv[1]);
-    
-    if(!fileExists(fname))
+Tpp2Cpp::Tpp2Cpp(std::istream& in)
+    : comment_(false),
+      skip_(false),
+      in_(in),
+      tests_()
+{}
+
+void Tpp2Cpp::write(std::ostream& out)
+{
+    std::string line;
+    while(std::getline(in_, line))
     {
-        print("Error: Can't find file: " << fname);
-        return usage();
+        out << convertLine(line) << "\n";
     }
 
-    return tpp2cpp(fname);
+    appendTestFactory(out);
+    
+    out.flush();
 }
+
+void Tpp2Cpp::appendTestFactory(std::ostream& out)
+{
+    out << '\n'
+        << "//----------------------------------------\n"
+        << "#include <vector>\n"
+        << '\n'
+        << "extern \"C\"\n"
+        << "{\n"
+        << "    void createTests(std::vector<cas::TestCase*>& tests)\n"
+        << "    {\n";
+
+    std::for_each(tests_.begin(),
+                  tests_.end(),
+                  AppendTest(out));
+
+    out << "    }\n"
+        << "}\n\n";
+}
+
+std::string Tpp2Cpp::convertLine(const std::string& line)
+{
+    setCommentState(line);
+    extractTest(line);
+
+    if(std::string::npos != line.find(skipTag()))
+        return skipOn(line);
+    
+    if(std::string::npos != line.find("END_DEF"))
+        return skipOff(line);
+    
+    if(!skip_)
+        return line;
+
+    return convertLineIfNecessary(line);
+}
+
+void Tpp2Cpp::setCommentState(const std::string& line)
+{
+    if(true == comment_)
+        setCommentFalseIfCloseFound(line);
+    else
+        setCommentTrueIfOpenFound(line);
+}
+
+void Tpp2Cpp::setCommentFalseIfCloseFound(const std::string& line)
+{
+    std::string::size_type p(line.rfind("*/"));
+
+    if(std::string::npos == p)
+        return;
+
+    if(std::string::npos == line.find("/*", p))
+        comment_ = false;
+}
+
+void Tpp2Cpp::setCommentTrueIfOpenFound(const std::string& line)
+{
+    std::string::size_type p(line.rfind("/*"));
+
+    if(std::string::npos == p)
+        return;
+
+    if(std::string::npos == line.find("*/", p))
+        comment_ = true;
+}
+
+std::string Tpp2Cpp::convertLineIfNecessary(const std::string& line)
+{
+    std::string::size_type p(line.find(testTag()));
+    
+    if(std::string::npos != p)
+    {
+        std::string newLine(line.begin(), line.begin() + p);
+        newLine += "SKIP_TEST";
+
+        if(std::string::npos != line.find("_FROM"))
+            newLine += "_FROM";
+        
+        std::string::size_type r(line.find_first_of('(', p));
+        
+        newLine += std::string(line.begin() + r, line.end());
+        
+        return newLine;
+    }
+
+    return line;
+}
+
+void Tpp2Cpp::extractTest(const std::string& line)
+{
+    if(comment_)
+        return;
+    
+    std::string::size_type p(line.find(testTag()));
+    
+    if(std::string::npos == p)
+        return;
+    
+    if(!isTestEnabled(line, p))
+        return;
+    
+    std::string::size_type b(line.find("("));
+    std::string::size_type e(line.find_first_of(",)", b));
+    
+    std::string test(line.begin() + b + 1,
+                     line.begin() + e);
+    
+    tests_.push_back(test);
+}
+
+bool Tpp2Cpp::isTestEnabled(const std::string& line,
+                            std::string::size_type end)
+{
+    std::string segment(line.begin(),
+                        line.begin() + end);
+    
+    if(std::string::npos != segment.find("//"))
+        return false;
+    
+    std::string::size_type p(segment.find("/*"));
+    
+    if(std::string::npos == p)
+        return true;
+    
+    return std::string::npos != segment.find("*/");
+}
+        
+
+std::string Tpp2Cpp::skipOn(const std::string& line)
+{
+    skip_ = true;
+        
+    std::string newLine("//");
+    newLine += line;
+    
+    return newLine;
+}
+
+std::string Tpp2Cpp::skipOff(const std::string& line)
+{
+    skip_ = false;
+
+    return line;
+}
+

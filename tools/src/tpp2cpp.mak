@@ -11,8 +11,11 @@
 TGT := tpp2cpp
 INSTALL_DIR := $(CAST_DIR)/tools
 
+INCLUDE := -I.
+
 SRCS := \
-     tpp2cpp.cpp
+     tpp2cpp.cpp \
+     tpp2cppMain.cpp
 
 GENFILES := *.gcov
 

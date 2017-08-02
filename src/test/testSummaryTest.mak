@@ -5,7 +5,7 @@
 # purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like
 # "copyleft" restrictions, either.  Just download it and use it.
 # 
-# Copyright (c) 2015 Randall Lee White
+# Copyright (c) 2015, 2017 Randall Lee White
 
 ##### TODO #####
 # Set TGT to the single target created by this makefile.
@@ -13,7 +13,7 @@
 # EX:
 #    TGT := mytest.test
 ################
-TGT := testSuiteMakefile.test
+TGT := testSummaryTest.test
 
 INSTALL_DIR := $(CAST_DIR)/test
 
@@ -32,12 +32,12 @@ INSTALL_DIR := $(CAST_DIR)/test
 # NOTE: Due to the way test sources are processed,
 #       only one test source may be listed.
 ################
-TSTSRC := testSuiteMakefile.tpp
+TSTSRC := testSummaryTest.tpp
 
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../tsMakefile.cpp
+SRCS := ../testSummary.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

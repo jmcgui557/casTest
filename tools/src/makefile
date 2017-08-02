@@ -11,7 +11,7 @@
 all: install
 	$(MAKE) -f tpp2cpp.mak $@
 
-build: clean
+build: clean 
 	$(MAKE) -f tpp2cpp.mak install
 
 %:

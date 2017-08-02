@@ -41,8 +41,10 @@ namespace cas
                                             line))
     {}
 
-    TestCase::TestCase(const std::string& testName)
-        : name_(testName)
+    TestCase::TestCase(const std::string& testName,
+                       bool skip)
+        : name_(testName),
+          skip_(skip)
     {}
 
     TestCase::~TestCase()

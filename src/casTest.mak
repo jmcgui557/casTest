@@ -17,6 +17,7 @@ SRCS := \
 	cmdLine.cpp \
 	runTests.cpp \
 	testLib.cpp \
+	testSummary.cpp \
 	tsMakefile.cpp \
 	usage.cpp
 
