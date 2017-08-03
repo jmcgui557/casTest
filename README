@@ -209,7 +209,8 @@ first test.
   |     ---
   |     Caught cas::Test::Error: Assertion(true == val) FAILED: statTest.cpp:8
   |     ---
-  |  Test Summary:
+  |
+  |  Summary:
   |      Tests ran: 1
   |         Passed: 0
   |    	   Skipped: 0
@@ -257,7 +258,8 @@ first test.
   |  casTest: Running tests from: myTest.test
   |  1..1
   |  ok 1 - SanityTest
-  |  Test Summary:
+  |
+  |  Summary:
   |      Tests ran: 1
   |         Passed: 1
   |    	   Skipped: 0
