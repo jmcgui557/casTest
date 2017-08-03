@@ -34,17 +34,6 @@ namespace cas
 	return std::string(buff);
     }
 
-  void readMainMakefile(std::vector<std::string>& lines)
-  {
-    std::ifstream mkfile("Makefile");
-    
-    std::string buffer;
-    while(std::getline(mkfile, buffer))
-      lines.push_back(buffer);
-  }
-
-  
-
     bool createMakefileFromTemplate(const std::string& mkTemplate,
 				    const std::string& destMakefile,
 				    const std::string& mkTargetName)

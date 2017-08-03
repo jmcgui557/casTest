@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "tpp2Cpp.h"
+#include "tpp2cpp.h"
 
 @SKIP
 DEFINE_TEST(SkipTestCheckOutputManually)

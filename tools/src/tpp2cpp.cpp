@@ -8,7 +8,9 @@
 //
 // Copyright (c) 2017 Randall Lee White
 
-#include "tpp2Cpp.h"
+#include "tpp2cpp.h"
+
+#include <algorithm>
 
 struct AppendTest
 {
