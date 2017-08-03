@@ -75,7 +75,7 @@ END_DEF
 DEFINE_TEST_FROM(SummaryIsWrittenToStream, TestSummaryTest)
 void run()
 {
-    std::string expected("Test Summary:\n"
+    std::string expected("\nSummary:\n"
 			 "    Tests ran: 7\n"
 			 "       Passed: 4\n"
 			 "      Skipped: 1\n"

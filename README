@@ -377,20 +377,7 @@ defines a test.  For instance the following test will be skipped.
       END_DEF
 
 The string "@SKIP" must appear on the line before either the DEFINE_TEST or
-the DEFINE_TEST_FROM macros.  Using the "@SKIP" string will be result in 
-all lines from @SKIP through END_DEF being commented out in the generated
-.cpp file.
-
-      //myTest.cpp
-      //@SKIP
-      //DEFINE_TEST(MyTest)
-      //void run()
-      //{
-      //    bool val(false);
-      //
-      //    CK(true == false);
-      //}
-      //END_DEF
+the DEFINE_TEST_FROM macros. 
 
 
 Generated make files
@@ -428,6 +415,15 @@ just add "-lrt" to the LIBS macro:
 #     -lrt
 ################
 LIBS := -lrt
+
+Of course, for unit tests, you should probably consider mocking any call
+outside of the class under test.  One method I have used in production is to
+create a mocks subdirectory within the test directory.  By setting the INCLUDES
+variable to include the mocks directory before others, the code under test can
+use mocked functions and classes without being aware that they are just
+standins.  When mocking classes and functions, I usually just define the
+mock entity fully within a header file named identically to one included by
+the code under test.
 
 If you need additional sources, add them to the SRCS macro.  (Don't add any
 sources to the TSRCS macro as only one test source can be used.)  Instructions

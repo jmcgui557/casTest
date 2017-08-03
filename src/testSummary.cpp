@@ -51,7 +51,7 @@ size_t TestSummary::failed() const
 
 void TestSummary::write(std::ostream& out) const
 {
-    out << "Test Summary:"
+    out << "\nSummary:"
 	<< "\n    Tests ran: " << total()
 	<< "\n       Passed: " << passed_
 	<< "\n      Skipped: " << skipped_
