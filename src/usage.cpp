@@ -17,6 +17,9 @@ int usage()
     cas_print("USAGE:");
     cas_print("\tcasTest -addTestSuite <testSuiteName>");
     cas_print("\tcasTest <testLib1> [<testLib2> <...testLibN>]");
+    cas_print("");
+    cas_print("\tcasTest -about");
+    cas_print("\tcasTest -version");
 
     return -1;
 }
