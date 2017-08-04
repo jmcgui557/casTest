@@ -7,3 +7,6 @@
 #*#
 castEnv.sourceMe.bash
 castEnv.sourceMe.csh
+*.gcda
+*.gcno
+*.gcov
