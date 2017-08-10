@@ -11,17 +11,24 @@
 TGT := casTest
 
 SRCS := \
-	casTest.cpp \
-	castCmd.cpp \
-	castUtil.cpp \
-	cmdLine.cpp \
-	runTests.cpp \
-	testLib.cpp \
-	testSummary.cpp \
-	tsMakefile.cpp \
-	usage.cpp
+    addTestSuiteCmd.cpp \
+    casTest.cpp \
+    castCmd.cpp \
+    castCmdExec.cpp \
+    castUtil.cpp \
+    cmdLine.cpp \
+    fileFactory.cpp \
+    runTests.cpp \
+    testLib.cpp \
+    testSummary.cpp \
+    tsMakefile.cpp \
+    usage.cpp \
+    verCmd.cpp \
+    version.cpp
 
 GENFILES := *.gcov
+
+INCLUDES := -I.
 
 UNAME_S := $(shell uname -s)
 

@@ -19,11 +19,16 @@ TSTSRC := casTestSelf.tpp
 GENFILES := $(TSTSRC:.tpp=.cpp) *.gcov
 
 SRCS := \
+        ../addTestSuiteCmd.cpp \
 	../castCmd.cpp \
+	../castCmdExec.cpp \
 	../castUtil.cpp \
 	../cmdLine.cpp \
+	../fileFactory.cpp \
 	../tsMakefile.cpp \
-	../usage.cpp
+	../usage.cpp \
+	../verCmd.cpp \
+	../version.cpp
 
 #Compile flags.
 CFLAGS :=

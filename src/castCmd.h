@@ -1,3 +1,13 @@
+// The "Clean And Simple Test" (CAST) software framework, tools, and
+// documentation are distributed under the terms of the MIT license a
+// copy of which is included with this package (see the file "LICENSE"
+// in the CAS poject tree's root directory).  CAST may be used for any
+// purpose, including commercial purposes, at absolutely no cost. No
+// paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+// Just download it and use it.
+// 
+// Copyright (c) 2015, 2017 Randall Lee White
+
 #ifndef CASTCMD_H
 #define CASTCMD_H
 
@@ -19,15 +29,10 @@ namespace cas
 
 #define xCastCmd(msg) cas::CastCmd::Error(msg, __FILE__, __LINE__)
     
-        //Returns true if a command was created from the passed args.
-        //Calls exec() on the created command.  CastCmd objects may
-        //throw CastCmd::Error on failure.
-        static bool executeCmd(const CmdLine& cmdLine);
-
         CastCmd(const CmdLine& cmdLine);
         virtual ~CastCmd();
  
-        virtual bool exec();  //returns true if CmdLine is valid
+        virtual bool exec() = 0;
 
     protected:
         const std::string& name() const;

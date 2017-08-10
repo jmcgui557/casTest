@@ -9,6 +9,7 @@
 
 #include "testCase.h"
 #include "castCmd.h"
+#include "castCmdExec.h"
 #include "cmdLine.h"
 
 #include "trace.h"
@@ -25,7 +26,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-/*The following test cases (Derived from TestCase) used to represent all
+/*The following test cases (Derived from TestCase) are used to represent all
   the possible test results when a test case is run.  TestCaseTest derived 
   classes below are then used to run and test the results of the 
   representative test cases.
@@ -128,7 +129,7 @@ void setUp()
 void run()
 {
     bool success(false);
-	
+        
     try
     {
         TestCaseTest::run();
@@ -137,7 +138,7 @@ void run()
     {
         success = true;
     }
-	
+        
     CK(success);
 }
 END_DEF
@@ -151,7 +152,7 @@ void setUp()
 void run()
 {
     bool success(false);
-	
+        
     try
     {
         TestCaseTest::run();
@@ -164,7 +165,7 @@ void run()
     {
         success = true;
     }
-	
+        
     CK(success);
 }
 END_DEF
@@ -201,7 +202,7 @@ void run()
     cmdLine.args.push_back("casTest");
     cmdLine.args.push_back("myTestLib");
 
-    bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
+    bool cmdExecuted(cas::executeCmd(cmdLine));
 
     CK(false == cmdExecuted);
 }
@@ -228,7 +229,7 @@ void tearDown()
 
 void testCmdExecutes(const cas::CmdLine& cmdLine)
 {
-    bool cmdExecuted(cas::CastCmd::executeCmd(cmdLine));
+    bool cmdExecuted(cas::executeCmd(cmdLine));
 
     CK(cmdExecuted);
 }
@@ -276,7 +277,7 @@ void verifyMainMakefileInternals(const cas::CmdLine& cmdLine)
     while(std::getline(mkFile, buffer))
     {
         if(std::string::npos != buffer.find(expectedMakeLine))
-	    foundMkLine = true;
+            foundMkLine = true;
 
         if(std::string::npos != buffer.find("%:"))
             foundGlobalTarget = true;
@@ -303,7 +304,7 @@ void verifyNoDuplicateMakeLines(const cas::CmdLine& cmdLine)
     while(std::getline(mkfile, buffer))
     {
         if(std::string::npos != buffer.find(mkFileLine))
-	    ++count;
+            ++count;
     }
     
     CK(2 == count);

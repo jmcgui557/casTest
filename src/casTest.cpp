@@ -17,6 +17,7 @@
 #include "trace.h"
 
 #include "castCmd.h"
+#include "castCmdExec.h"
 #include "cmdLine.h"
 #include "runTests.h"
 #include "testCase.h"
@@ -60,7 +61,7 @@ int main(int argc, const char* argv[])
     {
         CmdLine cmdLine(argc, argv);
 
-        if(!CastCmd::executeCmd(cmdLine))
+        if(!cas::executeCmd(cmdLine))
             failCount = runTests(cmdLine);
     }
     catch(const cas::TestCase::Error& x)

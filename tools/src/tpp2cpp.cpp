@@ -12,6 +12,29 @@
 
 #include <algorithm>
 
+bool isCommented(const std::string& segment)
+{
+    if(std::string::npos != segment.find("//"))
+        return true;
+    
+    std::string::size_type p(segment.find("/*"));
+    
+    if(std::string::npos == p)
+        return false;
+
+    return std::string::npos == segment.find("*/", p + 1);
+}
+
+bool isQuotedText(const std::string& segment)
+{
+    std::string::size_type p(segment.find("\""));
+    
+    if(std::string::npos == p)
+        return false;
+
+    return std::string::npos == segment.find("\"", p + 1);
+}
+
 struct AppendTest
 {
     AppendTest(std::ostream& out)
@@ -28,28 +51,18 @@ private:
     std::ostream& out_;
 };
 
-std::string& Tpp2Cpp::skipTag()
+const std::string& Tpp2Cpp::skipTag()
 {
     static std::string tag("@SKIP");
 
     return tag;
 }
 
-std::string& Tpp2Cpp::testTag()
+const std::string& Tpp2Cpp::testTag()
 {
     static std::string tag("DEFINE_TEST");
 
     return tag;
-}
-
-void Tpp2Cpp::setSkipTag(const std::string& tag)
-{
-    skipTag() = tag;
-}
-
-void Tpp2Cpp::setTestTag(const std::string& tag)
-{
-    testTag() = tag;
 }
 
 Tpp2Cpp::Tpp2Cpp(std::istream& in)
@@ -164,7 +177,7 @@ void Tpp2Cpp::extractTest(const std::string& line)
 {
     if(comment_)
         return;
-    
+
     std::string::size_type p(line.find(testTag()));
     
     if(std::string::npos == p)
@@ -187,23 +200,22 @@ bool Tpp2Cpp::isTestEnabled(const std::string& line,
 {
     std::string segment(line.begin(),
                         line.begin() + end);
-    
-    if(std::string::npos != segment.find("//"))
+
+    if(isCommented(segment))
         return false;
-    
-    std::string::size_type p(segment.find("/*"));
-    
-    if(std::string::npos == p)
-        return true;
-    
-    return std::string::npos != segment.find("*/");
+
+    return !isQuotedText(segment);
 }
-        
 
 std::string Tpp2Cpp::skipOn(const std::string& line)
 {
+    std::string::size_type p(line.find(skipTag()));
+
+    if(isQuotedText(std::string(line.begin(),line.begin() + p)))
+        return line;
+    
     skip_ = true;
-        
+
     std::string newLine("//");
     newLine += line;
     
@@ -212,7 +224,10 @@ std::string Tpp2Cpp::skipOn(const std::string& line)
 
 std::string Tpp2Cpp::skipOff(const std::string& line)
 {
-    skip_ = false;
+    std::string::size_type p(line.find("END_DEF"));
+
+    if(!isQuotedText(std::string(line.begin(), line.begin() + p)))
+        skip_ = false;
 
     return line;
 }

@@ -1,4 +1,7 @@
+addTestSuiteCmdTest.cpp
 casTestSelf.cpp
-testSuiteMakefile.cpp
+castUtilTest.cpp
 skipTest.cpp
+testSuiteMakefile.cpp
 testSummaryTest.cpp
+verCmdTest.cpp

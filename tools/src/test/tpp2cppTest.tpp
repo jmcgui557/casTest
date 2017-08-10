@@ -6,59 +6,54 @@
 
 #include "tpp2cpp.h"
 
-#include <iostream>
-#define dbg(msg) std::cout << msg << std::endl
-
 @SKIP
 DEFINE_TEST(SkipTestCheckOutputManually)
 void run()
-{
-
-
-}
+{}
 
 END_DEF
 
 DEFINE_TEST(DEFINE_TESTbecomesSKIP_TESTwhenTestIsSkipped)
+
 void run()
 {
     std::string tppData("#include testCase.h\n"
                         "\n"
-                        "DEFINE_TST(TestOne)\n"
+                        "DEFINE_TEST(TestOne)\n"
                         "void run()\n"
                         "{\n"
                         "}\n"
                         "END_DEF\n"
                         "\n"
-                        "@SKP\n" 
-                        "DEFINE_TST(TestTwo)\n"
+                        "@SKIP\n"
+                        "DEFINE_TEST(TestTwo)\n"
                         "void run()\n"
                         "{\n"
                         "}\n"
                         "END_DEF\n"
                         "\n"
                         "/*\n"
-                        "DEFINE_TST(TestThree)\n"
+                        "DEFINE_TEST(TestThree)\n"
                         "void run()\n"
                         "{\n"
                         "}\n"
                         "END_DEF\n"
                         "*/\n"
                         "\n"
-                        "//DEFINE_TST(TestFour)\n"
+                        "//DEFINE_TEST(TestFour)\n"
                         "//void run()\n"
                         "//{\n"
                         "//}\n"
                         "//END_DEF\n"
                         "\n"
-                        "/*Comment before test*/DEFINE_TST(TestFive)\n"
+                        "/*Comment before test*/DEFINE_TEST(TestFive)\n"
                         "void run()\n"
                         "{\n"
                         "}\n"
                         "END_DEF\n"
                         "\n"
-                        "@SKP\n" 
-                        "DEFINE_TST_FROM(TestSix, BaseTest)\n"
+                        "@SKIP\n"
+                        "DEFINE_TEST_FROM(TestSix, BaseTest)\n"
                         "void run()\n"
                         "{\n"
                         "}\n"
@@ -68,13 +63,13 @@ void run()
 
     std::string expected("#include testCase.h\n"
                          "\n"
-                         "DEFINE_TST(TestOne)\n"
+                         "DEFINE_TEST(TestOne)\n"
                          "void run()\n"
                          "{\n"
                          "}\n"
                          "END_DEF\n"
                          "\n"
-                         "//@SKP\n"
+                         "//@SKIP\n"
                          "SKIP_TEST(TestTwo)\n"
                          "void run()\n"
                          "{\n"
@@ -82,26 +77,26 @@ void run()
                          "END_DEF\n"
                          "\n"
                          "/*\n"
-                         "DEFINE_TST(TestThree)\n"
+                         "DEFINE_TEST(TestThree)\n"
                          "void run()\n"
                          "{\n"
                          "}\n"
                          "END_DEF\n"
                          "*/\n"
                          "\n"
-                         "//DEFINE_TST(TestFour)\n"
+                         "//DEFINE_TEST(TestFour)\n"
                          "//void run()\n"
                          "//{\n"
                          "//}\n"
                          "//END_DEF\n"
                          "\n"
-                         "/*Comment before test*/DEFINE_TST(TestFive)\n"
+                         "/*Comment before test*/DEFINE_TEST(TestFive)\n"
                          "void run()\n"
                          "{\n"
                          "}\n"
                          "END_DEF\n"
                          "\n"
-                         "//@SKP\n"
+                         "//@SKIP\n"
                          "SKIP_TEST_FROM(TestSix, BaseTest)\n"
                          "void run()\n"
                          "{\n"
@@ -128,17 +123,10 @@ void run()
     std::istringstream tppFile(tppData);
     std::ostringstream cppFile;
 
-    //We change the skip and test
-    //tags to allow us to test ourselves.
-    Tpp2Cpp::setSkipTag("@SKP");
-    Tpp2Cpp::setTestTag("DEFINE_TST");
-    
     Tpp2Cpp tpp2cpp(tppFile);
 
     tpp2cpp.write(cppFile);
 
-    compare(cppFile.str(), expected);
-    
     CK(expected == cppFile.str());
 }
 END_DEF

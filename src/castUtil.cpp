@@ -6,64 +6,58 @@
 // paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 // Just download it and use it.
 // 
-// Copyright (c) 2015 Randall Lee White
+// Copyright (c) 2015, 2017 Randall Lee White
+
+#include <castUtil.h>
 
 #include <unistd.h>
 
 #include <cstdio>
-#include <fstream>
-#include <iostream>
-#include <stdexcept>
 #include <string>
-#include <vector>
 
 namespace cas
 {
     std::string createErrMsg(const std::string& errMsg,
                              const char* file,
-			     size_t line)
+                             size_t line)
     {
         char buff[256];
-	snprintf(buff,
-		 256,
-		 "ERROR [%s(%lu)]: %s",
-		 file,
-		 line,
-		 errMsg.c_str());
-	
-	return std::string(buff);
+        snprintf(buff,
+                 256,
+                 "ERROR [%s(%lu)]: %s",
+                 file,
+                 line,
+                 errMsg.c_str());
+        
+        return std::string(buff);
     }
 
-    bool createMakefileFromTemplate(const std::string& mkTemplate,
-				    const std::string& destMakefile,
-				    const std::string& mkTargetName)
+    bool createMakefileFromTemplate(std::istream& mkTemplate,
+                                    std::ostream& destMakefile,
+                                    const std::string& mkTargetName)
     {
-        std::ifstream infile(mkTemplate.c_str());
-	std::ofstream outFile(destMakefile.c_str());
+        std::string tgtSrc(mkTargetName);
+        tgtSrc += ".tpp";
 
-	std::string tgtSrc(mkTargetName);
-	tgtSrc += ".tpp";
+        std::string buff;
+        while(std::getline(mkTemplate, buff))
+        {
+            if(0 == buff.compare("TGT :="))
+            {
+                buff += ' ';
+                buff += mkTargetName;
+                buff += ".test";
+            }
+            else if(0 == buff.compare("TSTSRC :="))
+            {
+                buff += ' ';
+                buff += mkTargetName;
+                buff += ".tpp";
+            }
 
-	std::string buff;
-	while(std::getline(infile, buff))
-	{
-	    if(0 == buff.compare("TGT :="))
-	    {
-		buff += ' ';
-		buff += mkTargetName;
-		buff += ".test";
-	    }
+            destMakefile << buff << std::endl;
+        }
 
-	    if(0 == buff.compare("TSTSRC :="))
-	    {
-		buff += ' ';
-		buff += mkTargetName;
-		buff += ".tpp";
-	    }
-
-	    outFile << buff << std::endl;
-	}
-
-	return true;
+        return true;
     }
 }

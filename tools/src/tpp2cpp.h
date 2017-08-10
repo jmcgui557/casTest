@@ -19,9 +19,6 @@ struct TestCase;
 
 struct Tpp2Cpp
 {
-    static void setSkipTag(const std::string& tag);
-    static void setTestTag(const std::string& tag);
-    
     Tpp2Cpp(std::istream& in);
     
     void write(std::ostream& out);
@@ -44,8 +41,8 @@ private:
     std::string skipOn(const std::string& line);
     std::string skipOff(const std::string& line);
 
-    static std::string& skipTag();
-    static std::string& testTag();
+    static const std::string& skipTag();
+    static const std::string& testTag();
     
     bool comment_;
     bool skip_;

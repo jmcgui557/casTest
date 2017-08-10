@@ -9,7 +9,7 @@
 #include <sstream>
 
 DEFINE_BASE(MakefileTest)
-TestSuiteMakefile m;
+cas::TestSuiteMakefile m;
 std::string expectedRecipe;
 
 void setUp()
@@ -64,24 +64,24 @@ END_DEF
 DEFINE_TEST_FROM(OnConstructionTSMakefileReadsPassedIstreamForData, MakefileTest)
 std::istream* s;
 std::string data;
-TestSuiteMakefile* mf;
+cas::TestSuiteMakefile* mf;
 
 void setUp()
 {
     data =
-	"all:\n"
-	"\t$(MAKE) -f test1.mak $@\n"
-	"\t$(MAKE) -f test2.mak $@\n"
-	"\t$(MAKE) -f test3.mak $@\n"
-	"\n"
-	"%:\n"
-	"\t$(MAKE) -f test1.mak $@\n"
-	"\t$(MAKE) -f test2.mak $@\n"
-	"\t$(MAKE) -f test3.mak $@\n"
-	"\n";
-	
+        "all:\n"
+        "\t$(MAKE) -f test1.mak $@\n"
+        "\t$(MAKE) -f test2.mak $@\n"
+        "\t$(MAKE) -f test3.mak $@\n"
+        "\n"
+        "%:\n"
+        "\t$(MAKE) -f test1.mak $@\n"
+        "\t$(MAKE) -f test2.mak $@\n"
+        "\t$(MAKE) -f test3.mak $@\n"
+        "\n";
+        
     s = new std::istringstream(data);
-    mf = new TestSuiteMakefile(*s);
+    mf = new cas::TestSuiteMakefile(*s);
 }
 
 void tearDown()
@@ -93,8 +93,8 @@ void tearDown()
 void run()
 {
     std::string expected("\t$(MAKE) -f test1.mak $@\n"
-			 "\t$(MAKE) -f test2.mak $@\n"
-			 "\t$(MAKE) -f test3.mak $@\n");
+                         "\t$(MAKE) -f test2.mak $@\n"
+                         "\t$(MAKE) -f test3.mak $@\n");
 
     CK(expected == mf->getRecipe("all"));
     CK(expected == mf->getRecipe("%"));
@@ -108,16 +108,16 @@ std::string expectedData;
 void setUp()
 {
     expectedData =
-	"all:\n"
-	"\t$(MAKE) -f test1.mak $@\n"
-	"\t$(MAKE) -f test2.mak $@\n"
-	"\t$(MAKE) -f test3.mak $@\n"
-	"\n"
-	"%:\n"
-	"\t$(MAKE) -f test1.mak $@\n"
-	"\t$(MAKE) -f test2.mak $@\n"
-	"\t$(MAKE) -f test3.mak $@\n"
-	"\n";
+        "all:\n"
+        "\t$(MAKE) -f test1.mak $@\n"
+        "\t$(MAKE) -f test2.mak $@\n"
+        "\t$(MAKE) -f test3.mak $@\n"
+        "\n"
+        "%:\n"
+        "\t$(MAKE) -f test1.mak $@\n"
+        "\t$(MAKE) -f test2.mak $@\n"
+        "\t$(MAKE) -f test3.mak $@\n"
+        "\n";
 
     m.addRecipe("test1");
     m.addRecipe("test2");
