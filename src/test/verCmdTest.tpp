@@ -16,9 +16,9 @@ void setUp()
 {
     argc = 2;
 
-    argv[1] = "casTest";
-    argv[2] = "-version";
-    argv[3] = 0;
+    argv[0] = "casTest";
+    argv[1] = "-version";
+    argv[2] = 0;
 }
 
 void run()
