@@ -10,6 +10,8 @@
 // 
 // Copyright (c) 2015 Randall Lee White
 
-int usage();
+#include <iostream>
+
+int usage(std::ostream& out = std::cout);
 
 #endif

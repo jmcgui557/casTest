@@ -12,17 +12,47 @@
 
 #include <iostream>
 
+#include <cstdlib>
+#include <cstdio>
+
 namespace cas
 {
+    struct CastUtil
+    {
+	
+	static bool createResult;
+	static std::string castDir;
+    };
+
+    bool CastUtil::createResult = true;
+    std::string CastUtil::castDir("castDir");
+
     std::string createErrMsg(const std::string& errMsg,
                              const char* file,
-                             size_t line);
+                             size_t line)
+    {
+        char buff[256];
+        snprintf(buff,
+                 256,
+                 "ERROR [%s(%lu)]: %s",
+                 file,
+                 line,
+                 errMsg.c_str());
+        
+        return std::string(buff);
+    }
 
     bool createMakefileFromTemplate(std::istream& mkTemplate,
                                     std::ostream& destMakefile,
-                                    const std::string& mkTargetName);
+                                    const std::string& mkTargetName)
+    {
+	return CastUtil::createResult;
+    }
 
-    std::string getCastDir();
+    std::string getCastDir()
+    {
+	return CastUtil::castDir;
+    }
     
 }
 

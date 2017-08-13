@@ -5,9 +5,6 @@
 
 #include <sstream>
 
-#include <iostream>
-#define dbg(msg) std::cout << msg << std::endl
-
 DEFINE_TEST(VerCmdWritesCurrentVersionToStream)
 int argc;
 const char* argv[3];
@@ -29,10 +26,7 @@ void run()
     cas::VersionCmd ver(cmdLine, out);
     ver.exec();
 
-    dbg("ver: [" << out.str() << "]");
-
     CK("1.0\n" == out.str());
-
 }
 
 END_DEF

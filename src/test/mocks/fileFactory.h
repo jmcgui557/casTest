@@ -1,8 +1,6 @@
 #ifndef FILEFACTORY_H
 #define FILEFACTORY_H
 
-#include "trace.h"
-
 #include <map>
 #include <memory>
 #include <string>
@@ -37,7 +35,6 @@ namespace cas
 
 	static writer_pointer_type createFileWriter(const std::string& path)
 	{
-	    cas_print("writer: " << path);
 	    WriterMap::iterator w(writers().find(path));
 
 	    if(w != writers().end())
@@ -52,14 +49,11 @@ namespace cas
 
 	static std::string getOutput(const std::string& path)
 	{
-	    cas_print("getOutput(): " << path);
-	    
 	    WriterMap::const_iterator w(writers().find(path));
 
 	    if(w == writers().end())
 		return "";
 
-	    cas_print("\tstored: " << (*w).second->str());
 	    return (*w).second->str();
 	}
 

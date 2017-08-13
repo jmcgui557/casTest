@@ -2,10 +2,6 @@
 
 #include "tsMakefile.h"
 
-#include <iostream>
-#define dbg(msg) std::cout << msg << std::endl
-
-
 #include <sstream>
 
 DEFINE_BASE(MakefileTest)
@@ -134,5 +130,28 @@ void run()
 }
 
 END_DEF
+
+DEFINE_TEST_FROM(PassingInvalidRecipeToGetRecipeThrowsRecipeNotFound, MakefileTest)
+void run()
+{
+    bool success(false);
+    
+    m.addRecipe("myFirstTest");
+    m.addRecipe("mySecondTest");
+
+    try
+    {
+	std::string r(m.getRecipe("myThirdTest"));
+    }
+    catch(const cas::TestSuiteMakefile::xRecipeNotFound&)
+    {
+	success = true;
+    }
+
+    CK(success);
+}
+
+END_DEF
+
 
 //test output using mock ofstream

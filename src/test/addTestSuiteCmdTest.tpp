@@ -1,12 +1,12 @@
 #include "testCase.h"
-#include "trace.h"
 
+#include "castUtil.h"
 #include "tsMakefile.h"
 #include "fileFactory.h"
 #include "../addTestSuiteCmd.cpp"
 #include "cmdLine.h"
 
-DEFINE_TEST(AddTestSuiteCmdCreatesTppSource)
+DEFINE_BASE(ATSCmdTest)
 int argc;
 const char* argv[4];
 cas::CmdLine* cmdLine;
@@ -20,6 +20,22 @@ void setUp()
     argv[3] = 0;
 
     cmdLine = new cas::CmdLine(argc, argv);
+
+    cas::CastUtil::castDir = "castDir";
+    cas::CastUtil::createResult = true;
+}
+
+void tearDown()
+{
+    delete cmdLine;
+}
+
+END_DEF
+
+DEFINE_TEST_FROM(AddTestSuiteCmdCreatesTppSource, ATSCmdTest)
+void setUp()
+{
+    ATSCmdTest::setUp();
 
     expected =
         "#include \"testCase.h\"\n\n"
@@ -42,4 +58,78 @@ void run()
 }
 END_DEF
 
+DEFINE_TEST_FROM(AddTestSuiteCmdThrowsIfCAST_DIRIsNotDefined, ATSCmdTest)
+void run()
+{
+    bool success(false);
+    cas::CastUtil::castDir = std::string();
+    
+    try
+    {
+	cas::AddTestSuiteCmd cmd(*cmdLine);
+	
+	cmd.exec();
+    }
+    catch(const cas::CastCmd::Error& x)
+    {
+	success = true;
+    }
 
+    CK(success);
+}
+
+END_DEF
+
+DEFINE_TEST_FROM(AddTestSuiteCmdThrowsIfTooFewArgs, ATSCmdTest)
+void setUp()
+{
+    argc = 2;
+    argv[0] = "casTest";
+    argv[1] = "-addTestSuite";
+    argv[2] = 0;
+    
+    cmdLine = new cas::CmdLine(argc, argv);
+}
+
+void run()
+{
+    bool success(false);
+    cas::CastUtil::castDir = std::string();
+    
+    try
+    {
+	cas::AddTestSuiteCmd cmd(*cmdLine);
+	
+	cmd.exec();
+    }
+    catch(const cas::CastCmd::Error& x)
+    {
+	success = true;
+    }
+
+    CK(success);
+}
+
+END_DEF
+
+DEFINE_TEST_FROM(AddTestSuiteCmdThrowsIfMakeFileTemplateCopyFails, ATSCmdTest)
+void run()
+{
+    bool success(false);
+    cas::CastUtil::createResult = false;
+    
+    try
+    {
+	cas::AddTestSuiteCmd cmd(*cmdLine);
+	
+	cmd.exec();
+    }
+    catch(const cas::CastCmd::Error& x)
+    {
+	success = true;
+    }
+
+    CK(success);
+}
+
+END_DEF

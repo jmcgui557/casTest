@@ -1,7 +1,6 @@
 #include "testCase.h"
 
 #include "castUtil.h"
-#include "trace.h"
 
 #include <sstream>
 #include <string>
@@ -81,8 +80,6 @@ void run()
 
     cas::createMakefileFromTemplate(templ, mkFile, "mytest");
 
-    cas_print("mkFile: \n" << mkFile.str());
-    
     CK(expected == mkFile.str());
 }
 

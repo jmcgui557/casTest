@@ -34,9 +34,11 @@ namespace cas
  
         virtual bool exec() = 0;
 
-    protected:
         const std::string& name() const;
 
+    protected:
+	void setName(const std::string& name);
+	
     private:
         std::string name_;
     };

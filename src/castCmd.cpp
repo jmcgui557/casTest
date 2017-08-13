@@ -13,8 +13,6 @@
 #include "castUtil.h"
 #include "cmdLine.h"
 
-extern int usage();
-
 namespace cas
 {
     CastCmd::Error::Error(const std::string& err,
@@ -36,5 +34,10 @@ namespace cas
     const std::string& CastCmd::name() const
     {
 	return name_;
+    }
+
+    void CastCmd::setName(const std::string& name)
+    {
+	name_ = name;
     }
 }

@@ -13,6 +13,7 @@
 #include <unistd.h>
 
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 
 namespace cas
@@ -59,5 +60,15 @@ namespace cas
         }
 
         return true;
+    }
+
+    std::string getCastDir()
+    {
+        const char* cdir(getenv("CAST_DIR"));
+	
+        if(!cdir)
+            return "";
+	
+        return std::string(cdir);
     }
 }

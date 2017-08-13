@@ -4,21 +4,7 @@
 #include "cmdLine.h"
 #include "fileFactory.h"
 
-#include <cstdlib>
 #include <fstream>
-
-namespace
-{
-    std::string getCastDir()
-    {
-        const char* cdir(getenv("CAST_DIR"));
-
-        if(!cdir)
-            return "";
-
-        return std::string(cdir);
-    }
-}
 
 namespace cas
 {

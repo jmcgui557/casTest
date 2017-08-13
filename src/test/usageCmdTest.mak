@@ -13,7 +13,7 @@
 # EX:
 #    TGT := mytest.test
 ################
-TGT := verCmdTest.test
+TGT := usageCmdTest.test
 
 INSTALL_DIR := $(CAST_DIR)/test
 
@@ -32,22 +32,16 @@ INSTALL_DIR := $(CAST_DIR)/test
 # NOTE: Due to the way test sources are processed,
 #       only one test source may be listed.
 ################
-TSTSRC := verCmdTest.tpp
+TSTSRC := usageCmdTest.tpp
 
 ##### TODO #####
 # List other required sources here.
 ################
-#
-# While we'd normally like to mock all
-# but the class under test, there are very
-# simple classes.  So we're just using the
-# production classes here.
-#
-SRCS := ../cmdLine.cpp \
-        ../castCmd.cpp \
+SRCS := ../castCmd.cpp \
 	../castUtil.cpp \
-	../verCmd.cpp \
-	../version.cpp
+	../cmdLine.cpp \
+	../usageCmd.cpp \
+	../usage.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

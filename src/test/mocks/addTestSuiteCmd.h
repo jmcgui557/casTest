@@ -1,5 +1,3 @@
-#ifndef CASTUTIL_H
-#define CASTUTIL_H
 // The "Clean And Simple Test" (CAST) software framework, tools, and
 // documentation are distributed under the terms of the MIT license a
 // copy of which is included with this package (see the file "LICENSE"
@@ -10,20 +8,31 @@
 // 
 // Copyright (c) 2015, 2017 Randall Lee White
 
-#include <iostream>
+#ifndef ADDTESTSUITECMD_H
+#define ADDTESTSUITECMD_H
+
+#include "castCmd.h"
+
+#include <string>
 
 namespace cas
 {
-    std::string createErrMsg(const std::string& errMsg,
-                             const char* file,
-                             size_t line);
-
-    bool createMakefileFromTemplate(std::istream& mkTemplate,
-                                    std::ostream& destMakefile,
-                                    const std::string& mkTargetName);
-
-    std::string getCastDir();
+    struct CmdLine;
     
-}
+    struct AddTestSuiteCmd : CastCmd
+    {
+        AddTestSuiteCmd(const CmdLine& cmdLine)
+	    : CastCmd(cmdLine)
+	{}
+        
+        bool exec()
+	{
+	    return true;
+	}
+        
+    private:
+    };
+} //namespace cas
 
-#endif //CASTUTIL_H
+#endif //ADDTESTSUITECMD_H
+

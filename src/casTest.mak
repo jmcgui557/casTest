@@ -11,11 +11,13 @@
 TGT := casTest
 
 SRCS := \
+    aboutCmd.cpp \
     addTestSuiteCmd.cpp \
     casTest.cpp \
     castCmd.cpp \
     castCmdExec.cpp \
     castUtil.cpp \
+    cmdFactory.cpp \
     cmdLine.cpp \
     fileFactory.cpp \
     runTests.cpp \
@@ -23,6 +25,7 @@ SRCS := \
     testSummary.cpp \
     tsMakefile.cpp \
     usage.cpp \
+    usageCmd.cpp \
     verCmd.cpp \
     version.cpp
 

@@ -6,30 +6,40 @@
 // paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 // Just download it and use it.
 // 
-// Copyright (c) 2015, 2017 Randall Lee White
+// Copyright (c) 2017 Randall Lee White
 
-#include "castCmdExec.h"
+#ifndef USAGECD_H
+#define USAGECD_H
 
 #include "castCmd.h"
-#include "cmdFactory.h"
 
-#include <memory>
+#include <iostream>
 
 namespace cas
 {
-    std::auto_ptr<CastCmd> createCommand(const cas::CmdLine& cmdLine)
+    struct CmdLine;
+    
+    struct UsageCmd : CastCmd
     {
-	return std::auto_ptr<CastCmd>(CastCmdFactory::create(cmdLine));
-    }
+        UsageCmd(const CmdLine& cmdLine,
+                 std::ostream& out = std::cout)
+	    : CastCmd(cmdLine),
+              out_(out)
+	{
+	    if("-help" != name())
+		setName("-usage");
+	}
+        
+        bool exec()
+	{
+	    out_ << "USAGE:" << std::endl;
+	    
+	    return true;
+	}
 
-    bool executeCmd(const cas::CmdLine& cmdLine)
-    {
-        std::auto_ptr<CastCmd> cmd(createCommand(cmdLine));
-        
-        if(!cmd.get())
-            return false;
-        
-        return cmd->exec();
-    }
+    private:
+        std::ostream& out_;
+    };
 }
-  
+    
+#endif //USAGECD_H

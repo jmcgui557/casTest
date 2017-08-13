@@ -6,20 +6,33 @@
 // paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 // Just download it and use it.
 // 
-// Copyright (c) 2015 Randall Lee White
+// Copyright (c) 2017 Randall Lee White
+
+#include "usageCmd.h"
 
 #include "cmdLine.h"
+#include "usage.h"
 
 namespace cas
 {
-    CmdLine::CmdLine(int argc, const char* argv[])
+    UsageCmd::UsageCmd(const cas::CmdLine& cmdLine,
+		       std::ostream& out)
+	: CastCmd(cmdLine),
+	  out_(out)
     {
-        int a(1);
-        
-        while(a < argc)
-        {
-	    args.push_back(argv[a]);
-            ++a;
-        }
+	if("-help" != name())
+	    setName("-usage");
+    }
+	
+    bool UsageCmd::exec()
+    {
+	if("-help" != name())
+	    out_ << "casTest: UNRECOGNIZED command: " << name() << "\n";
+
+	usage(out_);
+
+	return true;
     }
 }
+    
+
