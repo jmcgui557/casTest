@@ -1,8 +1,19 @@
+// The "Clean And Simple Test" (CAST) software framework, tools, and
+// documentation are distributed under the terms of the MIT license a
+// copy of which is included with this package (see the file "LICENSE"
+// in the CAS poject tree's root directory).  CAST may be used for any
+// purpose, including commercial purposes, at absolutely no cost. No
+// paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+// Just download it and use it.
+// 
+// Copyright (c) 2017 Randall Lee White
+
 #include "testCase.h"
 
-#include "tsMakefile.h"
-
 #include <sstream>
+
+//code under test
+#include "../tsMakefile.cpp"
 
 DEFINE_BASE(MakefileTest)
 cas::TestSuiteMakefile m;
@@ -141,11 +152,11 @@ void run()
 
     try
     {
-	std::string r(m.getRecipe("myThirdTest"));
+        std::string r(m.getRecipe("myThirdTest"));
     }
     catch(const cas::TestSuiteMakefile::xRecipeNotFound&)
     {
-	success = true;
+        success = true;
     }
 
     CK(success);

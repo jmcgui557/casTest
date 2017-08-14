@@ -10,11 +10,13 @@
 
 #include "testCase.h"
 
-#include "aboutCmd.h"
 #include "cmdLine.h"
 
 #include <string>
 #include <sstream>
+
+//code under test
+#include "../aboutCmd.cpp"
 
 DEFINE_TEST(AboutCmdPrintsGeneralInfo)
 int argc;
@@ -39,10 +41,10 @@ void tearDown()
 void run()
 {
     std::string expected("\nThank you for trying casTest.  "
-			 "casTest is meant to be "
-			 "\na clean and simple unit test framework.  "
-			 "\nI hope you find it so....Randy"
-			 "\n\n(C) 2015, 2017 Randall Lee White\n\n");
+                         "casTest is meant to be "
+                         "\na clean and simple unit test framework.  "
+                         "\nI hope you find it so....Randy"
+                         "\n\n(C) 2015, 2017 Randall Lee White\n\n");
     
     std::ostringstream out;
     cas::AboutCmd about(*cmdLine, out);

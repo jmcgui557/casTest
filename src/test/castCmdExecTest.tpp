@@ -14,6 +14,7 @@
 #include "castUtil.h"
 #include "cmdFactory.h"
 
+//code under test
 #include "../castCmdExec.cpp"
 
 DEFINE_BASE(ExecTest)

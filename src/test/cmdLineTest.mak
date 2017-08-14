@@ -37,7 +37,7 @@ TSTSRC := cmdLineTest.tpp
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../cmdLine.cpp
+SRCS :=
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

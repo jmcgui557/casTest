@@ -13,15 +13,18 @@
 #include "castCmd.h"
 #include "cmdLine.h"
 
+//code under test
+#include "../castCmd.cpp"
+
 struct DoNothing : cas::CastCmd
 {
     DoNothing(const cas::CmdLine& cmdLine)
-	: CastCmd(cmdLine)
+        : CastCmd(cmdLine)
     {}
     
     bool exec()
     {
-	return true;
+        return true;
     }
 };
 
@@ -57,8 +60,8 @@ DEFINE_TEST(CastCmd_ErrorContainsErrMsgFileAndLineNumer)
 void run()
 {
     cas::CastCmd::Error err("My error",
-			    "somefile.cpp",
-			    123);
+                            "somefile.cpp",
+                            123);
 
     std::string expected("ERROR [somefile.cpp(123)]: My error");
     
@@ -71,14 +74,14 @@ END_DEF
 struct DerivedCmd : cas::CastCmd
 {
     DerivedCmd(const cas::CmdLine& cmdLine)
-	: cas::CastCmd(cmdLine)
+        : cas::CastCmd(cmdLine)
     {
-	setName("DerivedCmd");
+        setName("DerivedCmd");
     }
 
     bool exec()
     {
-	return true;
+        return true;
     }
 
 };

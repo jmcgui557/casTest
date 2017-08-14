@@ -11,28 +11,24 @@
 #include "testLib.h"
 
 #include "testCase.h"
-#include "trace.h"
+#include "dynLibUtil.h"
 
-#include <dlfcn.h>
 #include <cerrno>
 #include <stdexcept>
 
 namespace cas
 {
+    const std::string TestLib::FactoryFunctionName("createTests");
+    const std::string TestLib::DestructorFunctionName("destroyTests");
+
     TestLib::Error::Error(const std::string& errString)
         : std::runtime_error(errString)
     {}
 
-    const std::string
-    TestLib::FactoryFunctionName("createTests");
-
-    const std::string
-    TestLib::DestructorFunctionName("destroyTests");
-
     TestLib::TestLib(const std::string& libname)
-	: libHandle_(0),
-	  createTests_(0),
-	  destroyTests_(0)
+        : libHandle_(0),
+          createTests_(0),
+          destroyTests_(0)
     {
         libHandle_ = loadLibrary(libname);
         createTests_ = mapFunction(libHandle_, FactoryFunctionName);
@@ -41,7 +37,7 @@ namespace cas
 
     TestLib::~TestLib()
     {
-        dlclose(libHandle_);
+        DynLibUtil::close(libHandle_);
     }
 
     void TestLib::createTests(std::vector<TestCase*>& tests)
@@ -56,12 +52,12 @@ namespace cas
 
     void* TestLib::loadLibrary(const std::string& libname)
     {
-        void* l(dlopen(libname.c_str(), RTLD_NOW));
+        void* l(DynLibUtil::open(libname.c_str(), DynLibUtil::LD_NOW));
 
         if(!l)
         {
             std::string msg("FAILED to loadLibrary: ");
-            msg += dlerror();
+            msg += DynLibUtil::error();
             throw Error(msg);
         }
 
@@ -70,16 +66,16 @@ namespace cas
 
     TestFactoryFunction
     TestLib::mapFunction(void* libHandle,
-                                        const std::string& functionName)
+                         const std::string& functionName)
     {
         TestFactoryFunction ff(
             reinterpret_cast<TestFactoryFunction>(
-                dlsym(libHandle, functionName.c_str())));
+                DynLibUtil::sym(libHandle, functionName.c_str())));
 
         if(!ff)
         {
             std::string msg("FAILED to map factory function: ");
-            msg += dlerror();
+            msg += DynLibUtil::error();
             throw Error(msg);
         }
 

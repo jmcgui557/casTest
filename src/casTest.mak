@@ -19,6 +19,7 @@ SRCS := \
     castUtil.cpp \
     cmdFactory.cpp \
     cmdLine.cpp \
+    dynLibUtil.cpp \
     fileFactory.cpp \
     runTests.cpp \
     testLib.cpp \

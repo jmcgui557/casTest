@@ -37,8 +37,7 @@ TSTSRC := aboutCmdTest.tpp
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../aboutCmd.cpp \
-        ../castCmd.cpp \
+SRCS := ../castCmd.cpp \
 	../castUtil.cpp \
 	../cmdLine.cpp
 

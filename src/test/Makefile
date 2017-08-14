@@ -11,6 +11,7 @@ all:
 	$(MAKE) -f cmdFactoryTest.mak $@
 	$(MAKE) -f cmdLineTest.mak $@
 	$(MAKE) -f castCmdExecTest.mak $@
+	$(MAKE) -f testLibTest.mak $@
 
 %:
 	$(MAKE) -f testSuiteMakefileTest.mak $@
@@ -25,4 +26,5 @@ all:
 	$(MAKE) -f cmdFactoryTest.mak $@
 	$(MAKE) -f cmdLineTest.mak $@
 	$(MAKE) -f castCmdExecTest.mak $@
+	$(MAKE) -f testLibTest.mak $@
 

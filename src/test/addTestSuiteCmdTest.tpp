@@ -1,10 +1,22 @@
+// The "Clean And Simple Test" (CAST) software framework, tools, and
+// documentation are distributed under the terms of the MIT license a
+// copy of which is included with this package (see the file "LICENSE"
+// in the CAS poject tree's root directory).  CAST may be used for any
+// purpose, including commercial purposes, at absolutely no cost. No
+// paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+// Just download it and use it.
+// 
+// Copyright (c) 2017 Randall Lee White
+
 #include "testCase.h"
 
 #include "castUtil.h"
 #include "tsMakefile.h"
 #include "fileFactory.h"
-#include "../addTestSuiteCmd.cpp"
 #include "cmdLine.h"
+
+//code under test
+#include "../addTestSuiteCmd.cpp"
 
 DEFINE_BASE(ATSCmdTest)
 int argc;
@@ -66,13 +78,13 @@ void run()
     
     try
     {
-	cas::AddTestSuiteCmd cmd(*cmdLine);
-	
-	cmd.exec();
+        cas::AddTestSuiteCmd cmd(*cmdLine);
+        
+        cmd.exec();
     }
     catch(const cas::CastCmd::Error& x)
     {
-	success = true;
+        success = true;
     }
 
     CK(success);
@@ -98,13 +110,13 @@ void run()
     
     try
     {
-	cas::AddTestSuiteCmd cmd(*cmdLine);
-	
-	cmd.exec();
+        cas::AddTestSuiteCmd cmd(*cmdLine);
+        
+        cmd.exec();
     }
     catch(const cas::CastCmd::Error& x)
     {
-	success = true;
+        success = true;
     }
 
     CK(success);
@@ -120,13 +132,13 @@ void run()
     
     try
     {
-	cas::AddTestSuiteCmd cmd(*cmdLine);
-	
-	cmd.exec();
+        cas::AddTestSuiteCmd cmd(*cmdLine);
+        
+        cmd.exec();
     }
     catch(const cas::CastCmd::Error& x)
     {
-	success = true;
+        success = true;
     }
 
     CK(success);

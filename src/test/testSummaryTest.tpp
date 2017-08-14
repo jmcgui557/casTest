@@ -1,6 +1,17 @@
+// The "Clean And Simple Test" (CAST) software framework, tools, and
+// documentation are distributed under the terms of the MIT license a
+// copy of which is included with this package (see the file "LICENSE"
+// in the CAS poject tree's root directory).  CAST may be used for any
+// purpose, including commercial purposes, at absolutely no cost. No
+// paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
+// Just download it and use it.
+// 
+// Copyright (c) 2017 Randall Lee White
+
 #include "testCase.h"
 
-#include "testSummary.h"
+//code under test
+#include "../testSummary.cpp"
 
 #include <string>
 #include <sstream>
@@ -76,13 +87,12 @@ DEFINE_TEST_FROM(SummaryIsWrittenToStream, TestSummaryTest)
 void run()
 {
     std::string expected("\nSummary:\n"
-			 "    Tests ran: 7\n"
-			 "       Passed: 4\n"
-			 "      Skipped: 1\n"
-			 "       Failed: 2\n"
-			 "\n");
+                         "    Tests ran: 7\n"
+                         "       Passed: 4\n"
+                         "      Skipped: 1\n"
+                         "       Failed: 2\n"
+                         "\n");
 
-    
     sum.addResult(TestSummary::PASS);
     sum.addResult(TestSummary::PASS);
     sum.addResult(TestSummary::SKIP);

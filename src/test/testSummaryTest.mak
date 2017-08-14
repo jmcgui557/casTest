@@ -37,7 +37,7 @@ TSTSRC := testSummaryTest.tpp
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../testSummary.cpp
+SRCS := 
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

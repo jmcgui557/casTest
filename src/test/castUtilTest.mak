@@ -37,7 +37,7 @@ TSTSRC := castUtilTest.tpp
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../castUtil.cpp
+SRCS := 
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

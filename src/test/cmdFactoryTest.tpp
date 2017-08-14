@@ -10,6 +10,8 @@
 
 #include "testCase.h"
 
+#include "castUtil.h" //mock
+
 #include "aboutCmd.h"
 #include "addTestSuiteCmd.h"
 #include "castCmd.h"
@@ -18,6 +20,7 @@
 #include "verCmd.h"
 #include <sstream>
 
+//code under test
 #include "../cmdFactory.cpp"
 
 DEFINE_BASE(FactoryTest)

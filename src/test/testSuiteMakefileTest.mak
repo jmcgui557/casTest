@@ -37,7 +37,7 @@ TSTSRC := testSuiteMakefileTest.tpp
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../tsMakefile.cpp
+SRCS := 
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

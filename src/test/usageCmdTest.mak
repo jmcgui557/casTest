@@ -39,9 +39,7 @@ TSTSRC := usageCmdTest.tpp
 ################
 SRCS := ../castCmd.cpp \
 	../castUtil.cpp \
-	../cmdLine.cpp \
-	../usageCmd.cpp \
-	../usage.cpp
+	../cmdLine.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

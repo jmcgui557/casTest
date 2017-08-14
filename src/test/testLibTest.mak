@@ -13,7 +13,7 @@
 # EX:
 #    TGT := mytest.test
 ################
-TGT := cmdFactoryTest.test
+TGT := testLibTest.test
 
 INSTALL_DIR := $(CAST_DIR)/test
 
@@ -32,13 +32,12 @@ INSTALL_DIR := $(CAST_DIR)/test
 # NOTE: Due to the way test sources are processed,
 #       only one test source may be listed.
 ################
-TSTSRC := cmdFactoryTest.tpp
+TSTSRC := testLibTest.tpp
 
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../castCmd.cpp \
-	../cmdLine.cpp
+SRCS := 
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,
@@ -54,8 +53,7 @@ SRCS := ../castCmd.cpp \
 # EX:
 #    -I<projectIncludePath>
 ################
-INCLUDES := -Imocks \
-	    -I..
+INCLUDES := -Imocks
 
 ##### TODO #####
 # If your target requires special

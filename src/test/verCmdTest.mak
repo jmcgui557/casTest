@@ -45,9 +45,7 @@ TSTSRC := verCmdTest.tpp
 #
 SRCS := ../cmdLine.cpp \
         ../castCmd.cpp \
-	../castUtil.cpp \
-	../verCmd.cpp \
-	../version.cpp
+	../castUtil.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,

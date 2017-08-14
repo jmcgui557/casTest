@@ -12,10 +12,13 @@
 
 #include "castCmd.h"
 #include "cmdLine.h"
-#include "usageCmd.h"
 
 #include <string>
 #include <sstream>
+
+//code under test
+#include "../usageCmd.cpp"
+#include "../usage.cpp"
 
 DEFINE_BASE(UsageBase)
 int argc;
@@ -42,13 +45,13 @@ DEFINE_TEST_FROM(UsageCmdPrintsUsageStatement, UsageBase)
 void run()
 {
     std::string expected("casTest: UNRECOGNIZED command: -usage\n"
-			 "\nUSAGE:"
-			 "\n\tcasTest -addTestSuite <testSuiteName>"
-			 "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"
-			 "\n"
-			 "\n\tcasTest -about"
-			 "\n\tcasTest -help"
-			 "\n\tcasTest -version\n");
+                         "\nUSAGE:"
+                         "\n\tcasTest -addTestSuite <testSuiteName>"
+                         "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"
+                         "\n"
+                         "\n\tcasTest -about"
+                         "\n\tcasTest -help"
+                         "\n\tcasTest -version\n");
 
     std::ostringstream out;
     cas::UsageCmd usage(*cmdLine, out);
@@ -82,12 +85,12 @@ void tearDown()
 void run()
 {
     std::string expected("\nUSAGE:"
-			 "\n\tcasTest -addTestSuite <testSuiteName>"
-			 "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"
-			 "\n"
-			 "\n\tcasTest -about"
-			 "\n\tcasTest -help"
-			 "\n\tcasTest -version\n");
+                         "\n\tcasTest -addTestSuite <testSuiteName>"
+                         "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"
+                         "\n"
+                         "\n\tcasTest -about"
+                         "\n\tcasTest -help"
+                         "\n\tcasTest -version\n");
 
     std::ostringstream out;
     cas::UsageCmd usage(*cmdLine, out);

@@ -10,7 +10,8 @@
 
 #include "testCase.h"
 
-#include "cmdLine.h"
+//code under test
+#include "../cmdLine.cpp"
 
 DEFINE_BASE(CmdLineTest)
 int argc;
