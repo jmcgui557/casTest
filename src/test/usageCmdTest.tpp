@@ -13,6 +13,8 @@
 #include "castCmd.h"
 #include "cmdLine.h"
 
+#include "castUtil.h" //mock
+
 #include <string>
 #include <sstream>
 

@@ -8,9 +8,9 @@
 // 
 // Copyright (c) 2015, 2017 Randall Lee White
 
-#include <castUtil.h>
+#include "castUtil.h"
 
-#include <unistd.h>
+#include "casUniStd.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -64,7 +64,7 @@ namespace cas
 
     std::string getCastDir()
     {
-        const char* cdir(getenv("CAST_DIR"));
+        const char* cdir(cas::getEnv("CAST_DIR"));
 	
         if(!cdir)
             return "";

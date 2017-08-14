@@ -37,8 +37,7 @@ TSTSRC := castCmdTest.tpp
 ##### TODO #####
 # List other required sources here.
 ################
-SRCS := ../cmdLine.cpp \
-	../castUtil.cpp
+SRCS := ../cmdLine.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,
@@ -54,7 +53,8 @@ SRCS := ../cmdLine.cpp \
 # EX:
 #    -I<projectIncludePath>
 ################
-INCLUDES := -I..
+INCLUDES := -Imocks \
+	    -I..
 
 ##### TODO #####
 # If your target requires special

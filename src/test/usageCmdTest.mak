@@ -38,7 +38,6 @@ TSTSRC := usageCmdTest.tpp
 # List other required sources here.
 ################
 SRCS := ../castCmd.cpp \
-	../castUtil.cpp \
 	../cmdLine.cpp
 
 ################
@@ -55,7 +54,8 @@ SRCS := ../castCmd.cpp \
 # EX:
 #    -I<projectIncludePath>
 ################
-INCLUDES := -I..
+INCLUDES := -Imocks \
+	    -I..
 
 ##### TODO #####
 # If your target requires special

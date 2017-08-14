@@ -11,6 +11,7 @@
 #include "testCase.h"
 
 #include "cmdLine.h"
+#include "castUtil.h" //mock
 
 //code under test
 #include "../verCmd.cpp"

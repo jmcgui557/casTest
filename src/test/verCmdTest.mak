@@ -44,8 +44,7 @@ TSTSRC := verCmdTest.tpp
 # production classes here.
 #
 SRCS := ../cmdLine.cpp \
-        ../castCmd.cpp \
-	../castUtil.cpp
+        ../castCmd.cpp
 
 ################
 # The default values for INCLUDES, CFLAGS, LFLAGS, LPATHS, LIBS,
@@ -61,7 +60,8 @@ SRCS := ../cmdLine.cpp \
 # EX:
 #    -I<projectIncludePath>
 ################
-INCLUDES := -I..
+INCLUDES := -Imocks \
+	    -I..
 
 ##### TODO #####
 # If your target requires special

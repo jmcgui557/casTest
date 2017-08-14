@@ -53,7 +53,8 @@ SRCS :=
 # EX:
 #    -I<projectIncludePath>
 ################
-INCLUDES := -I..
+INCLUDES := -Imocks \
+	    -I..
 
 ##### TODO #####
 # If your target requires special

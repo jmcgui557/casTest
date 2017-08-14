@@ -13,6 +13,8 @@
 #include "castCmd.h"
 #include "cmdLine.h"
 
+#include "castUtil.h" //mock
+
 //code under test
 #include "../castCmd.cpp"
 

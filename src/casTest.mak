@@ -17,6 +17,7 @@ SRCS := \
     castCmd.cpp \
     castCmdExec.cpp \
     castUtil.cpp \
+    casUniStd.cpp \
     cmdFactory.cpp \
     cmdLine.cpp \
     dynLibUtil.cpp \
