@@ -55,10 +55,6 @@ namespace cas
             run();
         }
 
-        //deprecated.  better to use CK
-        static void Assert(bool isTrue,
-                           const std::string& errorMsg);
-
         static void Assert(bool isTrue,
                            const std::string& errorMsg,
                            const char* file,

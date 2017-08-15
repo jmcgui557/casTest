@@ -51,20 +51,6 @@ namespace cas
     {}
 
     void TestCase::Assert(bool isTrue,
-                          const std::string& errorMsg)
-    {
-        if(isTrue)
-            return;
-
-        std::string em("Assertion FAILED: ");
-        em += errorMsg;
-        em += "\nWARNING: This version of Assert() has been deprecated \n"
-            "           please use the CK() macro.\n";
-
-        throw Error(em, __FILE__, __LINE__);
-    }
-
-    void TestCase::Assert(bool isTrue,
                           const std::string& expectedConditionString,
                           const char* file,
                           size_t line)
