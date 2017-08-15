@@ -25,7 +25,8 @@ namespace cas
     
     void runTest(cas::TestCase* test,
                  size_t testNumber,
-                 TestSummary& sum)
+                 TestSummary& sum,
+                 std::ostream& out = std::cout)
     {
         TestSummary::Result result(TestSummary::PASS);
         std::string errMsg("UNKNOWN err");
@@ -55,26 +56,29 @@ namespace cas
         catch(...)
         {
             result = TestSummary::FAIL;
-            errMsg = "Caught UNKNOWN EXCEPTION.";
+            errMsg = "Caught UNKNOWN EXCEPTION";
         }
 
         sum.addResult(result);
         
-        cas_print(resultStr[result] << testNumber <<
-                  " - " << test->getName());
+        out << resultStr[result]
+            << testNumber
+            << " - "
+            << test->getName() << std::endl;
 
         if(TestSummary::FAIL == result)
         {
-            cas_print("\t---");
-            cas_print("\t" << errMsg);
-            cas_print("\t---");
+            out << "\t---\n"
+                << "\t" << errMsg << '\n'
+                << "\t---" << std::endl;
         }
         
         test->tearDown();
     }
 
     void runTests(const std::vector<TestCase*>& tests,
-                  TestSummary& sum)
+                  TestSummary& sum,
+                  std::ostream& out)
     {
         std::vector<TestCase*>::const_iterator
             tb(tests.begin()),
@@ -83,31 +87,32 @@ namespace cas
         size_t testCount(tests.size());
 
         if(0 < testCount)
-            cas_print("1.." << testCount);
+            out << "1.." << testCount << '\n';
 
         while(tb != te)
         {
             size_t testNumber(std::distance(tests.begin(), tb) + 1);
 
-            runTest(*tb, testNumber, sum);
+            runTest(*tb, testNumber, sum, out);
             ++tb;
         }
     }
 
     void runTestsFromLibrary(const std::string& libname,
-                             TestSummary& sum)
+                             TestSummary& sum,
+                             std::ostream& out = std::cout)
     {
         std::vector<TestCase*> tests;
         TestLib testLib(libname);
 
-        cas_print("\ncasTest: Running tests from: " << libname);
+        out << "\ncasTest: Running tests from: " << libname << std::endl;
 
         testLib.createTests(tests);
 
         if(0 == tests.size())
             throw std::runtime_error("No tests in library");
 
-        runTests(tests, sum);
+        runTests(tests, sum, out);
 
         testLib.destroyTests(tests);
     }

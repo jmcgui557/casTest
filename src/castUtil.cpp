@@ -10,7 +10,7 @@
 
 #include "castUtil.h"
 
-#include "casUniStd.h"
+#include "casStdLib.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -65,10 +65,10 @@ namespace cas
     std::string getCastDir()
     {
         const char* cdir(cas::getEnv("CAST_DIR"));
-	
+        
         if(!cdir)
             return "";
-	
+        
         return std::string(cdir);
     }
 }

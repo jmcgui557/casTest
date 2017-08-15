@@ -17,7 +17,7 @@
 #include <sstream>
 
 DEFINE_BASE(TestSummaryTest)
-TestSummary sum;
+cas::TestSummary sum;
 
 END_DEF
 
@@ -34,9 +34,9 @@ END_DEF
 DEFINE_TEST_FROM(AddingResultIncrementsTotal, TestSummaryTest)
 void run()
 {
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::SKIP);
-    sum.addResult(TestSummary::FAIL);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::SKIP);
+    sum.addResult(cas::TestSummary::FAIL);
 
     CK(3 == sum.total());
 }
@@ -46,10 +46,10 @@ END_DEF
 DEFINE_TEST_FROM(AddingPassIncrementsPassCount, TestSummaryTest)
 void run()
 {
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::FAIL);
-    sum.addResult(TestSummary::SKIP);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::FAIL);
+    sum.addResult(cas::TestSummary::SKIP);
 
     CK(2 == sum.passed());
 }
@@ -59,10 +59,10 @@ END_DEF
 DEFINE_TEST_FROM(AddingSkipIncrementsSkipCount, TestSummaryTest)
 void run()
 {
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::FAIL);
-    sum.addResult(TestSummary::SKIP);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::FAIL);
+    sum.addResult(cas::TestSummary::SKIP);
 
     CK(1 == sum.skipped());
 
@@ -73,10 +73,10 @@ END_DEF
 DEFINE_TEST_FROM(AddingFailIncrementsFailCount, TestSummaryTest)
 void run()
 {
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::FAIL);
-    sum.addResult(TestSummary::SKIP);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::FAIL);
+    sum.addResult(cas::TestSummary::SKIP);
 
     CK(1 == sum.failed());
 }
@@ -93,13 +93,13 @@ void run()
                          "       Failed: 2\n"
                          "\n");
 
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::SKIP);
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::PASS);
-    sum.addResult(TestSummary::FAIL);
-    sum.addResult(TestSummary::FAIL);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::SKIP);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::PASS);
+    sum.addResult(cas::TestSummary::FAIL);
+    sum.addResult(cas::TestSummary::FAIL);
 
     std::ostringstream out;
 

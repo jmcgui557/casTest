@@ -1,6 +1,5 @@
 all:
 	$(MAKE) -f testSuiteMakefileTest.mak $@
-	$(MAKE) -f skipTest.mak $@
 	$(MAKE) -f testSummaryTest.mak $@
 	$(MAKE) -f verCmdTest.mak $@
 	$(MAKE) -f castUtilTest.mak $@
@@ -13,10 +12,10 @@ all:
 	$(MAKE) -f castCmdExecTest.mak $@
 	$(MAKE) -f testLibTest.mak $@
 	$(MAKE) -f testCaseTest.mak $@
+	$(MAKE) -f runTestsTest.mak $@
 
 %:
 	$(MAKE) -f testSuiteMakefileTest.mak $@
-	$(MAKE) -f skipTest.mak $@
 	$(MAKE) -f testSummaryTest.mak $@
 	$(MAKE) -f verCmdTest.mak $@
 	$(MAKE) -f castUtilTest.mak $@
@@ -29,4 +28,5 @@ all:
 	$(MAKE) -f castCmdExecTest.mak $@
 	$(MAKE) -f testLibTest.mak $@
 	$(MAKE) -f testCaseTest.mak $@
+	$(MAKE) -f runTestsTest.mak $@
 

@@ -13,11 +13,11 @@ TGT := casTest
 SRCS := \
     aboutCmd.cpp \
     addTestSuiteCmd.cpp \
+    casStdLib.cpp \
     casTest.cpp \
     castCmd.cpp \
     castCmdExec.cpp \
     castUtil.cpp \
-    casUniStd.cpp \
     cmdFactory.cpp \
     cmdLine.cpp \
     dynLibUtil.cpp \

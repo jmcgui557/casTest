@@ -10,7 +10,7 @@
 
 #include "testCase.h"
 
-#include "casUniStd.h" //mock
+#include "casStdLib.h" //mock
 
 //code under test
 #include "../castUtil.cpp"
