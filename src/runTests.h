@@ -10,15 +10,17 @@
 #ifndef RUNTEST_H
 #define RUNTEST_H
 
+#include <iostream>
 #include <string>
-
-struct TestSummary;
 
 namespace cas
 {
+    struct TestSummary;
+
     //returns number of failed tests
     void runTestsFromLibrary(const std::string& libname,
-                             TestSummary& sum);
+                             cas::TestSummary& sum,
+			     std::ostream& out = std::cout);
 }
 
 #endif //RUNTEST_H

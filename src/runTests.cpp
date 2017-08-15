@@ -100,7 +100,7 @@ namespace cas
 
     void runTestsFromLibrary(const std::string& libname,
                              TestSummary& sum,
-                             std::ostream& out = std::cout)
+                             std::ostream& out)
     {
         std::vector<TestCase*> tests;
         TestLib testLib(libname);

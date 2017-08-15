@@ -43,7 +43,7 @@ int runTests(const CmdLine& cmdLine)
 
     while(beg != end)
     {
-        runTestsFromLibrary(*beg, sum);
+	cas::runTestsFromLibrary(*beg, sum);
         ++beg;
     }
 

@@ -73,7 +73,7 @@ void run()
     cas::TestSummary sum;
     std::string expected("not ok 1 - ErrorTest\n"
                          "\t---\n"
-                         "\tCaught cas::Test::Error: Assertion(false) FAILED: runTestsTest.cpp:21\n"
+                         "\tCaught cas::Test::Error: Assertion(false) FAILED: runTestsTest.cpp:31\n"
                          "\t---\n");
     
     std::ostringstream out;

@@ -15,6 +15,8 @@
 ################
 TGT := testCaseTest.test
 
+INSTALL_DIR := $(CAST_DIR)/test
+
 ##### TODO #####
 # List test sources here.  Test sources are essentially C++ files which
 # use the macros DEFINE_TEST (or DEFINE_TEST_FROM) and END_DEF from
