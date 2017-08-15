@@ -98,3 +98,17 @@ void run()
 
 END_DEF
 
+DEFINE_TEST(GetCastDirReturnsCastDirEnvVar)
+void run()
+{
+    mockCastDir() = "";
+
+    CK("" == cas::getCastDir());
+
+    mockCastDir() = "MyCastDir";
+
+    CK("MyCastDir" == cas::getCastDir());
+
+}
+
+END_DEF
