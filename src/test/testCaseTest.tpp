@@ -1,5 +1,4 @@
 #include "testCase.h"
-#include "trace.h"
 
 #include <string>
 
@@ -29,11 +28,11 @@ void run()
 
     try
     {
-	test.run_();
+        test.run_();
     }
     catch(const TestCase::TestSkipped& x)
     {
-	success = true;
+        success = true;
     }
 
     CK(success);
@@ -47,17 +46,17 @@ void run()
     bool success(false);
     FailureTestCase test;
 
-    std::string expectedErrText("Assertion(false) FAILED: testCaseTest.cpp:11");
+    std::string expectedErrText("Assertion(false) FAILED: testCaseTest.cpp:12");
 
     try
     {
-	test.run_();
+        test.run_();
     }
     catch(const TestCase::Error& x)
     {
-	success = true;
+        success = true;
 
-	CK(0 == expectedErrText.compare(x.what()));
+        CK(0 == expectedErrText.compare(x.what()));
     }
 
     CK(success);
@@ -67,12 +66,12 @@ END_DEF
 struct DeleteCounter : cas::TestCase
 {
     DeleteCounter()
-	: TestCase("DeleteCounter")
+        : TestCase("DeleteCounter")
     {}
 
     ~DeleteCounter()
     {
-	++deletes;
+        ++deletes;
     }
 
     void run()
@@ -96,11 +95,10 @@ void run()
     std::vector<cas::TestCase*> tests;
 
     for(size_t t(0); t < 10; ++t)
-	tests.push_back(new DeleteCounter());
+        tests.push_back(new DeleteCounter());
 
     destroyTests(tests);
 
-    cas_print("deletes: " << DeleteCounter::deletes);
     CK(10 == DeleteCounter::deletes);
 }
 

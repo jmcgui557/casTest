@@ -16,9 +16,19 @@ namespace cas
 {
     const int DynLibUtil::LD_LAZY(RTLD_LAZY);
     const int DynLibUtil::LD_NOW(RTLD_NOW);
+
+#ifdef RTLD_BINDING_MASK
     const int DynLibUtil::LD_BINDING_MASK(RTLD_BINDING_MASK);
+#endif
+
+#ifdef RTLD_NOLOAD
     const int DynLibUtil::LD_NOLOAD(RTLD_NOLOAD);
+#endif
+
+#ifdef RTLD_DEEPBIND
     const int DynLibUtil::LD_DEEPBIND(RTLD_DEEPBIND);
+#endif
+    
     const int DynLibUtil::LD_GLOBAL(RTLD_GLOBAL);
     const int DynLibUtil::LD_LOCAL(RTLD_LOCAL);
     const int DynLibUtil::LD_NODELETE(LD_NODELETE);
