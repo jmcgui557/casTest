@@ -40,6 +40,8 @@ void setUp()
 void tearDown()
 {
     delete cmdLine;
+
+    cas::FileFactory::reset();
 }
 
 END_DEF

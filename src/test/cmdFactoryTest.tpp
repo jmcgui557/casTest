@@ -18,6 +18,8 @@
 #include "cmdLine.h"
 #include "usageCmd.h"
 #include "verCmd.h"
+
+#include <memory>
 #include <sstream>
 
 //code under test
@@ -48,9 +50,9 @@ void setUp()
 
 void run()
 {
-    cas::CastCmd* cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
-    CK(0 != cmd);
+    CK(0 != cmd.get());
     CK("-about" == cmd->name());
 }
 END_DEF
@@ -69,9 +71,9 @@ void setUp()
 void run()
 {
     std::ostringstream out;
-    cas::CastCmd* cmd(cas::CastCmdFactory::create(*cmdLine, out));
+    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine, out));
 
-    CK(0 != cmd);
+    CK(0 != cmd.get());
 
     cmd->exec();
     
@@ -94,10 +96,9 @@ void setUp()
 void run()
 {
     std::ostringstream out;
-    cas::CastCmd* cmd(cas::CastCmdFactory::create(*cmdLine, out));
+    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine, out));
 
-    CK(0 != cmd);
-
+    CK(0 != cmd.get());
     cmd->exec();
     
     CK(std::string::npos != out.str().find("USAGE:"));
@@ -118,7 +119,7 @@ void setUp()
 
 void run()
 {
-    cas::CastCmd* cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
     CK("-addTestSuite" == cmd->name());
 }
@@ -138,7 +139,7 @@ void setUp()
 
 void run()
 {
-    cas::CastCmd* cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
     CK("-version" == cmd->name());
 }
@@ -158,9 +159,9 @@ void setUp()
 
 void run()
 {
-    cas::CastCmd* cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
-    CK(0 == cmd);
+    CK(0 == cmd.get());
 
 }
 

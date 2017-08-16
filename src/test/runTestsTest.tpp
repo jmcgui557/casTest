@@ -141,6 +141,8 @@ END_DEF
 
 DEFINE_TEST(RunTestsPrintsTestPlan)
 
+std::vector<TestCase*> tests;
+
 std::string getFirstLine(const std::string& s)
 {
     std::string::size_type p(s.find('\n'));
@@ -149,15 +151,22 @@ std::string getFirstLine(const std::string& s)
                        s.begin() + p);
 }
 
-void run()
+void setUp()
 {
-    cas::TestSummary sum;
-    std::vector<TestCase*> tests;
-
     tests.push_back(new SuccessfulTest());
     tests.push_back(new ErrorTest());
     tests.push_back(new StdExceptTest());
     tests.push_back(new UnknownExceptTest());
+}
+
+void tearDown()
+{
+    destroyTests(tests);
+}
+
+void run()
+{
+    cas::TestSummary sum;
 
     std::string expected("1..4");
     std::ostringstream out;
@@ -215,13 +224,23 @@ void run()
 END_DEF
 
 DEFINE_TEST(RunTestsRunsTheTestsInTheLibrary)
+
+void setUp()
+{
+    cas::TestLib::mockTests.push_back(new SuccessfulTest());
+    cas::TestLib::mockTests.push_back(new SuccessfulTest());
+}
+
+void tearDown()
+{
+    destroyTests(cas::TestLib::mockTests);
+    cas::TestLib::mockTests.clear();
+}
+
 void run()
 {
     cas::TestSummary sum;
     std::ostringstream out;
-
-    cas::TestLib::mockTests.push_back(new SuccessfulTest());
-    cas::TestLib::mockTests.push_back(new SuccessfulTest());
 
     cas::runTestsFromLibrary("myLib",
                              sum,

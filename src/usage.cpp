@@ -10,17 +10,15 @@
 
 #include "usage.h"
 
-#include "trace.h"
-
 int usage(std::ostream& out)
 {
     out << "\nUSAGE:"
-	<< "\n\tcasTest -addTestSuite <testSuiteName>"
-	<< "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"
-	<< "\n"
-	<< "\n\tcasTest -about"
-	<< "\n\tcasTest -help"
-	<< "\n\tcasTest -version" << std::endl;
+        << "\n\tcasTest -addTestSuite <testSuiteName>"
+        << "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"
+        << "\n"
+        << "\n\tcasTest -about"
+        << "\n\tcasTest -help"
+        << "\n\tcasTest -version" << std::endl;
 
     return -1;
 }

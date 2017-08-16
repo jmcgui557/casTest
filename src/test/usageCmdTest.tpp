@@ -46,7 +46,7 @@ END_DEF
 DEFINE_TEST_FROM(UsageCmdPrintsUsageStatement, UsageBase)
 void run()
 {
-    std::string expected("casTest: UNRECOGNIZED command: -usage\n"
+    std::string expected("casTest: UNRECOGNIZED command: -invalidCmd\n"
                          "\nUSAGE:"
                          "\n\tcasTest -addTestSuite <testSuiteName>"
                          "\n\tcasTest <testLib1> [<testLib2> <...testLibN>]"

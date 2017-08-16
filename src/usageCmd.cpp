@@ -16,22 +16,19 @@
 namespace cas
 {
     UsageCmd::UsageCmd(const cas::CmdLine& cmdLine,
-		       std::ostream& out)
-	: CastCmd(cmdLine),
-	  out_(out)
-    {
-	if("-help" != name())
-	    setName("-usage");
-    }
-	
+                       std::ostream& out)
+        : CastCmd(cmdLine),
+          out_(out)
+    {}
+        
     bool UsageCmd::exec()
     {
-	if("-help" != name())
-	    out_ << "casTest: UNRECOGNIZED command: " << name() << "\n";
+        if("-help" != name())
+            out_ << "casTest: UNRECOGNIZED command: " << name() << "\n";
 
-	usage(out_);
+        usage(out_);
 
-	return true;
+        return true;
     }
 }
     
