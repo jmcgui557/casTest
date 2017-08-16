@@ -9,7 +9,6 @@
 // Copyright (c) 2017 Randall Lee White
 
 #include "testCase.h"
-#include "trace.h"
 
 #include <string>
 
@@ -57,7 +56,7 @@ void run()
     bool success(false);
     FailureTestCase test;
 
-    std::string expectedErrText("Assertion(false) FAILED: testCaseTest.cpp:22");
+    std::string expectedErrText("Assertion(false) FAILED: testCaseTest.cpp:21");
 
     try
     {
@@ -110,7 +109,6 @@ void run()
 
     destroyTests(tests);
 
-    cas_print("deletes: " << DeleteCounter::deletes);
     CK(10 == DeleteCounter::deletes);
 }
 

@@ -17,9 +17,18 @@ namespace cas
     {
         static const int LD_LAZY;
         static const int LD_NOW;
+#ifdef RTLD_BINDING_MASK
         static const int LD_BINDING_MASK;
+#endif
+
+#ifdef RTLD_NOLOAD
         static const int LD_NOLOAD;
+#endif
+
+#ifdef RTLD_DEEPBIND
         static const int LD_DEEPBIND;
+#endif
+        
         static const int LD_GLOBAL;
         static const int LD_LOCAL;
         static const int LD_NODELETE;

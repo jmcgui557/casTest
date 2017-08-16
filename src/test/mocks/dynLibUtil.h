@@ -13,6 +13,8 @@
 
 #include "testCase.h"
 
+#include <cstring>
+
 extern "C"
 {
     void createTestsMock(std::vector<cas::TestCase*>&)
@@ -56,7 +58,7 @@ namespace cas
             if(0 == mock_dlsymVal)
                 return mock_dlsymVal;
                 
-            if(symbol == "createTests")
+            if(0 == strcmp(symbol, "createTests"))
                 return reinterpret_cast<void*>(createTests_);
 
             return reinterpret_cast<void*>(destroyTests_);
