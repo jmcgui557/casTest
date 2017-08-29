@@ -28,9 +28,19 @@ or use wget:
     wget https://www.dropbox.com/s/pv2xcu72m3z8nd0/installCast.bin
     wget https://www.dropbox.com/s/t2330ar0qupxz9n/installCast.bin.sha1
 
+You can also download from GitHub:
+
+    https://github.com/obibuffett/casTest/releases
+    
 If you like, you can clone the project from GitHub:
 
-    git clone https://github.com/obibuffett/casTest.git
+    - via browser:
+
+      https://github.com/obibuffett/casTest
+
+    - via commandline:
+    
+      git clone https://github.com/obibuffett/casTest.git
 
 casTest started out as a personal project just to explore questions related
 to testing frameworks.  As someone once said, to figure out how something
