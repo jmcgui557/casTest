@@ -10,8 +10,6 @@
 
 #include "dynLibUtil.h"
 
-#include <dlfcn.h>
-
 namespace cas
 {
     const int DynLibUtil::LD_LAZY(RTLD_LAZY);

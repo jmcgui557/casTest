@@ -11,13 +11,15 @@ Released under the MIT license.
 ranwhite@gmail.com
 
 ===============================================================================
+
 Introduction
 ------------
 casTest is a system of software tools (make files, scripts, library, and the
-casTest executable) which is designed to make test driven development in C++
-a bit easier.  Hopefully, quite a bit easier.  casTest is distributed with all
-source code.  It is available in an easy to use self-extracting tarball from
-one of my dropbox folders.  Just point your browser to:
+casTest executable) which is designed to make test driven development (or test
+development in general) in C++ a bit easier.  Hopefully, quite a bit easier.
+casTest is distributed with all source code.  It is available in an easy to use
+self-extracting tarball from one of my dropbox folders.  Just point your browser
+to:
 
     https://www.dropbox.com/sh/2wtklxt4tyqoant/AAA54F3BVCyvVCvJiYVz6WNPa?dl=0
 
@@ -33,18 +35,19 @@ If you like, you can clone the project from GitHub:
 casTest started out as a personal project just to explore questions related
 to testing frameworks.  As someone once said, to figure out how something
 works, sometimes you have to implement it yourself.  (I seem to recall reading
-this in one of Scott Meyers' books, but I can't seem to find the quote.  If
-I have this wrong, my apologies to both Scott Meyers and the actual author.)
-The casTest framework is the result of this exploration and was developed using
-Test Driven Development principles.  Although the suite of tests found in 
-<CAST_DIR>/src/test/selftest.test is now loaded as any other suite of tests
-built to be executed with casTest, they started out as self-test routines
-within casTest.cpp.  They were refactored after casTest had matured
-sufficiently.
+this in one of Scott Meyers' books, but I can't find the quote.  If I have this
+wrong, my apologies to both Scott Meyers and the actual author.) The casTest
+framework is the result of this exploration and, at least to some extent, was
+developed using Test Driven Development principles.
 
-A primary goal of the project is to keep the code clean and simple by applying the
-SOLID principles of software design as described by Robert C. Martin
+A primary goal of the project is to keep the code clean and simple by applying
+the SOLID principles of software design as described by Robert C. Martin
 (https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
+
+Another primary goal of casTest is to allow a developer to create tests
+quickly.  An initial (default) sanity test using casTest can be setup by
+executing a single command.  I use casTest for performing all my C++ code
+katas.
 
 
 ===============================================================================
@@ -55,9 +58,14 @@ Installing casTest from the self-extracting tarball is probably the easiest
 method of installation.  This is especially true for installing to a system
 directory such as /usr/local or /opt as root.
 
-To install casTest in this method, just copy installCast.bin to a directory
-for which you have access and execute it.  If you'd like to install as root,
-just use sudo (or su or login as root) to run installCast.bin.
+To install casTest using this method, just copy installCast.bin to a directory
+for which you have access and execute it.
+
+    Note: Currently, you must cd to the directory contatining installCast.bin
+          and execute it from there.
+
+If you'd like to install as root, just use sudo (or su or login as root) to
+run installCast.bin.
 
     > ./installCast.bin
 or
@@ -74,11 +82,12 @@ do the following:
     - extract itself to the selected location
     - create resource scripts (castEnv.sourceMe.bash and castEnv.sourceMe.csh)
       in the installation directory
-    - do a full build of all targets (libcasTest.a, casTest, and selftest.test)
+    - do a full build of all targets (libcasTest.a, casTest, and several
+      self-tests)
     - run the self tests located in <castParentDir>/casTest/src/tests
 
-      NOTE: You can re-run the self tests by executing:
-            $> casTest <castParentDir>/casTest/test/selftest.test
+      NOTE: You can re-run the self-tests by executing:
+            $> casTest <castParentDir>/casTest/test/*.test
             
 If you are installing as a normal user, installCast.bin will create a link
 to castEnv.sourceMe.bash and castEnv.sourceMe.csh in your HOME directory.
@@ -125,16 +134,33 @@ you are using bash or csh), and proceed to execute all make scripts
 in the project tree.  When executing "make install" the make targets are
 installed as follows:
           
-          - casTest (executable): <casParentDir>/casTest/bin
-          - tpp2cpp (executable): <casParentDir>/casTest/bin
+          - casTest (executable): <castParentDir>/casTest/bin
+          - tpp2cpp (executable): <castParentDir>/casTest/bin
           - libcasTest.a: <castParentDir>/casTest/lib
-          - selftest.test: <castParentDir/casTest/test
           - casTest.sourceMe.bash: <castParentDir>/casTest
           - casTest.sourceMe.csh: <castParentDir>/casTest
           - casTest.sourceMe.bash: linked to $HOME
           - casTest.sourceMe.csh: linked to $HOME
+	  - All self-tests
+	    -- aboutCmdTest.test: <castParentDir>/casTest/test
+	    -- addTestSuiteCmdTest.test: <castParentDir>/casTest/test
+	    -- castCmdExecTest.test: <castParentDir>/casTest/test
+	    -- castCmdTest.test: <castParentDir>/casTest/test
+	    -- castUtilTest.test: <castParentDir>/casTest/test
+	    -- cmdFactoryTest.test: <castParentDir>/casTest/test
+	    -- cmdLineTest.test: <castParentDir>/casTest/test
+	    -- runTestsTest.test: <castParentDir>/casTest/test
+	    -- testCaseTest.test: <castParentDir>/casTest/test
+	    -- testLibTest.test: <castParentDir>/casTest/test
+	    -- testSuiteMakefileTest.test: <castParentDir>/casTest/test
+	    -- testSummaryTest.test: <castParentDir>/casTest/test
+	    -- tpp2cppTest.test: <castParentDir>/casTest/test
+	    -- usageCmdTest.test: <castParentDir>/casTest/test
+	    -- verCmdTest.test: <castParentDir>/casTest/test
+	  
 
-Source the appropriate file before using casTest.
+Before using casTest, source the appropriate resourse script for
+your shell (casTest.sourceMe.bash or casTest.sourceMe.csh).
 
 
 ===============================================================================
@@ -165,7 +191,21 @@ first test.
     -- myTest.mak (make file for myTest.test)
     -- myTest.tpp (source file for myTest.test)
 
-  Despite the .tpp suffix, myTest.tpp is a C++ source file.  It
+  Note that the test source uses ".tpp" as an appendix.  This is done make it
+  easier to generate the appropriate code to create the tests.  A utility,
+  tpp2cpp, is used to process the .tpp file into a .cpp which is identical to
+  its corresponding .tpp file except for the following:
+
+     -- Any @SKIP directives (explained below) are commented out and the
+     	following test is set to be skipped when executed.
+     -- A factory function is appended to the .cpp file which creates one of
+     	each test defined in the .tpp file.  The created factory function is
+	called by the framework when casTest is executed.
+
+  Line numbers of a .tpp file and its corresponding .cpp are identical with the
+  exception of the appended factory function.
+        
+  With the exception of any @SKIP directives, myTest.tpp is a C++ source file.  It
   illustrates the use of the macros (defined in testCase.h) DEFINE_TEST
   and END_DEF.  These macros are provided to allow tests to be defined
   quickly and painlessly.  If you open myTest.tpp, you will see the
@@ -227,7 +267,7 @@ first test.
 
           You can also run multiple test suites from a single invocation.
 
-          $> casTest myTest.test myOtherTest.test ../yaTest/yaTest.test
+          $> casTest myTest.test myOtherTest.test ../yetAnotherTest/yetAnotherTest.test
 
   NOTE2:  The .test suffix is used to identify a shared library containing 
           a collection of one or more tests (ie a suite of tests).  The
@@ -267,6 +307,9 @@ first test.
 
 - Other tests can be added to myTest.tpp to create an entire suite of tests.
   Typically, several related tests will be added to the same .tpp file.
+
+  Note that we use the term test suite in a generic sense.  There is no
+  "TestSuite" class in the framework.
 
 Hopefully, this short intro will get you started.  For more detailed
 information about the working of casTest, see the manual (well, once its
@@ -320,7 +363,7 @@ test case class that is intended to be used as a base class for other test
 classes rather than executed as a test in and of itself.  
 DEFINE_TEST_FROM(<derivedTestName>, <baseTestName>) is used to derive a test
 from another test.  There are examples of the use of these macros in
-casTestSelf.tpp in the test directory (<casParentDir>/casTest/src/test).
+the self-test source directory at <casParentDir>/casTest/src/test/.
 
 As you can see, the macros are simply convenient tools to define a class and
 provide a constructor that calls the base class, "cas::TestCase", passing the
@@ -385,13 +428,12 @@ the DEFINE_TEST_FROM macros.
 Generated make files
 --------------------
 As mentioned above, the first time you create a new test suite, three files are
-generated.  Of course, the test source file (.tpp file) and two make files.
-The first, Makefile, is a top-level make file and just calls the other make
-file (a single target make file with a .mak suffix) that was created.
-Subsequent uses of -addTestSuite within the same directory, will generate
-another test source and another single target make file, and will modify the
-top-level make file (Makefile) to add the new single target make file to the
-list of those called. 
+generated.  The test source file (.tpp file) and two make files.  The first,
+makefile, named Makefile, is a top-level make file and just calls the other
+make file that was created.  The second makefile is a single target make file
+with a .mak suffix.  Subsequent uses of -addTestSuite within the same
+directory, will generate additional test sources and single target make files,
+and will add appropriate entries to the top-level make file (Makefile).
 
  NOTE:  This method of make file management was chosen simply because it is
         similar to other projects on which I have worked.  By collecting common
@@ -404,9 +446,9 @@ list of those called.
         class defined by the project.  In typical use, a single test file
         (test suite) will house several related tests.
 
-The single target make files (.mak suffix) are meant to be edited.  Each
-includes comments indicating where it may be appropriate to customize.  For
-instance, if you are creating a test to test a class that depends on librt.so,
+The single target make files (.mak suffix) are meant to be edited by the user.
+Each includes comments indicating where it may be appropriate to customize.
+For instance, if you are creating a test to test a class that depends on librt.so,
 just add "-lrt" to the LIBS macro:
 
 ##### TODO #####
@@ -428,17 +470,162 @@ mock entity fully within a header file named identically to one included by
 the code under test.
 
 If you need additional sources, add them to the SRCS macro.  (Don't add any
-sources to the TSRCS macro as only one test source can be used.)  Instructions
+sources to the TSTSRC macro as only one test source can be used.)  Instructions
 for most edits you may need to make to your .mak files are included as comments
 in the generated .mak file.
 
 
 ===============================================================================
 
+Test Output
+-----------
+casTest's output is very similar to the format specified for the Test Anything
+Protocol (TAP).  (See https://testanything.org/tap-specification.html.)  After
+reproting the test suite being executed, casTest prints the test plan.  Using the
+addTestSuiteCmdTest.test test suite from casTest's self tests as an example, this
+will look something like this:
+
+    casTest: Running tests from: test/addTestSuiteCmdTest.test
+    1..4
+
+This shows that there are 4 tests in the suite numbered 1 through 4.
+
+Next, each test is executed.  The result of the test (ok, not ok, or skipped)
+is output with the test number and the name of the test.  Again, using the
+addTestSuiteCmdTest.test suite, casTest reports:
+
+    ok 1 - AddTestSuiteCmdCreatesTppSource
+    ok 2 - AddTestSuiteCmdThrowsIfCAST_DIRIsNotDefined
+    ok 3 - AddTestSuiteCmdThrowsIfTooFewArgs
+    ok 4 - AddTestSuiteCmdThrowsIfMakeFileTemplateCopyFails
+
+Finally, casTest reports the summary of the tests that were run:
+
+    Summary:
+        Tests ran: 4
+           Passed: 4
+          Skipped: 0
+           Failed: 0
+
+Here, all 4 tests passed.
+
+When executing multiple test suites, the summary covers all tests run from
+all test suites passed on the command line.
+
+For failed tests, casTest will provide the condition that failed:
+
+    not ok 1 - SanityTest
+            ---
+            Caught cas::Test::Error: Assertion(true == val) FAILED: stackTest.cpp:8
+            ---
+
+===============================================================================
+
+Coverage
+--------
+
+The casTest make files provide a built-in coverage capability.  To generate a
+test which will produce gcov artifacts on execution, define the TAG variable to be
+"-cov" when invoking make:
+
+    >$ make TAG="-cov"
+
+This will produce gcov instrumented test libraries for each test suite in the
+directory.  Each of these instrumented libraries will have an appendix of
+".test-cov".  For example, running this command in $<casTestParentDir>/src/test
+results in the following test suite libraries being produced:
+
+    - aboutCmdTest.test-cov
+    - addTestSuiteCmdTest.test-cov
+    - castCmdExecTest.test-cov
+    - castCmdTest.test-cov
+    - castUtilTest.test-cov
+    - cmdFactoryTest.test-cov
+    - cmdLineTest.test-cov
+    - runTestsTest.test-cov
+    - testCaseTest.test-cov
+    - testLibTest.test-cov
+    - testSuiteMakefileTest.test-cov
+    - testSummaryTest.test-cov
+    - usageCmdTest.test-cov
+    - verCmdTest.test-cov
+
+In addition, a gcov notes file (.gcno) is produced for each test library:
+
+    - aboutCmdTest-cov.gcno
+    - addTestSuiteCmdTest-cov.gcno
+    - castCmdExecTest-cov.gcno
+    - castCmdTest-cov.gcno
+    - castUtilTest-cov.gcno
+    - cmdFactoryTest-cov.gcno
+    - cmdLineTest-cov.gcno
+    - runTestsTest-cov.gcno
+    - testCaseTest-cov.gcno
+    - testLibTest-cov.gcno
+    - testSuiteMakefileTest-cov.gcno
+    - testSummaryTest-cov.gcno
+    - usageCmdTest-cov.gcno
+    - verCmdTest-cov.gcno
+
+When executed, a gcov data file (.gcda) will be produced.  gcov uses these
+files to collect and report code coverage.  After executing the instrumented
+tests:
+
+    >$ casTest *test-cov
+    
+Of course the two steps above can be combined into one using make to run the
+test:
+
+    >$ make TAG="-cov" test
+
+After executing the instrumented test(s), use gcov to obtain the coverage
+report:
+
+    >$ gcov *gcda
+
+gcov prints a summary of each source file that was executed and generates an
+annotated source listing showing detailed coverage information each.
+
+
+NOTE:  I have found it very convenient to actually include the source .cpp file
+       under test in the .tpp file rather than adding it the the SRCS variable
+       in the .mak file.  There are actually two reasons for this.
+
+       - First, I've found that when I add the .cpp file under test to the
+       	 SRCS variable it is hard to mock other objects/functions.  For some
+	 reason the directory containing the .cpp (usually the parent of the
+	 test directory) is added to the the include directories automatically.
+	 This is something I don't understand, but have encountered multiple
+	 times on different linux variants.  (As I said before, I'm not a make
+	 expert.)
+
+       - The second reason is just a matter of making it easier to collect
+       	 coverage information.  When adding the .cpp file under test to the
+	 SRCS variable, the gcov files are deposited in the .cpp file's
+	 directory (again, usually the parent directory of the test directory).
+	 But, when simply including the .cpp file in the .tpp (as you would
+	 typically include a header file), all gcov files are deposited in the
+	 test directory.)  If you examine the .tpp files in
+	 $<casTestDir>/src/test, you will observe that each .tpp file includes
+	 the source file it is meant to test and that it is not listed in the
+	 SRCS variable in its .mak file.
+
+	 Note to the note:  The including of a .cpp file within another source
+	 file is not really that unusual.  I once used a test suite under
+	 Solaris which required this.  While not required under casTest, I've
+	 found this practice to be very useful.
+
+NOTE2:  I don't really like the convention of defining TAG on the commandline
+	to generate the coverage files.  I don't think it will be that hard to
+	adopt another method, I just haven't taken the time to do so.  This is
+	another item for the TODO list.
+	
+===============================================================================
+
 Feedback is always welcome
 --------------------------
-Comments, question, and/or suggestions are most welcome.  Feel free to contact
-me at GitHub (obibuffett), or send email to:
+Comments, question, and/or suggestions are welcome and would be greatly
+appreciated.  Feel free to contact me at GitHub (obibuffett), or send email to:
 
     ranwhite@gmail.com
 

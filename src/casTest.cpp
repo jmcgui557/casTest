@@ -38,15 +38,15 @@ int runTests(const CmdLine& cmdLine)
     std::vector<std::string>::const_iterator
         beg(cmdLine.args.begin()),
         end(cmdLine.args.end());
-
+    
     TestSummary sum;
-
+    
     while(beg != end)
     {
-	cas::runTestsFromLibrary(*beg, sum);
+        cas::runTestsFromLibrary(*beg, sum);
         ++beg;
     }
-
+    
     return reportResult(sum);
 }
 
@@ -54,13 +54,13 @@ int main(int argc, const char* argv[])
 {
     if(2 > argc)
         return usage();
-
+    
     int failCount(0);
-
+    
     try
     {
         CmdLine cmdLine(argc, argv);
-
+        
         if(!cas::executeCmd(cmdLine))
             failCount = runTests(cmdLine);
     }
@@ -79,6 +79,6 @@ int main(int argc, const char* argv[])
         cas_error("CAUGHT UNKNOW execption");
         ++failCount;
     }
-
+    
     return failCount;
 }

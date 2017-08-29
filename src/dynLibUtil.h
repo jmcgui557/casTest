@@ -11,6 +11,8 @@
 #ifndef DYNLIBUTIL_H
 #define DYNLIBUTIL_H
 
+#include <dlfcn.h>
+
 namespace cas
 {
     struct DynLibUtil
