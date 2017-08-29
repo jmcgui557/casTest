@@ -585,8 +585,9 @@ report:
     >$ gcov *gcda
 
 gcov prints a summary of each source file that was executed and generates an
-annotated source listing showing detailed coverage information each.
-
+annotated source listing showing detailed coverage information for each.
+Examining the annotated source will reveal the number of times each line
+executed.
 
 NOTE:  I have found it very convenient to actually include the source .cpp file
        under test in the .tpp file rather than adding it the the SRCS variable
@@ -606,7 +607,7 @@ NOTE:  I have found it very convenient to actually include the source .cpp file
 	 directory (again, usually the parent directory of the test directory).
 	 But, when simply including the .cpp file in the .tpp (as you would
 	 typically include a header file), all gcov files are deposited in the
-	 test directory.)  If you examine the .tpp files in
+	 test directory.  If you examine the .tpp files in
 	 $<casTestDir>/src/test, you will observe that each .tpp file includes
 	 the source file it is meant to test and that it is not listed in the
 	 SRCS variable in its .mak file.
