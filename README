@@ -571,12 +571,14 @@ When executed, a gcov data file (.gcda) will be produced.  gcov uses these
 files to collect and report code coverage.
 
     >$ casTest *test-cov
-    
-A> Of course the two steps above can be combined into one using make to run the
-A> test:
-A>
-A>    >$ make TAG="-cov" test
 
+    ------------------------------------------------------------------------
+    - Of course the two steps described above can be combined into one     -
+    - using make to run the test:                                          -
+    -                                                                      -
+    -     >$ make TAG="-cov" test                                          -
+    ------------------------------------------------------------------------
+    
 After executing the instrumented test(s), use gcov to obtain the coverage
 report:
 
