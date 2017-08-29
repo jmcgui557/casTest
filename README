@@ -568,15 +568,14 @@ In addition, a gcov notes file (.gcno) is produced for each test library:
     - verCmdTest-cov.gcno
 
 When executed, a gcov data file (.gcda) will be produced.  gcov uses these
-files to collect and report code coverage.  After executing the instrumented
-tests:
+files to collect and report code coverage.
 
     >$ casTest *test-cov
     
-Of course the two steps above can be combined into one using make to run the
-test:
-
-    >$ make TAG="-cov" test
+A> Of course the two steps above can be combined into one using make to run the
+A> test:
+A>
+A>    >$ make TAG="-cov" test
 
 After executing the instrumented test(s), use gcov to obtain the coverage
 report:
