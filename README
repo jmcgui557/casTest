@@ -538,7 +538,7 @@ The casTest make files provide a built-in coverage capability.  To generate a
 test which will produce gcov artifacts on execution, define the TAG variable to be
 "-cov" when invoking make:
 
-    >$ make TAG="-cov"
+    $> make TAG="-cov"
 
 This will produce gcov instrumented test libraries for each test suite in the
 directory.  Each of these instrumented libraries will have an appendix of
@@ -580,19 +580,19 @@ In addition, a gcov notes file (.gcno) is produced for each test library:
 When executed, a gcov data file (.gcda) will be produced.  gcov uses these
 files to collect and report code coverage.
 
-    >$ casTest *test-cov
+    $> casTest *test-cov
 
     ------------------------------------------------------------------------
     - Of course the two steps described above can be combined into one     -
     - using make to run the test:                                          -
     -                                                                      -
-    -     >$ make TAG="-cov" test                                          -
+    -     $> make TAG="-cov" test                                          -
     ------------------------------------------------------------------------
     
 After executing the instrumented test(s), use gcov to obtain the coverage
 report:
 
-    >$ gcov *gcda
+    $> gcov *gcda
 
 gcov prints a summary of each source file that was executed and generates an
 annotated source listing showing detailed coverage information for each.
