@@ -163,6 +163,3 @@ void run()
 }
 
 END_DEF
-
-
-//test output using mock ofstream
