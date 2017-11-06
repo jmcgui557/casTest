@@ -25,7 +25,7 @@
 ###########################################################################
 	
 CC := /usr/bin/g++
-CFLAGS += -std=c++98 -fpic -D_XOPEN_SOURCE=700
+CFLAGS += -fpic -D_XOPEN_SOURCE=700
 
 INCLUDES += -I$(CAST_INC)
 
