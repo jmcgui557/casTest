@@ -33,19 +33,9 @@ END_DEF
 DEFINE_TEST(WhenConstructedToSkip_TestCaseThrowsTestCase_TestSkipped)
 void run()
 {
-    bool success(false);
     SkipTestCase test;
 
-    try
-    {
-        test.run_();
-    }
-    catch(const TestCase::TestSkipped& x)
-    {
-        success = true;
-    }
-
-    CK(success);
+    EXPECT_THROW(test.run_(), TestCase::TestSkipped);
 }
 
 END_DEF
@@ -53,23 +43,11 @@ END_DEF
 DEFINE_TEST(OnAssertFailureTestCaseThrowsTestCase_Error)
 void run()
 {
-    bool success(false);
     FailureTestCase test;
 
     std::string expectedErrText("Assertion(false) FAILED: testCaseTest.cpp:21");
 
-    try
-    {
-        test.run_();
-    }
-    catch(const TestCase::Error& x)
-    {
-        success = true;
-
-        CK(0 == expectedErrText.compare(x.what()));
-    }
-
-    CK(success);
+    EXPECT_THROW(test.run_(), TestCase::Error);
 }
 END_DEF
 

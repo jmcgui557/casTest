@@ -75,21 +75,9 @@ END_DEF
 DEFINE_TEST_FROM(AddTestSuiteCmdThrowsIfCAST_DIRIsNotDefined, ATSCmdTest)
 void run()
 {
-    bool success(false);
     cas::CastUtil::castDir = std::string();
     
-    try
-    {
-        cas::AddTestSuiteCmd cmd(*cmdLine);
-        
-        cmd.exec();
-    }
-    catch(const cas::CastCmd::Error& x)
-    {
-        success = true;
-    }
-
-    CK(success);
+    EXPECT_THROW(cas::AddTestSuiteCmd cmd(*cmdLine), cas::CastCmd::Error);
 }
 
 END_DEF
@@ -107,21 +95,9 @@ void setUp()
 
 void run()
 {
-    bool success(false);
     cas::CastUtil::castDir = std::string();
-    
-    try
-    {
-        cas::AddTestSuiteCmd cmd(*cmdLine);
-        
-        cmd.exec();
-    }
-    catch(const cas::CastCmd::Error& x)
-    {
-        success = true;
-    }
 
-    CK(success);
+    EXPECT_THROW(cas::AddTestSuiteCmd cmd(*cmdLine), cas::CastCmd::Error);
 }
 
 END_DEF
@@ -129,21 +105,10 @@ END_DEF
 DEFINE_TEST_FROM(AddTestSuiteCmdThrowsIfMakeFileTemplateCopyFails, ATSCmdTest)
 void run()
 {
-    bool success(false);
     cas::CastUtil::createResult = false;
-    
-    try
-    {
-        cas::AddTestSuiteCmd cmd(*cmdLine);
-        
-        cmd.exec();
-    }
-    catch(const cas::CastCmd::Error& x)
-    {
-        success = true;
-    }
+    cas::AddTestSuiteCmd cmd(*cmdLine);
 
-    CK(success);
+    EXPECT_THROW(cmd.exec(), cas::CastCmd::Error);
 }
 
 END_DEF

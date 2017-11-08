@@ -181,22 +181,10 @@ END_DEF
 DEFINE_TEST(RunTestsFromLibraryThrowsStdRuntimeErrorIfNoTestsAreFound)
 void run()
 {
-    bool success(false);
     cas::TestSummary sum;
     std::ostringstream out;
 
-    try
-    {
-        cas::runTestsFromLibrary("myLib",
-                                 sum,
-                                 out);
-    }
-    catch(const std::runtime_error& x)
-    {
-        success = true;
-    }
-
-    CK(success);
+    EXPECT_THROW(cas::runTestsFromLibrary("myLib", sum, out), std::runtime_error);
 }
 
 END_DEF
