@@ -145,21 +145,10 @@ END_DEF
 DEFINE_TEST_FROM(PassingInvalidRecipeToGetRecipeThrowsRecipeNotFound, MakefileTest)
 void run()
 {
-    bool success(false);
-    
     m.addRecipe("myFirstTest");
     m.addRecipe("mySecondTest");
 
-    try
-    {
-        std::string r(m.getRecipe("myThirdTest"));
-    }
-    catch(const cas::TestSuiteMakefile::xRecipeNotFound&)
-    {
-        success = true;
-    }
-
-    CK(success);
+    EXPECT_THROW(std::string r(m.getRecipe("myThirdTest")), cas::TestSuiteMakefile::xRecipeNotFound);
 }
 
 END_DEF

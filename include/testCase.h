@@ -70,6 +70,24 @@ namespace cas
 
 #define CK(cond) Assert(cond, #cond, __FILE__, __LINE__)
 
+#define EXPECT_THROW(statement, EXCEPT) \
+    bool success(false);                \
+    try                                 \
+    {                                   \
+        statement;                      \
+    }                                   \
+    catch(const EXCEPT&)                \
+    {                                   \
+        success = true;                 \
+    }                                   \
+    catch(...)                          \
+    {}                                  \
+                                        \
+        Assert(success,                 \
+        std::string("EXPECT_THROW ") +  \
+        #EXCEPT,                        \
+        __FILE__, __LINE__)
+
 #define DEFINE_TEST(name)                 \
     struct name : cas::TestCase           \
     {                                     \

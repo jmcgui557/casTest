@@ -31,18 +31,7 @@ void tearDown()
 
 void run()
 {
-    bool success(false);
-    
-    try
-    {
-        cas::TestLib tlib("myTestLib");
-    }
-    catch(const cas::TestLib::Error& x)
-    {
-        success = true;
-    }
-
-    CK(success);
+    EXPECT_THROW(cas::TestLib tlib("myTestLib"), cas::TestLib::Error);
 }
 END_DEF
 
