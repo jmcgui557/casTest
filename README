@@ -169,7 +169,7 @@ installed as follows:
 	    -- verCmdTest.test: <castParentDir>/casTest/test
 	  
 
-Before using casTest, source the appropriate resourse script for
+Before using casTest, source the appropriate resource script for
 your shell (casTest.sourceMe.bash or casTest.sourceMe.csh).
 
 
@@ -201,8 +201,8 @@ first test.
     -- myTest.mak (make file for myTest.test)
     -- myTest.tpp (source file for myTest.test)
 
-  Note that the test source uses ".tpp" as an appendix.  This is done make it
-  easier to generate the appropriate code to create the tests.  A utility,
+  Note that the test source uses ".tpp" as an appendix.  This is done to make
+  it easier to generate the appropriate code to create the tests.  A utility,
   tpp2cpp, is used to process the .tpp file into a .cpp which is identical to
   its corresponding .tpp file except for the following:
 
@@ -210,7 +210,7 @@ first test.
      	following test is set to be skipped when executed.
      -- A factory function is appended to the .cpp file which creates one of
      	each test defined in the .tpp file.  The created factory function is
-	called by the framework when casTest is executed.
+        called by the framework when casTest is executed.
 
   Line numbers of a .tpp file and its corresponding .cpp are identical with the
   exception of the appended factory function.
@@ -219,31 +219,76 @@ first test.
   illustrates the use of the macros (defined in testCase.h) DEFINE_TEST
   and END_DEF.  These macros are provided to allow tests to be defined
   quickly and painlessly.  If you open myTest.tpp, you will see the
-  test, "SanityTest", defined as follows:
+  test, "DoNothing", defined as follows:
 
-  DEFINE_TEST(SanityTest)
+  DEFINE_TEST(DoNothing)
   void run()
   {
-      bool val(false);
-
-      CK(true == val);
+  
   }
   END_DEF
+
+- Run the DoNothing test using make.
+  $> make test
+
+  Make processes myTest.tpp, creates myTest.cpp, and builds, then runs
+  the test (myTest.test).  The output will be similar to the following:
+
+  |  /<CAST_DIR>/tools/tpp2cpp myTest.tpp
+  |  tpp2cpp: myTest.tpp -> myTest.cpp
+  |  src: myTest.tpp dst: myTest.cpp
+  |  /usr/bin/g++ -o myTest.o  -I/<CAST_DIR>/include  -fpic\
+  |     -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myTest.cpp
+  |  /usr/bin/g++ -o myTest.test  -I/<CAST_DIR>/include  \
+  |     -shared  -L /<CAST_DIR>/lib myTest.o  -lcasTest
+  |  /<CAST_DIR>/bin/casTest myTest.test
+  |  
+  |  casTest: Running tests from: myTest.test
+  | 1..1
+  | ok 1 - DoNothing
+  |
+  | Summary:
+  |    Tests ran: 1
+  |       Passed: 1
+  |      Skipped: 0
+  |       Failed: 0
+
+ The purpose of the DoNothing test is ensure that we can get a test suite
+ executing quickly.
+
+- After proving that all is well with the DoNothing test, you can delete it and
+  add the first test of the new test suite.  For example, if we add the following
+  test (after deleting the DoNothing test) we will have a simple sanity check
+  of the test suite itself.
+
+ DEFINE_TEST(SanityTest)
+ void run()
+ {
+     bool val(false);
+
+     CK(val == true);
+ }
+ END_DEF
 
   casTest uses a single evaluation function, CK().  Well, actually it is
   a macro that calls TestCase::Assert(), passing the condition, an error
   string created from the condition source, and the file/line number.
   As you can see, CK() should fail when the line is executed as val is 
   initially defined as false.  When writing your tests, just pass an
-  expression that should evaluate to true.  You can build and run the
-  test using make.
+  expression that should evaluate to true.
 
-- Run make specifying 'test' as the target.
+- Running make again will produce something like the following:
   $> make test
 
-  This step processes myTest.tpp, creates myTest.cpp, and builds, then runs
-  the test (myTest.test).  The output will be similar to the following:
-
+  |  /<CAST_DIR>/tools/tpp2cpp myTest.tpp
+  |  tpp2cpp: myTest.tpp -> myTest.cpp
+  |  src: myTest.tpp dst: myTest.cpp
+  |  /usr/bin/g++ -o myTest.o  -I/<CAST_DIR>/include  -fpic\
+  |     -D_XOPEN_SOURCE=700 -g -fpic -DCAS_TEST -c myTest.cpp
+  |  /usr/bin/g++ -o myTest.test  -I/<CAST_DIR>/include  \
+  |     -shared  -L /<CAST_DIR>/lib myTest.o  -lcasTest
+  |  /<CAST_DIR>/bin/casTest myTest.test
+  |  
   |  /<CAST_DIR>/tools/tpp2cpp myTest.tpp
   |  tpp2cpp: myTest.tpp -> myTest.cpp
   |  src: myTest.tpp dst: myTest.cpp

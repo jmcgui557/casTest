@@ -58,13 +58,12 @@ namespace cas
         FileFactory::writer_pointer_type src(FileFactory::createFileWriter(srcName.c_str()));
         
         *src << "#include \"testCase.h\"\n\n"
-             << "DEFINE_TEST(SanityTest)\n"
+             << "DEFINE_TEST(DoNothing)\n"
              << "void run()\n"
              << "{\n"
-             << "    bool val(false);\n\n"
-             << "    CK(true == val);\n"
+             << "\n"
              << "}\n"
-             << "END_DEF\n\n"
+             << "END_DEF\n"
              << std::endl;
         
         return true;
