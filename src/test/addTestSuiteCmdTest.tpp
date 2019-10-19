@@ -18,10 +18,6 @@
 //code under test
 #include "../addTestSuiteCmd.cpp"
 
-//TEMP
-#include <iostream>
-#define print(msg) std::cout << msg << std::endl
-
 DEFINE_BASE(ATSCmdTest)
 int argc;
 const char* argv[4];
@@ -71,9 +67,6 @@ void run()
 
     cmd.exec();
 
-    print("expected: " << expected);
-    print("  actual: " << cas::FileFactory::getOutput("myNewTest.tpp"));
-    
     CK(expected == cas::FileFactory::getOutput("myNewTest.tpp"));
 }
 END_DEF
