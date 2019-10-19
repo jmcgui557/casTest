@@ -40,7 +40,7 @@ void run()
     cas::VersionCmd ver(cmdLine, out);
     ver.exec();
 
-    CK("1.0.2\n" == out.str());
+    CK("1.0.3\n" == out.str());
 }
 
 END_DEF
