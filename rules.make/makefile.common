@@ -24,7 +24,13 @@
 #	LPATHS : Library paths for linker
 ###########################################################################
 	
-CC := clang++ #/usr/bin/g++
+CC := /usr/bin/g++
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    CC :=  clang++
+endif
+
 CFLAGS += -std=c++17 -fpic -D_XOPEN_SOURCE=700
 
 INCLUDES += -I$(CAST_INC)
