@@ -25,9 +25,9 @@ to:
 
 or use wget:
     
-    wget https://www.dropbox.com/s/pv2xcu72m3z8nd0/installCast.bin
-    wget https://www.dropbox.com/s/t2330ar0qupxz9n/installCast.bin.sha1
-
+    wget https://www.dropbox.com/s/jv54lga0f57zooy/installCast.bin
+    wget https://www.dropbox.com/s/v0daaowfwjke3ej/installCast.bin.sha1
+    
 You can also download from GitHub:
 
     https://github.com/obibuffett/casTest/releases
