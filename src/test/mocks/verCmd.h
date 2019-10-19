@@ -22,14 +22,14 @@ namespace cas
     {
         VersionCmd(const CmdLine& cmdLine,
                    std::ostream& out = std::cout)
-	    : CastCmd(cmdLine),
-	      out_(out)
-	    {}
+            : CastCmd(cmdLine),
+              out_(out)
+            {}
         
         bool exec()
-	{
-	    return true;
-	}
+        {
+            return true;
+        }
         
     private:
         std::ostream& out_;

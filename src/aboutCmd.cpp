@@ -15,21 +15,21 @@
 namespace cas
 {
     AboutCmd::AboutCmd(const CmdLine& cmdLine,
-		       std::ostream& out)
-	: CastCmd(cmdLine),
-	  out_(out)
+                       std::ostream& out)
+        : CastCmd(cmdLine),
+          out_(out)
     {}
 
     bool AboutCmd::exec()
     {
-	out_
-	    << "\nThank you for trying casTest.  casTest is meant to be "
-	    << "\na clean and simple unit test framework.  "
-	    << "\nI hope you find it so....Randy"
-	    << "\n\n(C) 2015, 2017 Randall Lee White\n"
-	    << std::endl;
-	
-	return true;
+        out_
+            << "\nThank you for trying casTest.  casTest is meant to be "
+            << "\na clean and simple unit test framework.  "
+            << "\nI hope you find it so....Randy"
+            << "\n\n(C) 2015, 2017 Randall Lee White\n"
+            << std::endl;
+        
+        return true;
     }
 }
 

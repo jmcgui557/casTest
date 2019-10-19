@@ -19,9 +19,9 @@ namespace cas
     
     struct CmdLine
     {
-	CmdLine(int argc, const char* argv[]);
-	
-	std::vector<std::string> args;
+        CmdLine(int argc, const char* argv[]);
+        
+        std::vector<std::string> args;
     };
 }
 

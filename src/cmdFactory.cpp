@@ -22,23 +22,23 @@
 namespace cas
 {
     CastCmd* CastCmdFactory::create(const CmdLine& cmdLine,
-				    std::ostream& out)
+                                    std::ostream& out)
     {
-	CastCmd* cmd(0);
-	
-	if('-' != cmdLine.args[0][0])
-	    return cmd;
-	
-	if(0 == cmdLine.args[0].compare("-about"))
-	    cmd = new AboutCmd(cmdLine, out);
-	else if(0 == cmdLine.args[0].compare("-addTestSuite"))
-	    cmd = new AddTestSuiteCmd(cmdLine);
-	else if(0 == cmdLine.args[0].compare("-version"))
-	    cmd = new VersionCmd(cmdLine, out);
-	else
-	    cmd = new UsageCmd(cmdLine, out);
-	
-	return cmd;
+        CastCmd* cmd(0);
+        
+        if('-' != cmdLine.args[0][0])
+            return cmd;
+        
+        if(0 == cmdLine.args[0].compare("-about"))
+            cmd = new AboutCmd(cmdLine, out);
+        else if(0 == cmdLine.args[0].compare("-addTestSuite"))
+            cmd = new AddTestSuiteCmd(cmdLine);
+        else if(0 == cmdLine.args[0].compare("-version"))
+            cmd = new VersionCmd(cmdLine, out);
+        else
+            cmd = new UsageCmd(cmdLine, out);
+        
+        return cmd;
     }
 
 }

@@ -17,14 +17,14 @@
 
 namespace cas
 {
-    std::auto_ptr<CastCmd> createCommand(const cas::CmdLine& cmdLine)
+    std::unique_ptr<CastCmd> createCommand(const cas::CmdLine& cmdLine)
     {
-	return std::auto_ptr<CastCmd>(CastCmdFactory::create(cmdLine));
+        return std::unique_ptr<CastCmd>(CastCmdFactory::create(cmdLine));
     }
 
     bool executeCmd(const cas::CmdLine& cmdLine)
     {
-        std::auto_ptr<CastCmd> cmd(createCommand(cmdLine));
+        std::unique_ptr<CastCmd> cmd(createCommand(cmdLine));
         
         if(!cmd.get())
             return false;

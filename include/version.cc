@@ -1,6 +1,8 @@
 #ifndef VERSION_CC
 #define VERSION_CC
 
+#include <string>
+
 namespace cas
 {
     const std::string& version()

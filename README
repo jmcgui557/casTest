@@ -277,6 +277,10 @@ first test.
   initially defined as false.  When writing your tests, just pass an
   expression that should evaluate to true.
 
+  Creating a SanityTest like this is, of course, unnecessry.  You could simply
+  begin writing your first test of the code you want to create.  At least you
+  can do this once you have confidence that casTest will perform correctly.
+
 - Running make again will produce something like the following:
   $> make test
 
@@ -322,7 +326,7 @@ first test.
 
           You can also run multiple test suites from a single invocation.
 
-          $> casTest myTest.test myOtherTest.test ../yetAnotherTest/yetAnotherTest.test
+          $> casTest myTest.test myOtherTest.test anotherTest.test
 
   NOTE2:  The .test suffix is used to identify a shared library containing 
           a collection of one or more tests (ie a suite of tests).  The

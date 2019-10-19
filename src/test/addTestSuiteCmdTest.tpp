@@ -18,6 +18,10 @@
 //code under test
 #include "../addTestSuiteCmd.cpp"
 
+//TEMP
+#include <iostream>
+#define print(msg) std::cout << msg << std::endl
+
 DEFINE_BASE(ATSCmdTest)
 int argc;
 const char* argv[4];
@@ -53,13 +57,12 @@ void setUp()
 
     expected =
         "#include \"testCase.h\"\n\n"
-        "DEFINE_TEST(SanityTest)\n"
+        "DEFINE_TEST(DoNothing)\n"
         "void run()\n"
         "{\n"
-        "    bool val(false);\n\n"
-        "    CK(true == val);\n"
+        "\n"
         "}\n"
-        "END_DEF\n\n\n";
+        "END_DEF\n\n";
 }
 
 void run()
@@ -68,6 +71,9 @@ void run()
 
     cmd.exec();
 
+    print("expected: " << expected);
+    print("  actual: " << cas::FileFactory::getOutput("myNewTest.tpp"));
+    
     CK(expected == cas::FileFactory::getOutput("myNewTest.tpp"));
 }
 END_DEF

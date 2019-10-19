@@ -22,18 +22,18 @@ namespace cas
     struct AboutCmd : CastCmd
     {
         AboutCmd(const CmdLine& cmdLine,
-		 std::ostream& out = std::cout)
-	    : CastCmd(cmdLine),
-	      out_(out)
-	{}
+                 std::ostream& out = std::cout)
+            : CastCmd(cmdLine),
+              out_(out)
+        {}
 
         bool exec()
-	{
-	    return true;
-	}
+        {
+            return true;
+        }
 
     private:
-	std::ostream& out_;
+        std::ostream& out_;
     };
 }
 

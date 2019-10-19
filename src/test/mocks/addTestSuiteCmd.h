@@ -22,13 +22,13 @@ namespace cas
     struct AddTestSuiteCmd : CastCmd
     {
         AddTestSuiteCmd(const CmdLine& cmdLine)
-	    : CastCmd(cmdLine)
-	{}
+            : CastCmd(cmdLine)
+        {}
         
         bool exec()
-	{
-	    return true;
-	}
+        {
+            return true;
+        }
         
     private:
     };

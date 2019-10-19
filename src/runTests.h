@@ -20,7 +20,7 @@ namespace cas
     //returns number of failed tests
     void runTestsFromLibrary(const std::string& libname,
                              cas::TestSummary& sum,
-			     std::ostream& out = std::cout);
+                             std::ostream& out = std::cout);
 }
 
 #endif //RUNTEST_H

@@ -7,7 +7,7 @@
 // purpose, including commercial purposes, at absolutely no cost. No
 // paperwork, no royalties, no GNU-like "copyleft" restrictions, either.
 // Just download it and use it.
-// 
+//
 // Copyright (c) 2015, 2017 Randall Lee White
 
 #include <iostream>
@@ -19,9 +19,9 @@ namespace cas
 {
     struct CastUtil
     {
-	
-	static bool createResult;
-	static std::string castDir;
+
+    static bool createResult;
+    static std::string castDir;
     };
 
     bool CastUtil::createResult = true;
@@ -38,7 +38,7 @@ namespace cas
                  file,
                  line,
                  errMsg.c_str());
-        
+
         return std::string(buff);
     }
 
@@ -46,14 +46,14 @@ namespace cas
                                     std::ostream& destMakefile,
                                     const std::string& mkTargetName)
     {
-	return CastUtil::createResult;
+        return CastUtil::createResult;
     }
 
     std::string getCastDir()
     {
-	return CastUtil::castDir;
+        return CastUtil::castDir;
     }
-    
+
 }
 
 #endif //CASTUTIL_H

@@ -33,11 +33,11 @@ namespace cas
 
     const std::string& CastCmd::name() const
     {
-	return name_;
+        return name_;
     }
 
     void CastCmd::setName(const std::string& name)
     {
-	name_ = name;
+        name_ = name;
     }
 }

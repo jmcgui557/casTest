@@ -22,12 +22,12 @@ namespace cas
     struct AboutCmd : CastCmd
     {
         AboutCmd(const CmdLine& cmdLine,
-		 std::ostream& out = std::cout);
+                 std::ostream& out = std::cout);
 
         bool exec();
 
     private:
-	std::ostream& out_;
+        std::ostream& out_;
     };
 }
 

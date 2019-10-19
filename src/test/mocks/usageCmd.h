@@ -23,19 +23,19 @@ namespace cas
     {
         UsageCmd(const CmdLine& cmdLine,
                  std::ostream& out = std::cout)
-	    : CastCmd(cmdLine),
+            : CastCmd(cmdLine),
               out_(out)
-	{
-	    if("-help" != name())
-		setName("-usage");
-	}
+        {
+            if("-help" != name())
+                setName("-usage");
+        }
         
         bool exec()
-	{
-	    out_ << "USAGE:" << std::endl;
-	    
-	    return true;
-	}
+        {
+            out_ << "USAGE:" << std::endl;
+            
+            return true;
+        }
 
     private:
         std::ostream& out_;

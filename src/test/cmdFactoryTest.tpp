@@ -50,7 +50,7 @@ void setUp()
 
 void run()
 {
-    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::unique_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
     CK(0 != cmd.get());
     CK("-about" == cmd->name());
@@ -71,7 +71,7 @@ void setUp()
 void run()
 {
     std::ostringstream out;
-    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine, out));
+    std::unique_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine, out));
 
     CK(0 != cmd.get());
 
@@ -96,7 +96,7 @@ void setUp()
 void run()
 {
     std::ostringstream out;
-    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine, out));
+    std::unique_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine, out));
 
     CK(0 != cmd.get());
     cmd->exec();
@@ -119,7 +119,7 @@ void setUp()
 
 void run()
 {
-    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::unique_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
     CK("-addTestSuite" == cmd->name());
 }
@@ -139,7 +139,7 @@ void setUp()
 
 void run()
 {
-    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::unique_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
     CK("-version" == cmd->name());
 }
@@ -159,7 +159,7 @@ void setUp()
 
 void run()
 {
-    std::auto_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
+    std::unique_ptr<cas::CastCmd> cmd(cas::CastCmdFactory::create(*cmdLine));
 
     CK(0 == cmd.get());
 

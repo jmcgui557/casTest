@@ -22,10 +22,10 @@ namespace cas
     {
         struct Error : std::runtime_error
         {
-	    Error(const std::string& error,
-		  const char* file,
-		  size_t line);
-	};
+            Error(const std::string& error,
+                  const char* file,
+                  size_t line);
+        };
 
 #define xCastCmd(msg) cas::CastCmd::Error(msg, __FILE__, __LINE__)
     
@@ -37,8 +37,8 @@ namespace cas
         const std::string& name() const;
 
     protected:
-	void setName(const std::string& name);
-	
+        void setName(const std::string& name);
+        
     private:
         std::string name_;
     };

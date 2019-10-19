@@ -20,34 +20,34 @@ namespace cas
 {
     struct GenericCmd : CastCmd
     {
-	static bool result;
-	
-	GenericCmd(const CmdLine& cmdLine)
-	    : CastCmd(cmdLine)
-	{}
-	
-	bool exec()
-	{
-	    return result;
-	}
+        static bool result;
+        
+        GenericCmd(const CmdLine& cmdLine)
+            : CastCmd(cmdLine)
+        {}
+        
+        bool exec()
+        {
+            return result;
+        }
     };
 
     bool GenericCmd::result = true;
     
     struct CastCmdFactory
     {
-	static CastCmd* create(const CmdLine& cmdLine,
-			       std::ostream& out = std::cout)
-	{
-	    if(cmdLine.args.empty())
-		return 0;
+        static CastCmd* create(const CmdLine& cmdLine,
+                               std::ostream& out = std::cout)
+        {
+            if(cmdLine.args.empty())
+                return 0;
 
-	    return new GenericCmd(cmdLine);
-	}
-	
+            return new GenericCmd(cmdLine);
+        }
+        
     private:
-	//no objects
-	~CastCmdFactory();
+        //no objects
+        ~CastCmdFactory();
     };
 }
 

@@ -20,12 +20,12 @@ namespace cas
     
     struct CastCmdFactory
     {
-	static CastCmd* create(const CmdLine& cmdLine,
-			       std::ostream& out = std::cout);
-	
+        static CastCmd* create(const CmdLine& cmdLine,
+                               std::ostream& out = std::cout);
+        
     private:
-	//no objects
-	~CastCmdFactory();
+        //no objects
+        ~CastCmdFactory();
     };
 }
 
